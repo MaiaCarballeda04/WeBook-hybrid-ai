@@ -39,7 +39,7 @@ small,.mut{color:var(--mut)}
 header{display:flex;gap:10px;align-items:center;padding:10px 20px;background:var(--s);border-bottom:1px solid var(--ln);flex-wrap:wrap}
 .brand{font:600 20px 'Plus Jakarta Sans',system-ui,sans-serif;margin-right:auto}
 main{padding:16px;max-width:1200px;margin:auto}
-.cols{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:16px}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px}
 .card{background:var(--s);border:1px solid var(--ln);border-radius:8px;padding:14px;margin-bottom:12px}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
 .btn-label{cursor:pointer;padding:7px 12px;border-radius:6px;background:var(--ac);color:var(--acf);display:inline-flex;align-items:center;min-height:38px;font-weight:500}
@@ -47,6 +47,8 @@ main{padding:16px;max-width:1200px;margin:auto}
 #rd{font:300 15px/1.75 'Plus Jakarta Sans',system-ui,sans-serif;min-height:180px;max-height:360px;overflow:auto;white-space:pre-wrap;background:var(--in);padding:12px;border:1px solid var(--ln);border-radius:6px}
 .mg{position:relative;border-left:3px solid var(--ac);padding:8px 26px 8px 10px;margin:8px 0;background:var(--mgb);border-radius:4px;white-space:pre-wrap}
 .pi{position:relative;background:var(--pi);color:#2f2e22;padding:10px 26px 10px 12px;border-radius:4px;box-shadow:0 2px 6px #0002;margin:8px 0;white-space:pre-wrap}
+.voice-card{position:relative;border-left:3px solid #8a6d1d;padding:8px 26px 8px 10px;margin:8px 0;background:var(--mgb);border-radius:4px}
+.voice-title{font-weight:600;border:0;background:transparent;padding:2px 4px;border-bottom:1px dashed var(--ln);width:100%;max-width:210px;margin-bottom:4px}
 .x{position:absolute;right:6px;top:4px;border:0;background:none;padding:2px 6px;min-height:auto;color:inherit}
 
 #clk{font:300 44px 'Plus Jakarta Sans',system-ui,sans-serif}
@@ -112,7 +114,7 @@ main{padding:16px;max-width:1200px;margin:auto}
   <b data-l="subj"></b>
   <select id="sbs" aria-label="Subject"></select>
   <span style="flex:1"></span>
-  <input id="sn" size="18" data-p="newsub_p">
+  <input id="sn" size="18" autocomplete="off" data-p="newsub_p">
   <button id="sa" class="p" data-l="newsub"></button>
 </div>
 
@@ -125,7 +127,7 @@ main{padding:16px;max-width:1200px;margin:auto}
        <b data-l="quick"></b>
        <div id="qc" style="max-height:260px;overflow:auto;margin:8px 0"></div>
        <div class="row">
-         <input id="qi" style="flex:1" data-p="q_p">
+         <input id="qi" style="flex:1" autocomplete="off" data-p="q_p">
          <button id="qs" class="p" data-l="ask"></button>
        </div>
      </div>
@@ -148,11 +150,11 @@ main{padding:16px;max-width:1200px;margin:auto}
          </label>
          <select id="ds" aria-label="Document"></select>
          <button id="sm" class="p" data-l="sum"></button>
-         <button id="rec"><span data-l="rec"></span> <span id="rct">00:00</span></button>
+         <button id="rec" type="button"><span data-l="rec"></span> <span id="rct">00:00</span></button>
          <small id="st" role="status"></small>
        </div>
        <div class="row">
-         <input id="q" style="flex:1" data-p="qdoc_p">
+         <input id="q" style="flex:1" autocomplete="off" data-p="qdoc_p">
          <button id="qa" class="p" data-l="ask_doc"></button>
        </div>
        <div id="ans" class="mg" hidden></div>
@@ -160,9 +162,9 @@ main{padding:16px;max-width:1200px;margin:auto}
 
      <div class="card">
        <div class="row">
-         <input id="nt" size="24" data-p="note_p">
-         <button id="mgn" data-l="add_note"></button>
-         <button id="pit" class="p" data-l="add_postit"></button>
+         <input id="nt" size="24" autocomplete="off" data-p="note_p">
+         <button id="mgn" type="button" data-l="add_note"></button>
+         <button id="pit" type="button" class="p" data-l="add_postit"></button>
        </div>
        <div id="rd" tabindex="0"></div>
      </div>
@@ -196,18 +198,21 @@ main{padding:16px;max-width:1200px;margin:auto}
 <section class="v" id="v-wb" hidden>
  <div class="card">
    <div class="row">
-     <button id="pn" class="on" data-l="pen"></button>
-     <button id="er" data-l="era"></button>
+     <button id="pn" type="button" class="on" data-l="pen"></button>
+     <button id="er" type="button" data-l="era"></button>
      <input id="pc" type="color" value="#4A6B5B" aria-label="Color">
      <input id="pz" type="range" min="1" max="20" value="3" aria-label="Size">
+     <button id="wb-postit" type="button" data-l="board_postit"></button>
+     <input id="wb-txt-in" size="16" autocomplete="off" data-p="board_txt_p">
+     <button id="wb-txt-btn" type="button" data-l="board_txt_btn"></button>
      <label class="btn-label">
        <span data-l="up_img"></span><input id="img-upload" type="file" hidden accept="image/*">
      </label>
-     <button id="wc" data-l="clr"></button>
+     <button id="wc" type="button" data-l="clr"></button>
      <small id="wb-status" class="mut"></small>
    </div>
-   <div id="bd" style="position:relative;height:460px;border:1px solid var(--ln);border-radius:8px;overflow:hidden;background:#fdfcea">
-     <canvas id="wbc" style="position:absolute;inset:0;touch-action:none;cursor:crosshair"></canvas>
+   <div id="bd" style="position:relative;height:480px;border:1px solid var(--ln);border-radius:8px;overflow:hidden;background:#fdfcea">
+     <canvas id="wbc" style="position:absolute;inset:0;touch-action:none;cursor:crosshair;z-index:1"></canvas>
    </div>
  </div>
 </section>
@@ -219,7 +224,7 @@ main{padding:16px;max-width:1200px;margin:auto}
    <p class="mut" data-l="ex_desc"></p>
    <div class="row">
      <input id="exf" type="file" accept=".pdf,.txt,.md" multiple>
-     <button class="p" id="exg" data-l="gen"></button>
+     <button class="p" id="exg" type="button" data-l="gen"></button>
      <small id="exs" role="status"></small>
    </div>
  </div>
@@ -236,17 +241,17 @@ main{padding:16px;max-width:1200px;margin:auto}
   </div>
   <div class="row">
     <div id="clk">25:00</div>
-    <button class="p" id="ps" data-l="start"></button>
-    <button id="pr" data-l="reset"></button>
+    <button class="p" id="ps" type="button" data-l="start"></button>
+    <button id="pr" type="button" data-l="reset"></button>
   </div>
  </div>
 
  <div class="card">
   <div class="row">
-    <input id="tk" data-p="task_p" style="flex:1">
+    <input id="tk" autocomplete="off" data-p="task_p" style="flex:1">
     <select id="ts" aria-label="Subject"></select>
     <input id="td" type="date">
-    <button id="ta" class="p" data-l="add"></button>
+    <button id="ta" type="button" class="p" data-l="add"></button>
   </div>
  </div>
 
@@ -262,7 +267,7 @@ main{padding:16px;max-width:1200px;margin:auto}
   <b data-l="dlc"></b>
   <div class="row" style="margin:10px 0">
     <select id="xs" style="flex:1"></select>
-    <button id="xt" class="p" data-l="txt"></button>
+    <button id="xt" type="button" class="p" data-l="txt"></button>
   </div>
   <pre id="xv" style="white-space:pre-wrap;max-height:360px;overflow:auto;background:var(--in);padding:10px;border-radius:6px"></pre>
  </div>
@@ -286,6 +291,7 @@ const DICT={
     ask_doc:"Ask file",note_p:"Write a note or Post-it...",add_note:"Add note",add_postit:"Post-it",notes_feed:"Notes & Post-its",
     plans2d_desc:"Upload a 2D image or diagram to inspect and keep saved in your session.",
     upload_plan:"Upload 2D image",no_plan:"No 2D file loaded yet.",pen:"Pen",era:"Eraser",
+    board_postit:"+ Post-it",board_txt_p:"Text for board...",board_txt_btn:"Add text",
     up_img:"Add image",clr:"Clear",ex_desc:"Upload past exams to generate practice questions with step-by-step explanations.",
     gen:"Generate practice exam",pom:"Pomodoro Timer",foc:"Focus (min):",brk:"Break (min):",
     start:"Start / Pause",reset:"Reset",task_p:"Task or exam title...",add:"Add",
@@ -300,9 +306,10 @@ const DICT={
     newsub:"Crear materia",newsub_p:"Nombre de la materia...",hint:"Crea o selecciona una materia arriba para empezar desde cero.",
     quick:"Asistente de Estudio con IA",q_p:"Pregunta un concepto o tema de estudio...",ask:"Preguntar",subs:"Materias",next:"Entregas",
     file:"Subir archivo",sum:"Resumir",rec:"Grabar audio",qdoc_p:"Pregunta sobre el archivo o tema...",
-    ask_doc:"Consultar archivo",note_p:"Escribe una nota o Post-it...",add_note:"Agregar nota",add_postit:"Post-it",notes_feed:"Notas y Post-its",
+    ask_doc:"Consultar archivo",note_p:"Escribe una nota o Post-it...",add_note:"Agregar nota",add_postit:"Post-it",notes_feed:"Notas, Post-its y Audio",
     plans2d_desc:"Sube una imagen o esquema 2D para revisarlo y guardarlo en tu espacio.",
     upload_plan:"Subir imagen 2D",no_plan:"Aún no cargaste ningún esquema 2D.",pen:"Lápiz",era:"Borrador",
+    board_postit:"+ Post-it",board_txt_p:"Texto para pizarra...",board_txt_btn:"Agregar texto",
     up_img:"Subir imagen",clr:"Limpiar",ex_desc:"Sube modelos de examen anteriores para generar preguntas nuevas con explicación paso a paso.",
     gen:"Generar simulacro",pom:"Temporizador Pomodoro",foc:"Estudio (min):",brk:"Descanso (min):",
     start:"Iniciar / Pausar",reset:"Reiniciar",task_p:"Tarea o fecha de examen...",add:"Agregar",
@@ -317,9 +324,10 @@ const DICT={
     newsub:"Criar matéria",newsub_p:"Nome da matéria...",hint:"Crie ou selecione uma matéria acima para começar do zero.",
     quick:"Assistente de Estudo com IA",q_p:"Pergunte um conceito ou tema de estudo...",ask:"Perguntar",subs:"Matérias",next:"Prazos",
     file:"Enviar arquivo",sum:"Resumir",rec:"Gravar áudio",qdoc_p:"Pergunte sobre o arquivo ou tema...",
-    ask_doc:"Consultar arquivo",note_p:"Escreva uma nota ou Post-it...",add_note:"Adicionar nota",add_postit:"Post-it",notes_feed:"Notas e Post-its",
+    ask_doc:"Consultar arquivo",note_p:"Escreva uma nota ou Post-it...",add_note:"Adicionar nota",add_postit:"Post-it",notes_feed:"Notas, Post-its e Áudio",
     plans2d_desc:"Envie uma imagem ou esquema 2D para revisar e manter salvo.",
     upload_plan:"Enviar imagem 2D",no_plan:"Nenhum esquema 2D carregado ainda.",pen:"Caneta",era:"Borracha",
+    board_postit:"+ Post-it",board_txt_p:"Texto no quadro...",board_txt_btn:"Adicionar texto",
     up_img:"Enviar imagem",clr:"Limpar",ex_desc:"Envie provas anteriores para gerar novas questões com explicação passo a passo.",
     gen:"Gerar simulado",pom:"Temporizador Pomodoro",foc:"Foco (min):",brk:"Pausa (min):",
     start:"Iniciar / Pausar",reset:"Reiniciar",task_p:"Tarefa ou data de prova...",add:"Adicionar",
@@ -334,9 +342,10 @@ const DICT={
     newsub:"Créer matière",newsub_p:"Nom de la matière...",hint:"Créez ou sélectionnez une matière ci-dessus pour repartir de zéro.",
     quick:"Assistant d'Étude IA",q_p:"Posez une question de cours...",ask:"Demander",subs:"Matières",next:"Échéances",
     file:"Importer fichier",sum:"Résumer",rec:"Enregistrer audio",qdoc_p:"Question sur le fichier ou le sujet...",
-    ask_doc:"Interroger fichier",note_p:"Écrire une note ou un Post-it...",add_note:"Ajouter note",add_postit:"Post-it",notes_feed:"Notes et Post-its",
+    ask_doc:"Interroger fichier",note_p:"Écrire une note ou un Post-it...",add_note:"Ajouter note",add_postit:"Post-it",notes_feed:"Notes, Post-its et Audio",
     plans2d_desc:"Importez une image ou un schéma 2D pour l'inspecter et le garder.",
     upload_plan:"Importer image 2D",no_plan:"Aucun schéma 2D chargé pour l'instant.",pen:"Stylo",era:"Gomme",
+    board_postit:"+ Post-it",board_txt_p:"Texte sur le tableau...",board_txt_btn:"Ajouter texte",
     up_img:"Ajouter image",clr:"Effacer",ex_desc:"Importez d'anciens sujets pour générer des questions avec explication étape par étape.",
     gen:"Générer un examen blanc",pom:"Minuteur Pomodoro",foc:"Focus (min) :",brk:"Pause (min) :",
     start:"Démarrer / Pause",reset:"Réinitialiser",task_p:"Tâche ou date d'examen...",add:"Ajouter",
@@ -374,8 +383,8 @@ $$(".th").forEach(b=>{
 });
 
 let S={docs:[],notes:[],tasks:[],subs:[],sub:null,plans:[]};
-const save=()=>{try{localStorage["webook-v2"]=JSON.stringify(S)}catch{}};
-try{const raw=localStorage["webook-v2"];if(raw)S={...S,...JSON.parse(raw)}}catch{}
+const save=()=>{try{localStorage["webook-v3"]=JSON.stringify(S)}catch{}};
+try{const raw=localStorage["webook-v3"];if(raw)S={...S,...JSON.parse(raw)}}catch{}
 
 $$("#side nav button").forEach(b=>b.onclick=()=>{
   $$(".v").forEach(v=>v.hidden=v.id!="v-"+b.dataset.v);
@@ -426,15 +435,15 @@ function buildSmartReply(question, doc){
   const ctx=doc?`${doc.name}${sb?" ("+sb.name+")":""}`:(sb?sb.name:"WeBook");
 
   if(ql.includes("vector")){
-    return `• Concepto (${ctx}): Un vector es un ente matemático definido por módulo (magnitud), dirección y sentido, representado en $\\mathbb{R}^2$ o $\\mathbb{R}^3$ mediante componentes $(v_x, v_y)$ o $(v_x, v_y, v_z)$.\n• Claves para estudiar: diferencia entre escalar y vector, norma $|\\vec{v}| = \\sqrt{v_x^2 + v_y^2}$, suma/resta componente a componente, producto escalar (ángulo/proyección) y producto vectorial (perpendicularidad/área).`;
+    return `• Concepto (${ctx}): Un vector tiene módulo, dirección y sentido, y se expresa por componentes en el plano o el espacio.\n• Claves para estudiar: norma o módulo, suma y resta componente a componente, producto escalar y producto vectorial.`;
   }
   if(ql.includes("matriz")||ql.includes("matrices")||ql.includes("determinante")){
-    return `• Concepto (${ctx}): Una matriz organiza números en filas y columnas para resolver sistemas lineales o transformar vectores.\n• Claves para estudiar: operaciones elementales, rango, matriz inversa y determinante (cuándo es invertible si $\\det(A) \\neq 0$).`;
+    return `• Concepto (${ctx}): Una matriz ordena elementos en filas y columnas para representar sistemas o transformaciones.\n• Claves para estudiar: operaciones elementales, rango, inversa y determinante.`;
   }
   if(ql.includes("resum")||ql.includes("summar")){
-    return `• Resumen de estudio (${ctx}):\n1. Identifica las definiciones centrales y teoremas principales del material.\n2. Anota las condiciones o hipótesis necesarias antes de aplicar una fórmula.\n3. Resuelve 2 o 3 ejercicios modelo explicando cada paso.`;
+    return `• Resumen de estudio (${ctx}):\n1. Identifica las definiciones centrales y teoremas principales del material.\n2. Revisa las condiciones o hipótesis antes de aplicar una fórmula.\n3. Resuelve 2 o 3 ejercicios modelo explicando cada paso.`;
   }
-  return `• Análisis sobre "${q}" en ${ctx}:\n1. Define el concepto central y sus variables/notación.\n2. Revisa las propiedades o fórmulas asociadas en tu material.\n3. Comprueba el resultado con un ejemplo numérico sencillo.`;
+  return `• Análisis sobre "${q}" en ${ctx}:\n1. Define el concepto central y sus variables o notación.\n2. Revisa las propiedades o fórmulas asociadas en tu material.\n3. Comprueba el resultado con un ejemplo práctico.`;
 }
 
 $("#qs").onclick=()=>{
@@ -444,6 +453,7 @@ $("#qs").onclick=()=>{
   const reply=buildSmartReply(q,cur());
   $("#qc").insertAdjacentHTML("beforeend",`<div class="mg">${esc(reply)}</div>`);
   $("#qc").scrollTop=$("#qc").scrollHeight;
+  $("#qi").focus();
 };
 $("#qi").onkeydown=e=>e.key=="Enter"&&$("#qs").click();
 
@@ -452,12 +462,7 @@ const cur=()=>S.docs[$("#ds").value];
 $("#uf").onchange=async e=>{
   const f=e.target.files[0];if(!f)return;
   const isPdf=f.name.toLowerCase().endsWith(".pdf")||f.type==="application/pdf";
-  let text="";
-  if(isPdf){
-    text=`[${f.name}]\n${t("pdf_loaded")}`;
-  }else{
-    text=await f.text().catch(()=>f.name);
-  }
+  const text=isPdf?`[${f.name}]\n${t("pdf_loaded")}`:await f.text().catch(()=>f.name);
   S.docs.push({id:String(Date.now()),name:f.name,sub:S.sub,text});
   save();drawAll();$("#ds").value=S.docs.filter(x=>x.sub==S.sub).length-1;drawNb();
 };
@@ -479,38 +484,73 @@ $("#qa").onclick=()=>{
   const q=$("#q").value.trim();if(!q)return;
   $("#ans").hidden=false;
   $("#ans").textContent=buildSmartReply(q,cur());
+  $("#q").focus();
 };
 $("#q").onkeydown=e=>e.key=="Enter"&&$("#qa").click();
+
+function fmtDur(s){
+  const n=Math.max(0,Math.floor(s));
+  return String(Math.floor(n/60)).padStart(2,"0")+":"+String(n%60).padStart(2,"0");
+}
 
 function addNote(kind,txt){
   const v=txt.trim();if(!v)return;
   S.notes.push({id:String(Date.now()),doc:cur()?.id||null,kind,txt:v});
   save();notes("#nl",cur()?.id||null);
 }
-$("#mgn").onclick=()=>{addNote("mg",$("#nt").value);$("#nt").value=""};
-$("#pit").onclick=()=>{addNote("pi",$("#nt").value);$("#nt").value=""};
+$("#mgn").onclick=()=>{addNote("mg",$("#nt").value);$("#nt").value="";$("#nt").focus()};
+$("#pit").onclick=()=>{addNote("pi",$("#nt").value);$("#nt").value="";$("#nt").focus()};
 $("#nt").onkeydown=e=>e.key=="Enter"&&$("#mgn").click();
 
 function notes(el,doc){
   const list=S.notes.filter(n=>n.doc==doc);
-  $(el).innerHTML=list.map(n=>`<div class="${n.kind=="pi"?"pi":"mg"}"><button class="x" onclick="delN('${n.id}')">×</button>${esc(n.txt)}</div>`).join("");
+  $(el).innerHTML=list.map(n=>{
+    if(n.kind==="voice"){
+      return `
+        <div class="voice-card">
+          <button type="button" class="x" onclick="delN('${n.id}')">×</button>
+          <input class="voice-title" value="${esc(n.title||"Audio")}" onchange="renameVoice('${n.id}',this.value)">
+          <small class="mut">(${esc(n.duration||"00:00")})</small>
+          ${n.audioUrl?`<audio controls src="${n.audioUrl}" style="width:100%;height:32px;margin-top:6px"></audio>`:`<div class="mut"><small>${esc(n.duration||"00:00")}</small></div>`}
+        </div>`;
+    }
+    return `<div class="${n.kind=="pi"?"pi":"mg"}"><button type="button" class="x" onclick="delN('${n.id}')">×</button>${esc(n.txt)}</div>`;
+  }).join("");
 }
 window.delN=id=>{S.notes=S.notes.filter(n=>n.id!=id);save();notes("#nl",cur()?.id||null)};
+window.renameVoice=(id,val)=>{const item=S.notes.find(n=>n.id==id);if(item){item.title=val.trim()||"Audio";save()}};
 
-let mr,recT,sec=0;
+let mr,recT,sec=0,recStart=0;
 $("#rec").onclick=async()=>{
-  if(mr&&mr.state=="recording"){mr.stop();clearInterval(recT);$("#rec").classList.remove("on");$("#rct").textContent="00:00";return}
+  if(mr&&mr.state=="recording"){mr.stop();return}
   try{
     const strm=await navigator.mediaDevices.getUserMedia({audio:true});
-    mr=new MediaRecorder(strm);sec=0;$("#rec").classList.add("on");
-    recT=setInterval(()=>{sec++;$("#rct").textContent=String(sec/60|0).padStart(2,"0")+":"+String(sec%60).padStart(2,"0")},1000);
+    mr=new MediaRecorder(strm);
+    let chunks=[];
+    sec=0;recStart=Date.now();
+    $("#st").textContent="";
+    $("#rec").classList.add("on");
+    $("#rct").textContent="00:00";
+    recT=setInterval(()=>{sec++;$("#rct").textContent=fmtDur(sec)},1000);
+    mr.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
     mr.onstop=()=>{
+      clearInterval(recT);
       strm.getTracks().forEach(tr=>tr.stop());
-      addNote("mg",`🎙 ${$("#rct").textContent}`);
+      const elapsed=Math.max(1,Math.round((Date.now()-recStart)/1000));
+      const durStr=fmtDur(Math.max(sec,elapsed));
+      const blob=chunks.length?new Blob(chunks,{type:mr.mimeType||"audio/webm"}):null;
+      const audioUrl=blob?URL.createObjectURL(blob):"";
+      const idx=S.notes.filter(n=>n.kind==="voice").length+1;
+      S.notes.push({id:String(Date.now()),doc:cur()?.id||null,kind:"voice",title:`Audio ${idx}`,duration:durStr,audioUrl});
+      save();notes("#nl",cur()?.id||null);
+      $("#rec").classList.remove("on");
+      $("#rct").textContent="00:00";
     };
     mr.start();
   }catch{
+    clearInterval(recT);
     $("#rec").classList.remove("on");
+    $("#rct").textContent="00:00";
     $("#st").textContent="Mic unavailable";
   }
 };
@@ -535,33 +575,99 @@ function drawPlans2D(){
     <div style="width:100%;border:1px solid var(--ln);border-radius:6px;padding:10px;background:var(--s)">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
         <b>${esc(p.name)}</b>
-        <button class="x" style="position:static" onclick="delPlan('${p.id}')">×</button>
+        <button type="button" class="x" style="position:static" onclick="delPlan('${p.id}')">×</button>
       </div>
       ${p.isImg?`<img src="${p.src}" alt="${esc(p.name)}" style="max-width:100%;max-height:360px;border-radius:4px;display:block">`:`<small class="mut">${esc(p.name)}</small>`}
     </div>`).join("");
 }
 window.delPlan=id=>{S.plans=S.plans.filter(p=>p.id!=id);save();drawPlans2D()};
 
+function makeDraggable(el, container){
+  let active=false, ox=0, oy=0;
+  el.onpointerdown=e=>{
+    if(e.target.closest(".x")||e.target.isContentEditable)return;
+    active=true;
+    const rect=container.getBoundingClientRect();
+    ox=e.clientX-rect.left-el.offsetLeft;
+    oy=e.clientY-rect.top-el.offsetTop;
+    el.setPointerCapture(e.pointerId);
+    el.style.cursor="grabbing";
+  };
+  el.onpointermove=e=>{
+    if(!active)return;
+    const rect=container.getBoundingClientRect();
+    const nx=Math.max(0,Math.min(rect.width-el.offsetWidth,e.clientX-rect.left-ox));
+    const ny=Math.max(0,Math.min(rect.height-el.offsetHeight,e.clientY-rect.top-oy));
+    el.style.left=nx+"px";
+    el.style.top=ny+"px";
+  };
+  el.onpointerup=()=>{active=false;el.style.cursor="grab"};
+}
+
 let wb;
 function initWb(){
-  if(wb)return;wb=1;const c=$("#wbc"),bd=$("#bd");c.width=bd.clientWidth;c.height=bd.clientHeight;const x=c.getContext("2d");let d=0,er=0;
+  if(wb)return;wb=1;
+  const c=$("#wbc"),bd=$("#bd");
+  c.width=bd.clientWidth;c.height=bd.clientHeight;
+  const x=c.getContext("2d");let d=0,er=0;
+
   $("#pn").onclick=()=>{er=0;$("#er").classList.remove("on");$("#pn").classList.add("on")};
   $("#er").onclick=()=>{er=1;$("#pn").classList.remove("on");$("#er").classList.add("on")};
+
   const pos=e=>{const r=c.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top]};
   c.onpointerdown=e=>{d=1;const[a,b]=pos(e);x.beginPath();x.moveTo(a,b)};
-  c.onpointermove=e=>{if(!d)return;const[a,b]=pos(e);x.lineWidth=$("#pz").value;x.globalCompositeOperation=er?"destination-out":"source-over";x.strokeStyle=$("#pc").value;x.lineTo(a,b);x.stroke();x.beginPath();x.moveTo(a,b)};
+  c.onpointermove=e=>{
+    if(!d)return;
+    const[a,b]=pos(e);
+    x.lineWidth=$("#pz").value;
+    x.globalCompositeOperation=er?"destination-out":"source-over";
+    x.strokeStyle=$("#pc").value;
+    x.lineTo(a,b);x.stroke();x.beginPath();x.moveTo(a,b);
+  };
   c.onpointerup=()=>d=0;
-  $("#wc").onclick=()=>x.clearRect(0,0,c.width,c.height);
+
+  $("#wb-postit").onclick=()=>{
+    const note=document.createElement("div");
+    note.style.cssText="position:absolute;left:64px;top:64px;width:180px;min-height:105px;padding:10px 24px 10px 10px;background:var(--pi);color:#2f2e22;border-radius:4px;box-shadow:0 3px 8px #0002;cursor:grab;z-index:3;white-space:pre-wrap";
+    note.innerHTML=`<button type="button" class="x">×</button><div contenteditable="true" style="outline:none;min-height:68px">Post-it</div>`;
+    makeDraggable(note,bd);
+    note.querySelector(".x").onclick=()=>note.remove();
+    bd.appendChild(note);
+  };
+
+  const addBoardText=()=>{
+    const txt=$("#wb-txt-in").value.trim();if(!txt)return;
+    x.save();
+    x.globalCompositeOperation="source-over";
+    x.fillStyle=$("#pc").value;
+    x.font="600 18px 'Plus Jakarta Sans',system-ui,sans-serif";
+    x.fillText(txt,40,60);
+    x.restore();
+    $("#wb-txt-in").value="";
+    $("#wb-txt-in").focus();
+  };
+  $("#wb-txt-btn").onclick=addBoardText;
+  $("#wb-txt-in").onkeydown=e=>e.key=="Enter"&&addBoardText();
+
+  $("#wc").onclick=()=>{
+    x.clearRect(0,0,c.width,c.height);
+    bd.querySelectorAll(".wb-floating").forEach(el=>el.remove());
+  };
+
   $("#img-upload").onchange=e=>{
     const f=e.target.files[0];if(!f)return;
-    const img=new Image();
-    img.onload=()=>{
-      const scale=Math.min(1,360/(img.width||360),280/(img.height||280));
-      x.drawImage(img,24,24,(img.width||200)*scale,(img.height||150)*scale);
+    const reader=new FileReader();
+    reader.onload=()=>{
+      const wrap=document.createElement("div");
+      wrap.className="wb-floating";
+      wrap.style.cssText="position:absolute;left:40px;top:40px;max-width:260px;cursor:grab;z-index:2;border:1px solid var(--ln);border-radius:6px;background:var(--s);padding:4px;box-shadow:0 2px 6px #0002";
+      wrap.innerHTML=`<button type="button" class="x">×</button><img src="${reader.result}" alt="${esc(f.name)}" style="display:block;max-width:100%;max-height:200px;border-radius:4px;pointer-events:none">`;
+      makeDraggable(wrap,bd);
+      wrap.querySelector(".x").onclick=()=>wrap.remove();
+      bd.appendChild(wrap);
       $("#wb-status").textContent=f.name;
     };
-    img.onerror=()=>{$("#wb-status").textContent="Image error"};
-    img.src=URL.createObjectURL(f);
+    reader.readAsDataURL(f);
   };
 }
 
@@ -589,7 +695,7 @@ $("#pr").onclick=()=>{clearInterval(pt);pt=0;left=(+($("#fm").value||25))*60;$("
 $("#ta").onclick=()=>{
   const title=$("#tk").value.trim();if(!title)return;
   S.tasks.push({id:String(Date.now()),t:title,sub:$("#ts").value||S.sub,due:$("#td").value||"",done:false});
-  $("#tk").value="";save();cal();home();
+  $("#tk").value="";save();cal();home();$("#tk").focus();
 };
 $("#tk").onkeydown=e=>e.key=="Enter"&&$("#ta").click();
 
@@ -622,14 +728,45 @@ window.toggleT=id=>{
 function preview(){
   const sb=S.subs.find(x=>x.id==$("#xs").value);
   if(!sb){$("#xv").textContent="";return}
-  const docs=S.docs.filter(d=>d.sub==sb.id).map(d=>`--- ${d.name} ---\n${d.text||""}`).join("\n\n");
-  const nts=S.notes.filter(n=>S.docs.some(d=>d.id==n.doc&&d.sub==sb.id)).map(n=>`• [${n.kind=="pi"?"Post-it":"Nota"}] ${n.txt}`).join("\n");
-  $("#xv").textContent=`${sb.name}\n\n${docs}${nts?"\n\nNotas:\n"+nts:""}`;
+  const docs=S.docs.filter(d=>d.sub==sb.id);
+  const docIds=new Set(docs.map(d=>String(d.id)));
+  const relNotes=S.notes.filter(n=>n.doc&&docIds.has(String(n.doc)));
+
+  const out=[
+    "========================================",
+    "WEBOOK - APUNTES Y NOTAS",
+    "========================================",
+    `Materia: ${sb.name}`,
+    ""
+  ];
+
+  out.push("APUNTES / UNIDADES");
+  if(!docs.length){
+    out.push("Sin apuntes en esta materia.");
+  }else{
+    docs.forEach((d,i)=>{
+      out.push(`\n${i+1}. ${d.name}`);
+      out.push((d.text||"").trim());
+    });
+  }
+
+  const nts=relNotes.filter(n=>n.kind!=="voice");
+  const vcs=relNotes.filter(n=>n.kind==="voice");
+
+  out.push("\nNOTAS Y POST-ITS");
+  if(!nts.length) out.push("Sin notas ni post-its.");
+  else nts.forEach(n=>out.push(`• [${n.kind=="pi"?"Post-it":"Nota"}] ${n.txt}`));
+
+  out.push("\nAUDIOS");
+  if(!vcs.length) out.push("Sin grabaciones de voz.");
+  else vcs.forEach(v=>out.push(`• ${v.title||"Audio"} (${v.duration||"00:00"})`));
+
+  $("#xv").textContent=out.join("\n");
 }
 $("#xs").onchange=preview;
 $("#xt").onclick=()=>{
   const blob=new Blob([$("#xv").textContent||""],{type:"text/plain;charset=utf-8"});
-  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="webook-notes.txt";a.click();
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="webook-apuntes.txt";a.click();
 };
 
 $("#auth").onsubmit=e=>{e.preventDefault();$("#auth").hidden=true;$("#app").hidden=false;drawAll()};
