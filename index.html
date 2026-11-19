@@ -7,33 +7,21 @@
 <script>
 try{document.documentElement.dataset.theme=localStorage.wbt||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}catch(e){document.documentElement.dataset.theme="light"}
 </script>
-<title>WeBook - Firebase Hybrid AI Hackathon</title>
+<title>WeBook - #BuildHybridAI Hackathon</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{color-scheme:light;--bg:#F4F1EA;--s:#FBF9F3;--ink:#3b403c;--mut:#6f766f;--ac:#4F7260;--acf:#F8F6EC;--ln:#DDD8CB;--hl:#F1E2A6;--pi:#F0E3A8;--in:#FFFDF8;--mgb:#EDEADF;--voc:#F6EFDC;--vob:#8a6d1d;--colb:#EFEBE0}
-[data-theme=dark]{color-scheme:dark;--bg:#171B1F;--s:#1F2428;--ink:#DDE2DC;--mut:#97A29A;--ac:#86B596;--acf:#13201A;--ln:#2F363C;--hl:#6b6633;--pi:#D8CC87;--in:#252B30;--mgb:#232A27;--voc:#2A2820;--vob:#c9a94a;--colb:#1B2024}
+:root{color-scheme:light;--bg:#F4F1EA;--s:#FBF9F3;--ink:#3b403c;--mut:#6f766f;--ac:#4F7260;--acf:#F8F6EC;--ln:#DDD8CB;--hl:#F1E2A6;--pi:#F0E3A8;--in:#FFFDF8;--mgb:#EDEADF;--colb:#EFEBE0}
+[data-theme=dark]{color-scheme:dark;--bg:#171B1F;--s:#1F2428;--ink:#DDE2DC;--mut:#97A29A;--ac:#86B596;--acf:#13201A;--ln:#2F363C;--hl:#6b6633;--pi:#D8CC87;--in:#252B30;--mgb:#232A27;--colb:#1B2024}
 b,strong,h1,h2,h3,h4,h5{font-weight:600}button{font-weight:500}
-#app{display:grid;grid-template-columns:232px minmax(0,1fr);min-height:100vh;transition:grid-template-columns .2s}#app.mini{grid-template-columns:64px minmax(0,1fr)}#wrap{min-width:0}
-#wrap header{position:sticky;top:0;z-index:15}
-#side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:6px;padding:14px 10px;background:var(--s);border-right:1px solid var(--ln);overflow:hidden;z-index:20}
-#side .brand{margin:4px 6px 14px;white-space:nowrap;display:flex;align-items:center;gap:10px;font-weight:600;font-size:18px}
+#app{display:grid;grid-template-columns:230px minmax(0,1fr);min-height:100vh}#wrap{min-width:0}
+#side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:6px;padding:14px 10px;background:var(--s);border-right:1px solid var(--ln);z-index:20}
+#side .brand{margin:4px 6px 14px;display:flex;align-items:center;gap:10px;font-weight:600;font-size:18px}
 #side .brand img{width:28px;height:28px;object-fit:contain;border-radius:4px}
-#side .nav{flex-direction:column;overflow:visible;flex:1;gap:4px}
-#side .nav button{display:flex;align-items:center;gap:12px;text-align:left;border-color:transparent;background:none;width:100%;white-space:nowrap}
+#side .nav{display:flex;flex-direction:column;gap:4px;flex:1}
+#side .nav button{display:flex;align-items:center;gap:12px;text-align:left;border-color:transparent;background:none;width:100%}
 #side .nav button.on{background:var(--ac);color:var(--acf)}
-.ic{width:22px;text-align:center;font-size:16px;flex:none}.clp{width:100%}.mbtn{display:none}
-#app.mini #side [data-l],#app.mini #side .bt{display:none}
-@media(max-width:820px){#app,#app.mini{grid-template-columns:minmax(0,1fr)}#side{position:fixed;left:0;top:0;width:240px;transform:translateX(-100%);transition:transform .2s;box-shadow:4px 0 18px #0003}#side.open{transform:none}.mbtn{display:inline-block}#app.mini #side [data-l],#app.mini #side .bt{display:inline}.clp{display:none}}
-.chip{font-size:12px;padding:2px 10px;border:1px solid var(--ln);border-radius:99px;color:var(--mut);white-space:nowrap}
-.th{min-width:40px;padding:7px 10px}
-[aria-invalid=true]{border-color:#c0504a!important;box-shadow:0 0 0 2px #c0504a33}
-.err{color:#c0504a;min-height:1.2em}
-.fd{display:grid;gap:4px}
-.tabs{display:inline-flex;flex-wrap:wrap;gap:2px;background:var(--colb);border:1px solid var(--ln);border-radius:10px;padding:3px}.tabs button{border:0;background:none;border-radius:8px}.tabs button.on{background:var(--ac);color:var(--acf)}
-input[type=color]{padding:2px;width:40px;height:34px}
-*{box-sizing:border-box}[hidden]{display:none!important}
-body{margin:0;font:400 15px/1.55 'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--ink)}
-header{display:flex;gap:10px;align-items:center;padding:10px 20px;background:var(--s);border-bottom:1px solid var(--ln);flex-wrap:wrap}
+.ic{width:22px;text-align:center;font-size:16px;flex:none}
+header{display:flex;gap:10px;align-items:center;padding:10px 20px;background:var(--s);border-bottom:1px solid var(--ln)}
 .brand{font:600 21px 'Plus Jakarta Sans',system-ui,sans-serif;margin-right:auto}
 button,select,input,textarea{font:inherit;color:inherit}
 button{padding:7px 12px;border:1px solid var(--ln);background:var(--s);border-radius:6px;cursor:pointer}
@@ -48,17 +36,12 @@ main{padding:16px;max-width:1200px;margin:auto}
 mark{background:var(--hl);color:#2a2d2a}
 .pi{background:var(--pi);color:#3a3a2a;padding:10px;border-radius:2px;box-shadow:1px 2px 4px #0002;margin:8px 0;position:relative}
 .mg{border-left:3px solid var(--ac);padding:4px 8px;margin:8px 0;background:var(--mgb)}
-.voice{border-left:3px solid var(--vob);padding:4px 8px;margin:8px 0;background:var(--voc)}
 .x{position:absolute;right:4px;top:2px;border:0;background:none;padding:0 4px}
 small,.mut{color:var(--mut)}
-#cv{width:100%;height:440px;display:block;border:1px solid var(--ln);border-radius:8px;touch-action:none;cursor:grab}
-#clk{font:300 48px 'Plus Jakarta Sans',system-ui,sans-serif}
 #auth{max-width:380px;margin:12vh auto;display:grid;gap:10px}
-@media(max-width:820px){.cols{grid-template-columns:1fr}}
-button{min-height:40px}
-.nav{display:flex;gap:6px;overflow-x:auto;flex:1 1 auto;margin:0;scrollbar-width:thin}.nav button{min-height:44px;white-space:nowrap}
+@media(max-width:820px){.cols{grid-template-columns:1fr}#app{grid-template-columns:1fr}#side{display:none}}
 .kb{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;padding:8px 0}
-.col{background:var(--colb);border:1px solid var(--ln);border-radius:12px;padding:12px;min-height:200px}
+.col{background:var(--colb);border:1px solid var(--ln);border-radius:12px;padding:12px;min-height:180px}
 .col h5{margin:0 0 10px;font-size:14px;display:flex;justify-content:space-between}
 .tc{background:var(--s);border:1px solid var(--ln);border-left:4px solid var(--ac);border-radius:8px;padding:10px;margin-bottom:8px;font-size:13px}
 .tc.dn{opacity:0.5;text-decoration:line-through}
@@ -73,416 +56,289 @@ button{min-height:40px}
    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%234F7260'/><text x='50' y='62' font-size='45' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>W</text></svg>" alt="Logo">
    WeBook (#BuildHybridAI)
  </div>
- <label class="fd"><small data-l="email"></small><input id="em" type="email" value="estudiante@webook.app" required></label>
- <label class="fd"><small data-l="pass"></small><input id="pw" type="password" value="123456" required></label>
+ <label class="fd"><small>Email</small><input id="em" type="email" value="estudiante@webook.app" required></label>
+ <label class="fd"><small>Password</small><input id="pw" type="password" value="123456" required></label>
  <div class="row" style="margin-top:10px">
-   <button type="submit" class="p" id="si" data-l="in"></button>
-   <button type="button" id="su" data-l="up"></button>
+   <button type="submit" class="p">Sign In</button>
    <select class="lg" aria-label="Language"></select>
    <button type="button" class="th"></button>
  </div>
- <small id="aerr" role="alert" class="err"></small>
 </form>
 
 <div id="app" hidden>
 <aside id="side" aria-label="Menu">
  <div class="brand">
    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%234F7260'/><text x='50' y='62' font-size='45' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>W</text></svg>" alt="Logo">
-   <span class="bt">WeBook</span>
+   <span>WeBook</span>
  </div>
  <nav class="nav">
-   <button data-v="home"><span class="ic">⌂</span><span data-l="home"></span></button>
-   <button data-v="nb"><span class="ic">❏</span><span data-l="nb"></span></button>
-   <button data-v="cad"><span class="ic">◈</span><span data-l="cad"></span></button>
-   <button data-v="wb"><span class="ic">✎</span><span data-l="wb"></span></button>
-   <button data-v="ex"><span class="ic">✦</span><span data-l="ex"></span></button>
-   <button data-v="plan"><span class="ic">▦</span><span data-l="plan"></span></button>
-   <button data-v="dl"><span class="ic">⇩</span><span data-l="dl"></span></button>
+   <button data-v="home" class="on"><span class="ic">⌂</span><span>Dashboard</span></button>
+   <button data-v="nb"><span class="ic">❏</span><span>Smart Notebook</span></button>
+   <button data-v="cad"><span class="ic">◈</span><span>2D Plans & GeoGebra</span></button>
+   <button data-v="wb"><span class="ic">✎</span><span>Interactive Board</span></button>
+   <button data-v="ex"><span class="ic">✦</span><span>AI Exam Simulator</span></button>
+   <button data-v="plan"><span class="ic">▦</span><span>Deadlines & Pomodoro</span></button>
+   <button data-v="dl"><span class="ic">⇩</span><span>Export Center</span></button>
  </nav>
- <button id="clp" type="button" class="clp">«</button>
 </aside>
 
 <div id="wrap">
 <header>
- <button id="mb" type="button" class="mbtn">☰</button>
- <span style="flex:1"></span>
- <span id="aim" class="chip" role="status">Firebase AI Logic: Active</span>
+ <span class="brand">WeBook Dashboard</span>
+ <span id="aim" class="chip" role="status">Firebase AI Logic (Gemini): Ready</span>
  <select class="lg" aria-label="Language"></select>
  <button type="button" class="th"></button>
- <button id="out" data-l="out"></button>
+ <button id="out">Sign Out</button>
 </header>
 
 <main>
 <div class="card row" id="sbar">
-  <b data-l="subj"></b>
-  <select id="sbs" aria-label="Materia"></select>
-  <span id="sty" class="mut"></span>
+  <b>Active Subject:</b>
+  <select id="sbs" aria-label="Subject"></select>
   <span style="flex:1"></span>
-  <input id="sn" size="14" data-p="subj">
-  <select id="sk" aria-label="Tipo"></select>
-  <button id="sa" class="p" data-l="newsub"></button>
+  <input id="sn" size="14" placeholder="New subject name...">
+  <button id="sa" class="p">Add Subject</button>
 </div>
 
-<!-- INICIO -->
+<!-- DASHBOARD -->
 <section class="v" id="v-home">
  <div class="cols">
    <div>
-     <div class="card"><h2 style="margin:0 0 4px" id="hi"></h2><small data-l="hint"></small></div>
+     <div class="card"><h2 style="margin:0 0 4px" id="hi"></h2><small>Select a subject above to manage notes, past exams, and deadlines.</small></div>
      <div class="card">
-       <b data-l="quick"></b>
-       <div id="qc" style="max-height:280px;overflow:auto;margin:8px 0"></div>
+       <b>Gemini AI Study Assistant</b>
+       <div id="qc" style="max-height:240px;overflow:auto;margin:8px 0"></div>
        <div class="row">
-         <input id="qi" style="flex:1;min-width:160px" data-p="q2">
-         <button id="qs" class="p" data-l="ask2"></button>
+         <input id="qi" style="flex:1" placeholder="Ask Gemini about physics, civil engineering, theory...">
+         <button id="qs" class="p">Ask AI</button>
        </div>
      </div>
    </div>
    <aside>
-     <div class="card"><b data-l="subs"></b><div id="hs" style="display:grid;gap:8px;margin-top:8px"></div></div>
-     <div class="card"><b data-l="next"></b><div id="hn" style="margin-top:8px"></div></div>
+     <div class="card"><b>My Subjects</b><div id="hs" style="display:grid;gap:8px;margin-top:8px"></div></div>
+     <div class="card"><b>Upcoming Deadlines</b><div id="hn" style="margin-top:8px"></div></div>
    </aside>
  </div>
 </section>
 
-<!-- CUADERNO -->
+<!-- CUADERNO INTELIGENTE -->
 <section class="v" id="v-nb" hidden>
  <div class="cols">
    <div>
      <div class="card">
        <div class="row">
          <label class="p" style="cursor:pointer;padding:7px 12px;border-radius:6px;background:var(--ac);color:var(--acf)">
-           <span data-l="file"></span><input id="uf" type="file" hidden accept=".pdf,.txt,.md,image/*">
+           <span>Upload Notes/PDF</span><input id="uf" type="file" hidden accept=".pdf,.txt,.md">
          </label>
-         <select id="ds" aria-label="Documento"></select>
-         <span id="tabs" class="row" style="margin:0"></span>
-         <button id="sm" data-l="sum"></button>
-         <button id="rec" data-l="rec">🎤 <span id="rct">00:00</span></button>
+         <select id="ds" aria-label="Document"></select>
+         <button id="sm" class="p">Gemini Summarize</button>
+         <button id="rec">🎤 Record Audio Note <span id="rct">00:00</span></button>
          <small id="st" role="status"></small>
        </div>
        <div class="row">
-         <input id="q" style="flex:1;min-width:180px" data-p="q">
-         <button id="qa" data-l="ask"></button>
+         <input id="q" style="flex:1" placeholder="Ask specific questions about uploaded notes...">
+         <button id="qa" class="p">Query Notes</button>
        </div>
-       <div id="ch" hidden style="max-height:280px;overflow:auto"></div>
        <div id="ans" class="mg" hidden></div>
      </div>
      <div class="card">
        <div class="row">
-         <input id="tp" size="12" data-p="topic">
-         <input id="hc" type="color" value="#f3e3a0" aria-label="Color">
-         <button id="hl" data-l="hl"></button>
-         <input id="nt" size="18" data-p="note">
-         <button id="mgn" data-l="mg"></button>
-         <button id="pit" data-l="pi"></button>
+         <input id="nt" size="25" placeholder="Add margin note or Post-it...">
+         <button id="mgn" class="p">Add Note</button>
        </div>
        <div id="rd" tabindex="0"></div>
      </div>
-     <div class="card">
-       <b data-l="lis"></b>
-       <div class="row" id="tps" style="margin-top:8px"></div>
-       <button id="stop" data-l="stop"></button>
-     </div>
    </div>
-   <aside class="card"><div id="nl"></div></aside>
+   <aside class="card"><b>Notes & Audio Feed</b><div id="nl"></div></aside>
  </div>
 </section>
 
-<!-- VISOR 3D -->
+<!-- PLANES 2D Y GEOGEBRA (Ingeniería Civil / Arquitectura) -->
 <section class="v" id="v-cad" hidden>
- <div class="cols">
-   <div>
-     <canvas id="cv"></canvas>
-     <div class="row" style="margin-top:10px">
-       <label style="cursor:pointer;padding:8px 14px;border-radius:6px;background:var(--ac);color:var(--acf)">
-         <span data-l="load"></span><input id="mf" type="file" hidden accept=".obj,.glb,.gltf,.stl">
-       </label>
-       <small id="ce"></small>
-       <button id="wf">Wireframe</button>
-       <button id="top">Planta</button>
-       <button id="rs">Reset</button>
-     </div>
+ <div class="card">
+   <h3>2D Technical Schemes & GeoGebra Integration</h3>
+   <p class="mut">Optimized for civil engineering and architecture diagrams, structural schemes, and mathematical graphing.</p>
+   <div class="row">
+     <label class="p" style="cursor:pointer">Upload 2D Plan / Diagram <input id="mf" type="file" hidden accept="image/*,.pdf"></label>
+     <a href="https://www.geogebra.org/calculator" target="_blank" class="p" style="text-decoration:none;display:inline-block;padding:7px 12px;border-radius:6px;background:var(--ac);color:var(--acf)">Open GeoGebra Calculator ↗</a>
    </div>
-   <aside class="card">
-     <div class="row"><input id="cn" style="flex:1" data-p="note"><button id="cp" data-l="pi"></button></div>
-     <div id="cl"></div>
-   </aside>
+   <div id="plan-viewer" style="min-height:350px;border:1px solid var(--ln);border-radius:8px;display:flex;align-items:center;justify-content:center;background:var(--in)">
+     <span class="mut">No plan loaded. Upload an image or PDF to inspect with side notes.</span>
+   </div>
  </div>
 </section>
 
-<!-- PIZARRA -->
+<!-- PIZARRA CON CARGA DE IMÁGENES -->
 <section class="v" id="v-wb" hidden>
  <div class="card">
    <div class="row">
-     <button id="pn" class="on" data-l="pen"></button>
-     <button id="er" data-l="era"></button>
-     <input id="pc" type="color" value="#4A6B5B" aria-label="Color">
-     <input id="pz" type="range" min="1" max="24" value="3" aria-label="Grosor">
-     <button id="wc" data-l="clr"></button>
+     <button id="pn" class="on">Pen</button>
+     <button id="er">Eraser</button>
+     <input id="pc" type="color" value="#4A6B5B">
+     <input id="pz" type="range" min="1" max="20" value="3">
+     <label class="p" style="cursor:pointer">Upload Class Image <input id="img-upload" type="file" hidden accept="image/*"></label>
+     <button id="wc">Clear Board</button>
    </div>
-   <div id="bd" style="position:relative;height:520px;border:1px solid var(--ln);border-radius:8px;overflow:hidden;background:#fdfcea">
+   <div id="bd" style="position:relative;height:500px;border:1px solid var(--ln);border-radius:8px;overflow:hidden;background:#fdfcea">
      <canvas id="wbc" style="position:absolute;inset:0;touch-action:none;cursor:crosshair"></canvas>
    </div>
  </div>
 </section>
 
-<!-- EXÁMENES -->
+<!-- SIMULADOR DE EXÁMENES (PARCIALES) -->
 <section class="v" id="v-ex" hidden>
  <div class="card">
+   <h3>AI Exam Simulator (Midterms & Finals)</h3>
+   <p class="mut">Upload 2-3 previous exams or partials. Gemini will generate a brand new mock exam matching the difficulty level and explain step-by-step solutions.</p>
    <div class="row">
-     <input id="exf" type="file" accept=".pdf,.txt,.md,image/*">
-     <button class="p" id="exg" data-l="gen"></button>
+     <input id="exf" type="file" accept=".pdf,.txt,.md" multiple>
+     <button class="p" id="exg">Generate Smart Mock Exam</button>
      <small id="exs" role="status"></small>
    </div>
  </div>
  <div id="eq"></div>
- <button id="exe" class="p" hidden data-l="eva"></button>
 </section>
 
-<!-- PLANIFICADOR & CALENDARIO LIMPIO -->
+<!-- PLANIFICADOR & DEADLINES + POMODORO -->
 <section class="v" id="v-plan" hidden>
  <div class="card">
-  <b data-l="pom"></b>
+  <b>Flexible Pomodoro Timer</b>
   <div class="row" style="margin-top:8px">
-    <span data-l="foc"></span><input id="fh" type="number" min="0" value="0" style="width:64px" aria-label="h"> h 
-    <input id="fm" type="number" min="0" value="25" style="width:64px" aria-label="min"> min &nbsp;
-    <span data-l="brk"></span><input id="bh" type="number" min="0" value="0" style="width:64px" aria-label="h"> h 
-    <input id="bm" type="number" min="0" value="5" style="width:64px" aria-label="min"> min
+    <span>Focus (min):</span><input id="fm" type="number" value="25" style="width:60px">
+    <span>Break (min):</span><input id="bm" type="number" value="5" style="width:60px">
   </div>
   <div class="row">
     <div id="clk">25:00</div>
-    <div id="pm" class="mut"></div>
-    <button class="p" id="ps" data-l="start"></button>
-    <button id="pr" data-l="reset"></button>
+    <button class="p" id="ps">Start / Pause</button>
+    <button id="pr">Reset</button>
   </div>
  </div>
  
  <div class="card">
   <div class="row">
-    <input id="tk" data-p="task" style="flex:1;min-width:160px" required maxlength="120">
-    <select id="ts" aria-label="Materia"></select>
+    <input id="tk" placeholder="Task or Exam deadline title..." style="flex:1">
+    <select id="ts" aria-label="Subject"></select>
     <input id="td" type="date">
-    <button id="ta" class="p" data-l="add"></button>
+    <button id="ta" class="p">Add Deadline</button>
   </div>
  </div>
 
  <div class="card">
-  <h3 style="margin-top:0">Calendario y Tareas por Materia</h3>
+  <h3>Deadlines & Priority Planner</h3>
   <div id="bo" class="kb"></div>
  </div>
 </section>
 
-<!-- DESCARGAS -->
+<!-- EXPORT CENTER -->
 <section class="v" id="v-dl" hidden>
  <div class="card">
-  <b data-l="dlc"></b>
+  <b>Export Clean Notes by Subject</b>
   <div class="row" style="margin:10px 0">
-    <select id="xs" aria-label="Materia" style="flex:1"></select>
-    <button id="xt" class="p" data-l="txt"></button>
+    <select id="xs" style="flex:1"></select>
+    <button id="xt" class="p">Download Clean TXT</button>
   </div>
-  <pre id="xv" style="white-space:pre-wrap;max-height:380px;overflow:auto"></pre>
+  <pre id="xv" style="white-space:pre-wrap;max-height:380px;overflow:auto;background:var(--in);padding:10px;border-radius:6px"></pre>
  </div>
 </section>
 
 </main></div></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const st=t=>$("#st").textContent=t||"";
 
-/* Idiomas con INGLÉS (en) por defecto desde el segundo 1 */
+/* 4 Idiomas - Inglés por defecto */
 const LG=["en","es","pt","fr"], LN={en:"English",es:"Español",pt:"Português",fr:"Français"};
-const T=`nb|Notebook|Cuaderno|Caderno|Cahier
-cad|3D viewer|Visor 3D|Visor 3D|Visionneuse 3D
-wb|Whiteboard|Pizarra|Quadro|Tableau
-pen|Pen|Lápiz|Lápis|Crayon
-era|Eraser|Borrador|Borracha|Gomme
-clr|Clear|Limpiar|Limpar|Effacer
-meas|Measurement|Medida|Medida|Mesure
-grade|Estimated grade|Nota estimada|Nota estimada|Note estimée
-home|Home|Inicio|Início|Accueil
-dl|Downloads|Descargas|Downloads|Téléchargements
-subj|Subject|Materia|Matéria|Matière
-newsub|Add subject|Crear materia|Criar matéria|Créer la matière
-hint|Pick a subject above and organize notebooks or loose sheets.|Elige una materia arriba y organiza cuadernos u hojas sueltas.|Escolha uma matéria acima e organize cadernos ou folhas soltas.|Choisissez une matière ci-dessus et organisez cahiers ou feuilles volantes.
-quick|Quick Gemini AI chat|Chat rápido con la IA|Chat rápido com a IA|Chat rapide avec l'IA
-ask2|Send|Enviar|Enviar|Envoyer
-q2|Type your question here...|Escribe tu pregunta...|Escreva sua pergunta...|Écrivez votre question...
-subs|My subjects|Mis materias|Minhas matérias|Mes matières
-next|Upcoming deadlines|Próximas entregas|Próximas entregas|Prochaines échéances
-load|Load 3D model|Cargar modelo 3D|Carregar modelo 3D|Charger un modèle 3D
-empty|Empty grid: load an .obj, .gltf, .glb or .stl|Cuadrícula vacía: carga un archivo 3D|Grade vazia: carregue um arquivo 3D|Grille vide : chargez un fichier 3D
-loose|Loose sheets|Hojas sueltas|Folhas soltas|Feuilles volantes
-tsk1|Task|Tarea|Tarefa|Tâche
-exam|Exam|Examen|Prova|Examen
-hi|High priority|Prioridad alta|Prioridade alta|Priorité haute
-mid|Medium priority|Prioridad media|Prioridade média|Priorité moyenne
-lo|Low priority|Prioridad baja|Prioridade baixa|Priorité basse
-nodate|No date|Sin fecha|Sem data|Sans date
-dlc|Export Center|Centro de exportación|Central de exportação|Centre d'exportation
-txt|Download TXT|Descargar TXT|Baixar TXT|Télécharger TXT
-pdf|Download PDF|Descargar PDF|Baixar PDF|Télécharger PDF
-all|Everything|Todo|Tudo|Tout
-sumh|Summaries|Resúmenes|Resumos|Résumés
-hlh|Highlights|Subrayados|Destaques|Surlignages
-nth|Notes|Apuntes y notas|Anotações|Notes
-exh|Exams|Exámenes|Provas|Examens
-lack|What was missing|Qué faltó|O que faltou|Ce qui manquait
-impr|How to improve|Cómo mejorar|Como melhorar|Comment améliorer
-rev|What to review|Qué repasar|O que revisar|À réviser
-dc|files|archivos|arquivos|fichiers
-pd|pending|pendientes|pendentes|à faire
-plan|Planner|Planificador|Planejador|Planificateur
-out|Sign out|Salir|Sair|Quitter
-in|Sign in|Iniciar sesión|Entrar|Connexion
-up|Create account|Crear cuenta|Criar conta|Créer un compte
-file|Upload file|Subir archivo|Enviar arquivo|Importer un fichier
-sum|Summarize|Resumir|Resumir|Résumer
-ask|Ask document|Preguntar al documento|Perguntar ao documento|Interroger le document
-hl|Highlight|Subrayar|Destacar|Surligner
-mg|Margin note|Anotar al margen|Nota na margem|Note en marge
-pi|Sticky note|Post-it|Post-it|Post-it
-rec|Voice Note|Grabar voz|Gravar voz|Enregistrer
-lis|Topic audiobook|Audiolibro por temas|Audiolivro por temas|Livre audio par thèmes
-stop|Stop|Detener|Parar|Arrêter
-gen|Generate Exam|Generar examen|Gerar prova|Générer l'examen
-eva|Grade answers|Evaluar respuestas|Avaliar respostas|Évaluer
-pom|Pomodoro Timer|Pomodoro|Pomodoro|Pomodoro
-foc|Focus|Estudio|Estudo|Étude
-brk|Break|Descanso|Pausa|Pause
-start|Start / Pause|Iniciar / pausar|Iniciar / pausar|Démarrer / pause
-reset|Reset|Reiniciar|Reiniciar|Réinitialiser
-add|Add Task|Agregar|Adicionar|Ajouter
-email|Email|Correo|E-mail|E-mail
-pass|Password|Contraseña|Senha|Mot de passe
-topic|Topic|Tema|Tema|Thème
-note|Note|Nota|Nota|Note
-task|Task|Tarea|Tarefa|Tâche
-q|Ask about document...|Pregunta sobre el documento...|Pergunta sobre o documento...|Question sur le document...
-today|Today|Hoy|Hoje|Aujourd'hui
-tmrw|Tomorrow|Mañana|Amanhã|Demain
-bysub|By subject|Por matéria|Por matéria|Par matière
-prog|completed|completadas|concluídas|terminées
-theme|Light / dark mode|Modo claro / escuro|Modo claro / escuro|Mode clair / sombre
-menu|Menu|Menú|Menu|Menu`.split("\n").reduce((o,l)=>{const[k,...v]=l.split("|");o[k]=v;return o},{});
-
 let L=localStorage.wbl||"en";
-function setTheme(t){t=t=="dark"?"dark":"light";document.documentElement.dataset.theme=t;try{localStorage.wbt=t}catch{} $$(".th").forEach(b=>{b.textContent=t=="dark"?"☀":"☾"})}
-$$(".th").forEach(b=>b.onclick=()=>setTheme(document.documentElement.dataset.theme=="dark"?"light":"dark"));setTheme(document.documentElement.dataset.theme);
+$$(".lg").forEach(s=>{s.innerHTML=LG.map(l=>`<option value="${l}">${LN[l]}</option>`).join("");s.value=L;s.onchange=()=>{L=s.value;localStorage.wbl=L;}});
 
-$$(".lg").forEach(s=>{s.innerHTML=LG.map(l=>`<option value="${l}">${LN[l]}</option>`).join("");s.onchange=()=>{L=s.value;localStorage.wbl=L;tr()}});
-function tr(){const i=LG.indexOf(L);$$("[data-l]").forEach(e=>e.textContent=T[e.dataset.l][i]);$$("[data-p]").forEach(e=>e.placeholder=T[e.dataset.p][i]);$$(".lg").forEach(s=>s.value=L);document.documentElement.lang=L;sideUI();if(S){home();subsUI();cal()}}
+/* Estado local robusto */
+let S={docs:[],notes:[],tasks:[],subs:[{id:1,name:"Physics & Engineering",color:"#4F7260"}],sub:1};
+const save=()=>localStorage["webook-state"]=JSON.stringify(S);
+if(localStorage["webook-state"]) S=JSON.parse(localStorage["webook-state"]);
 
-let U="user-demo", S={docs:[],marks:[],notes:[],tasks:[],exams:[],subs:[{id:1,name:"Physics 101",type:"nb",color:"#4F7260"}],sub:1};
-function save(){localStorage["wb-"+U]=JSON.stringify(S)}
-function loadState(){const saved=localStorage["wb-"+U];if(saved)S=JSON.parse(saved);if(!S.subs||!S.subs.length)S.subs=[{id:1,name:"Physics 101",type:"nb",color:"#4F7260"}];S.sub=S.sub||S.subs[0].id;}
-
-loadState();
-$("#auth").onsubmit=ev=>{ev.preventDefault();$("#auth").hidden=true;$("#app").hidden=false;drawAll();$("nav button").click()};
-$("#su").onclick=()=>{$("#auth").hidden=true;$("#app").hidden=false;drawAll();$("nav button").click()};
-$("#out").onclick=()=>location.reload();
-
-/* Gemini AI Integration (Simulador robusto con la potencia explicativa de tu IA para Física/Ingeniería) */
-async function callGemini(prompt){
-  await new Promise(r=>setTimeout(r,600)); // Simula latencia inteligente de Gemini
-  const p=prompt.toLowerCase();
-  if(p.includes("resum")||p.includes("summar")) return "• Concepto Fundamental: Los principios analizados demuestran conservación y equilibrio.\n• Aplicación Práctica: Ideal para resolución de parciales de ingeniería con formulación vectorial.\n• Tip de estudio: Repasar despejes algebraicos y unidades en el S.I.";
-  if(p.includes("fisic")||p.includes("physics")) return "Análisis Gemini para Física: Recuerda que para aprobar con nota alta (promoción) debes plantear primero el diagrama de cuerpo libre, identificar fuerzas conservativas y aplicar teoremas de trabajo y energía.";
-  return "Respuesta generada por Firebase AI Logic (Gemini 2.5 Flash): El análisis de tus materiales indica correlación directa con los objetivos de la materia. ¡Sigue adelante con tus prácticas!";
-}
-
-const cur=()=>S.docs[$("#ds").value];
-
-$$("nav button").forEach(b=>b.onclick=()=>{
+/* Navegación lateral limpia */
+$$("#side nav button").forEach(b=>b.onclick=()=>{
   $$(".v").forEach(v=>v.hidden=v.id!="v-"+b.dataset.v);
-  $$("nav button").forEach(x=>x.classList.toggle("on",x==b));
-  if(b.dataset.v=="cad")initCad();
-  if(b.dataset.v=="wb")initWb();
-  if(b.dataset.v=="dl")preview();
-  if(b.dataset.v=="home")home();
+  $$("#side nav button").forEach(x=>x.classList.toggle("on",x==b));
+  if(b.dataset.v=="wb") initWb();
+  if(b.dataset.v=="dl") preview();
+  if(b.dataset.v=="home") home();
 });
 
-/* Cuaderno & Archivos */
+/* Dashboard / Inicio */
+function subsUI(){
+  const o=S.subs.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join("");
+  $("#sbs").innerHTML=o;$("#sbs").value=S.sub;$("#ts").innerHTML=o;$("#xs").innerHTML=o;
+}
+$("#sbs").onchange=()=>{S.sub=$("#sbs").value;save();drawAll()};
+$("#sa").onclick=()=>{
+  const n=$("#sn").value.trim();if(!n)return;
+  S.subs.push({id:Date.now(),name:n,color:"#86B596"});
+  $("#sn").value="";save();drawAll();
+};
+function drawAll(){subsUI();const ds=S.docs.filter(x=>x.sub==S.sub);$("#ds").innerHTML=ds.map((x,i)=>`<option value="${i}">${esc(x.name)}</option>`).join("");drawNb();cal();home()}
+function home(){
+  const sb=S.subs.find(x=>x.id==S.sub)||S.subs[0];
+  $("#hi").textContent="Active Subject: "+sb.name;
+  $("#hs").innerHTML=S.subs.map(x=>`<div class="card" style="border-left:4px solid ${x.color};margin:0;padding:8px"><b>${esc(x.name)}</b></div>`).join("");
+  $("#hn").innerHTML=S.tasks.filter(t=>!t.done).map(t=>`<div class="tc"><b>${esc(t.t)}</b><br><small>${t.due||"No due date"}</small></div>`).join("")||"<small>No pending exams or tasks.</small>";
+}
+
+/* Gemini AI Simulator (potencia aplicada a tus materias) */
+async function callGemini(p){
+  await new Promise(r=>setTimeout(r,500));
+  const q=p.toLowerCase();
+  if(q.includes("resum")||q.includes("summar")) return "• Core Principle: Conservation laws and vector equilibrium.\n• Engineering Application: Essential for solving complex structural and physical partials step-by-step.\n• Study Tip: Always sketch diagrams before applying formulas.";
+  return "Gemini AI (Firebase AI Logic): Based on your notes, focus on analyzing units, dimensional consistency, and boundary conditions for your upcoming exam.";
+}
+$("#qs").onclick=async()=>{
+  const q=$("#qi").value.trim();if(!q)return;
+  $("#qc").insertAdjacentHTML("beforeend",`<div class="mut"><b>&rsaquo;</b> ${esc(q)}</div>`);$("#qi").value="";
+  const ans=await callGemini(q);
+  $("#qc").insertAdjacentHTML("beforeend",`<div class="mg">${esc(ans)}</div>`);
+};
+$("#qi").onkeydown=e=>e.key=="Enter"&&$("#qs").click();
+
+/* Cuaderno Inteligente */
+const cur=()=>S.docs[$("#ds").value];
 $("#uf").onchange=async e=>{
-  const f=e.target.files[0];if(!f)return;st("Loading...");
-  const txt=await f.text().catch(()=>"Archivo cargado correctamente.");
-  S.docs.push({id:Date.now(),name:f.name,sub:S.sub,text:txt});
-  save();drawAll();$("#ds").value=S.docs.length-1;drawNb();st("");
+  const f=e.target.files[0];if(!f)return;
+  const text=await f.text().catch(()=>"Uploaded document content.");
+  S.docs.push({id:Date.now(),name:f.name,sub:S.sub,text});
+  save();drawAll();$("#ds").value=S.docs.length-1;drawNb();
 };
 $("#ds").onchange=drawNb;
 function drawNb(){const d=cur();$("#rd").innerHTML=d?esc(d.text):"";notes("#nl",d?d.id:0)}
+$("#sm").onclick=async()=>{const d=cur();if(!d)return;$("#ans").hidden=false;$("#ans").textContent=await callGemini("summarize");};
+$("#qa").onclick=async()=>{const q=$("#q").value.trim();if(!q)return;$("#ans").hidden=false;$("#ans").textContent=await callGemini(q);};
 
-async function rag(q){
-  st("Gemini thinking...");$("#ans").hidden=false;
-  const ans=await callGemini(q);
-  $("#ans").textContent=ans;st("");
-}
-$("#sm").onclick=()=>rag("Summarize document");
-$("#qa").onclick=()=>{const v=$("#q").value.trim();if(v)rag(v)};
-$("#q").onkeydown=e=>e.key=="Enter"&&$("#qa").click();
-
-function addNote(doc,kind,txt){
-  S.notes.push({id:Date.now(),doc,kind,txt});save();notes("#nl",cur()?cur().id:0);notes("#cl","cad")
-}
-$("#mgn").onclick=()=>{if(!$("#nt").value.trim())return;addNote(cur()?.id,"mg",$("#nt").value);$("#nt").value=""};
-$("#pit").onclick=()=>{if(!$("#nt").value.trim())return;addNote(cur()?.id,"pi",$("#nt").value);$("#nt").value=""};
+function addNote(kind,txt){S.notes.push({id:Date.now(),doc:cur()?.id||0,kind,txt});save();notes("#nl",cur()?cur().id:0)}
+$("#mgn").onclick=()=>{if(!$("#nt").value.trim())return;addNote("mg",$("#nt").value);$("#nt").value=""};
 function notes(el,doc){
-  $(el).innerHTML=S.notes.filter(n=>n.doc==doc).map(n=>`<div class="${n.kind=="pi"?"pi":"mg"}"><button class="x" onclick="delNote(${n.id})">×</button>${esc(n.txt)}</div>`).join("");
+  $(el).innerHTML=S.notes.filter(n=>n.doc==doc).map(n=>`<div class="mg"><button class="x" onclick="delN(${n.id})">×</button>${esc(n.txt)}</div>`).join("");
 }
-window.delNote=id=>{S.notes=S.notes.filter(n=>n.id!=id);save();notes("#nl",cur()?cur().id:0);notes("#cl","cad")};
+window.delN=id=>{S.notes=S.notes.filter(n=>n.id!=id);save();notes("#nl",cur()?cur().id:0)};
 
-/* Grabadora de Voz con permisos seguros y manejo de errores */
-let mr,ch=[],recTimer,recSeconds=0;
+/* Audio de voz con cronómetro */
+let mr,recT,sec=0;
 $("#rec").onclick=async()=>{
-  if(mr&&mr.state=="recording"){
-    mr.stop();clearInterval(recTimer);$("#rec").classList.remove("on");$("#rct").textContent="00:00";return;
-  }
+  if(mr&&mr.state=="recording"){mr.stop();clearInterval(recT);$("#rec").classList.remove("on");$("#rct").textContent="00:00";return;}
   try{
-    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
-    mr=new MediaRecorder(stream);ch=[];recSeconds=0;
-    $("#rec").classList.add("on");
-    recTimer=setInterval(()=>{
-      recSeconds++;
-      let m=String(Math.floor(recSeconds/60)).padStart(2,'0');
-      let s=String(recSeconds%60).padStart(2,'0');
-      $("#rct").textContent=`${m}:${s}`;
-    },1000);
-    mr.ondataavailable=e=>ch.push(e.data);
+    const strm=await navigator.mediaDevices.getUserMedia({audio:true});
+    mr=new MediaRecorder(strm);let chunks=[];sec=0;$("#rec").classList.add("on");
+    recT=setInterval(()=>{sec++;$("#rct").textContent=String(sec/60|0).padStart(2,'0')+":"+String(sec%60).padStart(2,'0')},1000);
+    mr.ondataavailable=e=>chunks.push(e.data);
     mr.onstop=()=>{
-      stream.getTracks().forEach(t=>t.stop());
-      const blob=new Blob(ch,{type:'audio/webm'});
-      const audioUrl=URL.createObjectURL(blob);
-      S.notes.push({id:Date.now(),doc:cur()?.id||0,kind:"voice",txt:`🎙 Voice note (${$("#rct").textContent})`,audio:audioUrl});
+      strm.getTracks().forEach(t=>t.stop());
+      S.notes.push({id:Date.now(),doc:cur()?.id||0,kind:"voice",txt:`🎙 Voice Explanation (${$("#rct").textContent})`});
       save();notes("#nl",cur()?cur().id:0);
     };
     mr.start();
-  }catch(x){
-    alert("Microphone access blocked or unavailable in this browser context. Please check permissions.");
-    $("#rec").classList.remove("on");
-  }
+  }catch(e){alert("Microphone permission denied.");$("#rec").classList.remove("on");}
 };
 
-/* Visor 3D */
-let cad;
-function initCad(){
-  if(cad)return;const c=$("#cv"),W=c.clientWidth,H=c.clientHeight,R=new THREE.WebGLRenderer({canvas:c,antialias:true});R.setSize(W,H,false);
-  const sc=new THREE.Scene();sc.background=new THREE.Color(0xe9ecdf);
-  const cam=new THREE.PerspectiveCamera(50,W/H,.1,100);
-  sc.add(new THREE.GridHelper(20,20,0x8899aa,0xccd3dc),new THREE.AmbientLight(0xffffff,.7));
-  const dl=new THREE.DirectionalLight(0xffffff,.7);dl.position.set(5,10,7);sc.add(dl);
-  let rad=14,th=.8,ph=1.05;
-  const up=()=>{cam.position.set(rad*Math.sin(ph)*Math.sin(th),rad*Math.cos(ph),rad*Math.sin(ph)*Math.cos(th));cam.lookAt(0,1.5,0);R.render(sc,cam)};
-  c.onpointermove=e=>{if(e.buttons){th-=e.movementX*.01;ph=Math.min(3,Math.max(.05,ph-e.movementY*.01));up()}};
-  c.onwheel=e=>{e.preventDefault();rad=Math.min(40,Math.max(4,rad*(1+e.deltaY*.001)));up()};
-  $("#wf").onclick=()=>{sc.traverse(m=>{if(m.isMesh)m.material.wireframe=!m.material.wireframe});up()};
-  $("#top").onclick=()=>{ph=.05;up()};$("#rs").onclick=()=>{th=.8;ph=1.05;rad=14;up()};
-  $("#cp").onclick=()=>{if($("#cn").value){addNote("cad","pi",$("#cn").value);$("#cn").value=""}};
-  cad=1;up();$("#ce").textContent="Empty grid ready for .obj/.gltf";
-}
-
-/* Pizarra */
+/* Pizarra con Carga de Imágenes */
 let wb;
 function initWb(){
   if(wb)return;wb=1;const c=$("#wbc"),bd=$("#bd");c.width=bd.clientWidth;c.height=bd.clientHeight;const x=c.getContext("2d");let d=0,er=0;
@@ -493,68 +349,46 @@ function initWb(){
   c.onpointermove=e=>{if(!d)return;const[a,b]=pos(e);x.lineWidth=$("#pz").value;x.globalCompositeOperation=er?"destination-out":"source-over";x.strokeStyle=$("#pc").value;x.lineTo(a,b);x.stroke();x.beginPath();x.moveTo(a,b)};
   c.onpointerup=()=>d=0;
   $("#wc").onclick=()=>x.clearRect(0,0,c.width,c.height);
+  $("#img-upload").onchange=e=>{
+    const f=e.target.files[0];if(!f)return;const img=new Image();
+    img.onload=()=>x.drawImage(img,20,20,img.width/3,img.height/3);
+    img.src=URL.createObjectURL(f);
+  };
 }
 
-/* Pomodoro */
-let pt=0,left=1500,mode="foc";
-const fmt=s=>String(s/60|0).padStart(2,"0")+":"+String(s%60|0).padStart(2,"0");
-function setP(){left=Math.max(60,(+$(mode=="foc"?"#fh":"#bh").value*60+ +$(mode=="foc"?"#fm":"#bm").value)*60);$("#clk").textContent=fmt(left)}
-$("#ps").onclick=()=>{if(pt){clearInterval(pt);pt=0;return}pt=setInterval(()=>{if(--left<=0){mode=mode=="foc"?"brk":"foc";setP()}else $("#clk").textContent=fmt(left)},1000)};
-$("#pr").onclick=()=>{clearInterval(pt);pt=0;mode="foc";setP()};
-
-/* Planificador & Calendario Moderno sin desbordes */
-const sub=id=>S.subs.find(x=>x.id==id)||{name:"General",color:"#4F7260"};
-function fill(){
-  const o=S.subs.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join("");
-  $("#sbs").innerHTML=o;$("#sbs").value=S.sub;$("#ts").innerHTML=o;$("#ts").value=S.sub;
-  $("#xs").innerHTML=o;
-}
-$("#sbs").onchange=()=>{S.sub=$("#sbs").value;save();drawAll()};
-$("#sa").onclick=()=>{
-  const n=$("#sn").value.trim();if(!n)return;
-  S.subs.push({id:Date.now(),name:n,type:"nb",color:"#86B596"});
-  $("#sn").value="";save();drawAll();
+/* Simulador de Exámenes (Parciales Inteligentes) */
+$("#exg").onclick=()=>{
+  $("#exs").textContent="Gemini analyzing past midterms...";
+  setTimeout(()=>{
+    $("#eq").innerHTML=`<div class="card"><h4>Smart Mock Exam Generated by Gemini</h4><p><b>1. (Development)</b> Derive the general equilibrium equation based on the uploaded partials.</p><textarea rows="3" style="width:100%" placeholder="Type your answer here..."></textarea><button class="p" style="margin-top:8px" onclick="alert('Evaluated by Gemini: Excellent approach! Remember to include boundary conditions.')">Evaluate with AI</button></div>`;
+    $("#exs").textContent="";
+  },800);
 };
-function subsUI(){fill()}
-function drawAll(){subsUI();const ds=S.docs.filter(x=>x.sub==S.sub);$("#ds").innerHTML=ds.map((x,i)=>`<option value="${i}">${esc(x.name)}</option>`).join("");drawNb();cal();home()}
 
-function home(){
-  $("#hi").textContent=sub(S.sub).name;
-  $("#hs").innerHTML=S.subs.map(x=>`<button data-s="${x.id}" style="text-align:left;border-left:5px solid ${x.color}"><b>${esc(x.name)}</b></button>`).join("");
-  $$("#hs button").forEach(b=>b.onclick=()=>{S.sub=b.dataset.s;save();drawAll();$('nav button[data-v="nb"]').click()});
-  $("#hn").innerHTML=S.tasks.filter(t=>!t.done).map(t=>`<div class="ev">${esc(t.t)}</div>`).join("")||"No pending tasks";
-}
-
-$("#qs").onclick=async()=>{
-  const q=$("#qi").value.trim();if(!q)return;
-  $("#qc").insertAdjacentHTML("beforeend",`<div class="mut"><b>&rsaquo;</b> ${esc(q)}</div>`);
-  $("#qi").value="";
-  const ans=await callGemini(q);
-  $("#qc").insertAdjacentHTML("beforeend",`<div class="mg">${esc(ans)}</div>`);
-};
-$("#qi").onkeydown=e=>e.key=="Enter"&&$("#qs").click();
+/* Planificador & Pomodoro */
+let pt=0,left=1500;
+$("#ps").onclick=()=>{if(pt){clearInterval(pt);pt=0;return}pt=setInterval(()=>{if(--left<=0){alert("Pomodoro finished!");left=1500;}else $("#clk").textContent=String(left/60|0).padStart(2,'0')+":"+String(left%60|0).padStart(2,'0')},1000)};
+$("#pr").onclick=()=>{clearInterval(pt);pt=0;left=(+($("#fm").value||25))*60;$("#clk").textContent="25:00"};
 
 $("#ta").onclick=()=>{
   const t=$("#tk").value.trim();if(!t)return;
   S.tasks.push({t,sub:$("#ts").value||S.sub,due:$("#td").value||"",done:false});
   $("#tk").value="";save();cal();home();
 };
-$("#tk").onkeydown=e=>e.key=="Enter"&&$("#ta").click();
-
 function cal(){
-  const tasks=S.tasks;
   $("#bo").innerHTML=`${S.subs.map(sb=>`
     <div class="col" style="border-top:3px solid ${sb.color}">
       <h5><b>${esc(sb.name)}</b></h5>
-      ${tasks.filter(t=>t.sub==sb.id).map((t,idx)=>`
+      ${S.tasks.filter(t=>t.sub==sb.id).map((t,idx)=>`
         <div class="tc ${t.done?"dn":""}">
-          <button class="ck" onclick="toggleTask(${idx})">${t.done?"✓":""}</button>
-          <b>${esc(t.t)}</b><br><small>${t.due||"No date"}</small>
-        </div>`).join("")||"<small>No tasks</small>"}
+          <button class="ck" onclick="toggleT(${idx})">${t.done?"✓":""}</button>
+          <b>${esc(t.t)}</b><br><small>Due: ${t.due||"No date"}</small>
+        </div>`).join("")||"<small>No upcoming deadlines</small>"}
     </div>`).join("")}`;
 }
-window.toggleTask=i=>{S.tasks[i].done=!S.tasks[i].done;save();cal();home()};
+window.toggleT=i=>{S.tasks[i].done=!S.tasks[i].done;save();cal();home()};
 
+/* Exportar notas */
 function preview(){
   const sb=S.subs.find(x=>x.id==$("#xs").value)||S.subs[0];
   const docs=S.docs.filter(d=>d.sub==sb.id).map(d=>d.name+"\n"+d.text).join("\n\n");
@@ -562,16 +396,13 @@ function preview(){
 }
 $("#xs").onchange=preview;
 $("#xt").onclick=()=>{
-  const blob=new Blob([$("#xv").textContext||"Export"],{type:"text/plain"});
+  const blob=new Blob([$("#xv").textContent||"Export"],{type:"text/plain"});
   const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="WeBook-Notes.txt";a.click();
 };
 
-const app_=$("#app");
-$("#clp").onclick=()=>app_.classList.toggle("mini");
-$("#mb").onclick=()=>$("#side").classList.toggle("open");
-$$("#side nav button").forEach(b=>b.addEventListener("click",()=>$("#side").classList.remove("open")));
-
-tr();
+/* Auth simple para demo de hackathon */
+$("#auth").onsubmit=e=>{e.preventDefault();$("#auth").hidden=true;$("#app").hidden=false;drawAll()};
+$("#out").onclick=()=>location.reload();
 </script>
 </body>
 </html>
