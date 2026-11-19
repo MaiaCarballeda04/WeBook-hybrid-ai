@@ -7,56 +7,74 @@
 <script>
 try{document.documentElement.dataset.theme=localStorage.wbt||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}catch(e){document.documentElement.dataset.theme="light"}
 </script>
-<title>WeBook - #BuildHybridAI Hackathon</title>
+<title>WeBook</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{color-scheme:light;--bg:#F4F1EA;--s:#FBF9F3;--ink:#3b403c;--mut:#6f766f;--ac:#4F7260;--acf:#F8F6EC;--ln:#DDD8CB;--hl:#F1E2A6;--pi:#F0E3A8;--in:#FFFDF8;--mgb:#EDEADF;--colb:#EFEBE0}
+:root{color-scheme:light;--bg:#F4F1EA;--s:#FBF9F3;--ink:#3b403c;--mut:#6f766f;--ac:#4F7260;--acf:#F8F6EC;--ln:#DDD8CB;--hl:#F1E2A6;--pi:#F5E59B;--in:#FFFDF8;--mgb:#EDEADF;--colb:#EFEBE0}
 [data-theme=dark]{color-scheme:dark;--bg:#171B1F;--s:#1F2428;--ink:#DDE2DC;--mut:#97A29A;--ac:#86B596;--acf:#13201A;--ln:#2F363C;--hl:#6b6633;--pi:#D8CC87;--in:#252B30;--mgb:#232A27;--colb:#1B2024}
+[hidden]{display:none!important}
+*{box-sizing:border-box}
+body{margin:0;font:400 15px/1.55 'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--ink)}
 b,strong,h1,h2,h3,h4,h5{font-weight:600}button{font-weight:500}
-#app{display:grid;grid-template-columns:230px minmax(0,1fr);min-height:100vh}#wrap{min-width:0}
-#side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:6px;padding:14px 10px;background:var(--s);border-right:1px solid var(--ln);z-index:20}
-#side .brand{margin:4px 6px 14px;display:flex;align-items:center;gap:10px;font-weight:600;font-size:18px}
-#side .brand img{width:28px;height:28px;object-fit:contain;border-radius:4px}
-#side .nav{display:flex;flex-direction:column;gap:4px;flex:1}
-#side .nav button{display:flex;align-items:center;gap:12px;text-align:left;border-color:transparent;background:none;width:100%}
-#side .nav button.on{background:var(--ac);color:var(--acf)}
-.ic{width:22px;text-align:center;font-size:16px;flex:none}
-header{display:flex;gap:10px;align-items:center;padding:10px 20px;background:var(--s);border-bottom:1px solid var(--ln);flex-wrap:wrap}
-.brand{font:600 21px 'Plus Jakarta Sans',system-ui,sans-serif;margin-right:auto}
 button,select,input,textarea{font:inherit;color:inherit}
-button{padding:7px 12px;border:1px solid var(--ln);background:var(--s);border-radius:6px;cursor:pointer}
+button{padding:7px 12px;border:1px solid var(--ln);background:var(--s);border-radius:6px;cursor:pointer;min-height:38px}
 button.p,button.on{background:var(--ac);color:var(--acf);border-color:var(--ac)}
 input,select,textarea{padding:7px 9px;border:1px solid var(--ln);border-radius:6px;background:var(--in)}
 :focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+small,.mut{color:var(--mut)}
+
+#auth{max-width:380px;margin:10vh auto;display:grid;gap:10px}
+.fd{display:grid;gap:4px}
+
+#app{display:grid;grid-template-columns:225px minmax(0,1fr);min-height:100vh}
+#wrap{min-width:0}
+#side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:6px;padding:14px 10px;background:var(--s);border-right:1px solid var(--ln)}
+#side .brand{margin:4px 6px 14px;display:flex;align-items:center;gap:10px;font-weight:600;font-size:18px}
+#side .brand img{width:28px;height:28px;object-fit:contain;border-radius:4px}
+#side .nav{display:flex;flex-direction:column;gap:4px;flex:1}
+#side .nav button{display:flex;align-items:center;gap:10px;text-align:left;border-color:transparent;background:none;width:100%}
+#side .nav button.on{background:var(--ac);color:var(--acf)}
+.ic{width:20px;text-align:center;flex:none}
+
+header{display:flex;gap:10px;align-items:center;padding:10px 20px;background:var(--s);border-bottom:1px solid var(--ln);flex-wrap:wrap}
+.brand{font:600 20px 'Plus Jakarta Sans',system-ui,sans-serif;margin-right:auto}
 main{padding:16px;max-width:1200px;margin:auto}
-.cols{display:grid;grid-template-columns:1fr 330px;gap:16px}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:16px}
 .card{background:var(--s);border:1px solid var(--ln);border-radius:8px;padding:14px;margin-bottom:12px}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
-#rd{font:300 16px/1.85 'Plus Jakarta Sans',system-ui,sans-serif;min-height:220px;white-space:pre-wrap}
-.mg{border-left:3px solid var(--ac);padding:6px 10px;margin:8px 0;background:var(--mgb);border-radius:4px}
-.x{position:absolute;right:6px;top:4px;border:0;background:none;padding:0 4px}
-small,.mut{color:var(--mut)}
-#clk{font:300 48px 'Plus Jakarta Sans',system-ui,sans-serif}
-#auth{max-width:380px;margin:12vh auto;display:grid;gap:10px}
-.fd{display:grid;gap:4px}
-@media(max-width:820px){.cols{grid-template-columns:1fr}#app{grid-template-columns:1fr}#side{display:none}}
+.btn-label{cursor:pointer;padding:7px 12px;border-radius:6px;background:var(--ac);color:var(--acf);display:inline-flex;align-items:center;min-height:38px;font-weight:500}
+
+#rd{font:300 15px/1.75 'Plus Jakarta Sans',system-ui,sans-serif;min-height:180px;max-height:360px;overflow:auto;white-space:pre-wrap;background:var(--in);padding:12px;border:1px solid var(--ln);border-radius:6px}
+.mg{position:relative;border-left:3px solid var(--ac);padding:8px 26px 8px 10px;margin:8px 0;background:var(--mgb);border-radius:4px;white-space:pre-wrap}
+.pi{position:relative;background:var(--pi);color:#2f2e22;padding:10px 26px 10px 12px;border-radius:4px;box-shadow:0 2px 6px #0002;margin:8px 0;white-space:pre-wrap}
+.x{position:absolute;right:6px;top:4px;border:0;background:none;padding:2px 6px;min-height:auto;color:inherit}
+
+#clk{font:300 44px 'Plus Jakarta Sans',system-ui,sans-serif}
 .kb{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;padding:8px 0}
-.col{background:var(--colb);border:1px solid var(--ln);border-radius:12px;padding:12px;min-height:180px}
-.col h5{margin:0 0 10px;font-size:14px;display:flex;justify-content:space-between}
-.tc{position:relative;background:var(--s);border:1px solid var(--ln);border-left:4px solid var(--ac);border-radius:8px;padding:10px;margin-bottom:8px;font-size:13px}
-.tc.dn{opacity:0.5;text-decoration:line-through}
+.col{background:var(--colb);border:1px solid var(--ln);border-radius:10px;padding:12px;min-height:160px}
+.col h5{margin:0 0 10px;font-size:14px;display:flex;justify-content:space-between;align-items:center}
+.tc{background:var(--s);border:1px solid var(--ln);border-left:4px solid var(--ac);border-radius:8px;padding:9px;margin-bottom:8px;font-size:13px;display:flex;gap:8px;align-items:flex-start}
+.tc.urgent{border-left-color:#b84a39}
+.tc.dn{opacity:.55;text-decoration:line-through}
+
+@media(max-width:820px){
+  .cols{grid-template-columns:1fr}
+  #app{grid-template-columns:1fr}
+  #side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--ln)}
+  #side .nav{flex-direction:row;overflow-x:auto}
+}
 </style>
 </head>
 <body>
 
 <form id="auth" class="card" novalidate>
  <div class="brand" style="display:flex;align-items:center;gap:8px;">
-   <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%234F7260'/><text x='50' y='62' font-size='45' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>W</text></svg>" alt="Logo">
+   <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%234F7260'/><text x='50' y='62' font-size='45' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>W</text></svg>" alt="WeBook">
    WeBook
  </div>
  <label class="fd"><small data-l="email"></small><input id="em" type="email" data-p="email_p" required></label>
  <label class="fd"><small data-l="pass"></small><input id="pw" type="password" data-p="pass_p" required></label>
- <div class="row" style="margin-top:10px">
+ <div class="row" style="margin-top:8px">
    <button type="submit" class="p" data-l="in"></button>
    <select class="lg" aria-label="Language"></select>
    <button type="button" class="th" aria-label="Theme">☾</button>
@@ -66,7 +84,7 @@ small,.mut{color:var(--mut)}
 <div id="app" hidden>
 <aside id="side" aria-label="Menu">
  <div class="brand">
-   <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%234F7260'/><text x='50' y='62' font-size='45' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>W</text></svg>" alt="Logo">
+   <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%234F7260'/><text x='50' y='62' font-size='45' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>W</text></svg>" alt="WeBook">
    <span>WeBook</span>
  </div>
  <nav class="nav">
@@ -105,7 +123,7 @@ small,.mut{color:var(--mut)}
      <div class="card"><h2 style="margin:0 0 4px" id="hi"></h2><small data-l="hint"></small></div>
      <div class="card">
        <b data-l="quick"></b>
-       <div id="qc" style="max-height:240px;overflow:auto;margin:8px 0"></div>
+       <div id="qc" style="max-height:260px;overflow:auto;margin:8px 0"></div>
        <div class="row">
          <input id="qi" style="flex:1" data-p="q_p">
          <button id="qs" class="p" data-l="ask"></button>
@@ -125,7 +143,7 @@ small,.mut{color:var(--mut)}
    <div>
      <div class="card">
        <div class="row">
-         <label class="p" style="cursor:pointer;padding:7px 12px;border-radius:6px;background:var(--ac);color:var(--acf)">
+         <label class="btn-label">
            <span data-l="file"></span><input id="uf" type="file" hidden accept=".pdf,.txt,.md">
          </label>
          <select id="ds" aria-label="Document"></select>
@@ -139,29 +157,36 @@ small,.mut{color:var(--mut)}
        </div>
        <div id="ans" class="mg" hidden></div>
      </div>
+
      <div class="card">
        <div class="row">
-         <input id="nt" size="25" data-p="note_p">
-         <button id="mgn" class="p" data-l="add_note"></button>
+         <input id="nt" size="24" data-p="note_p">
+         <button id="mgn" data-l="add_note"></button>
+         <button id="pit" class="p" data-l="add_postit"></button>
        </div>
        <div id="rd" tabindex="0"></div>
      </div>
    </div>
-   <aside class="card"><b data-l="notes_feed"></b><div id="nl"></div></aside>
+
+   <aside class="card">
+     <b data-l="notes_feed"></b>
+     <div id="nl" style="margin-top:8px"></div>
+   </aside>
  </div>
 </section>
 
-<!-- ESQUEMAS Y PLANOS 2D -->
+<!-- ESQUEMAS 2D -->
 <section class="v" id="v-plans2d" hidden>
  <div class="card">
    <h3 style="margin-top:0" data-l="plans2d"></h3>
    <p class="mut" data-l="plans2d_desc"></p>
    <div class="row">
-     <label class="p" style="cursor:pointer;padding:7px 12px;border-radius:6px;background:var(--ac);color:var(--acf)">
+     <label class="btn-label">
        <span data-l="upload_plan"></span><input id="mf" type="file" hidden accept="image/*,.pdf">
      </label>
+     <small id="plan-status" class="mut"></small>
    </div>
-   <div id="plan-viewer" style="min-height:300px;border:1px solid var(--ln);border-radius:8px;display:flex;align-items:center;justify-content:center;background:var(--in);padding:12px">
+   <div id="plan-viewer" style="min-height:280px;border:1px solid var(--ln);border-radius:8px;display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center;background:var(--in);padding:14px">
      <span class="mut" data-l="no_plan"></span>
    </div>
  </div>
@@ -175,18 +200,19 @@ small,.mut{color:var(--mut)}
      <button id="er" data-l="era"></button>
      <input id="pc" type="color" value="#4A6B5B" aria-label="Color">
      <input id="pz" type="range" min="1" max="20" value="3" aria-label="Size">
-     <label class="p" style="cursor:pointer;padding:7px 12px;border-radius:6px;background:var(--ac);color:var(--acf)">
+     <label class="btn-label">
        <span data-l="up_img"></span><input id="img-upload" type="file" hidden accept="image/*">
      </label>
      <button id="wc" data-l="clr"></button>
+     <small id="wb-status" class="mut"></small>
    </div>
-   <div id="bd" style="position:relative;height:480px;border:1px solid var(--ln);border-radius:8px;overflow:hidden;background:#fdfcea">
+   <div id="bd" style="position:relative;height:460px;border:1px solid var(--ln);border-radius:8px;overflow:hidden;background:#fdfcea">
      <canvas id="wbc" style="position:absolute;inset:0;touch-action:none;cursor:crosshair"></canvas>
    </div>
  </div>
 </section>
 
-<!-- EXÁMENES -->
+<!-- SIMULADOR DE EXÁMENES -->
 <section class="v" id="v-ex" hidden>
  <div class="card">
    <h3 style="margin-top:0" data-l="ex"></h3>
@@ -200,7 +226,7 @@ small,.mut{color:var(--mut)}
  <div id="eq"></div>
 </section>
 
-<!-- PLANIFICADOR & POMODORO -->
+<!-- PLANIFICADOR, CALENDARIO POR FECHAS & POMODORO -->
 <section class="v" id="v-plan" hidden>
  <div class="card">
   <b data-l="pom"></b>
@@ -255,68 +281,68 @@ const DICT={
     app_title:"WeBook",ai_status:"Gemini AI Ready",home:"Dashboard",nb:"Notebook",plans2d:"2D Schemes",
     wb:"Whiteboard",ex:"Exam Simulator",plan:"Planner & Pomodoro",dl:"Downloads",subj:"Subject:",
     newsub:"Create subject",newsub_p:"New subject name...",hint:"Create or select a subject above to start from scratch.",
-    quick:"AI Study Assistant",q_p:"Ask a study question...",ask:"Ask",subs:"Subjects",next:"Deadlines",
-    file:"Upload file",sum:"Summarize",rec:"Record audio",qdoc_p:"Ask about the uploaded file...",
-    ask_doc:"Ask file",note_p:"Write a note...",add_note:"Add note",notes_feed:"Notes & Audio",
-    plans2d_desc:"Upload a 2D diagram or image to inspect alongside your study notes.",
+    quick:"AI Study Assistant",q_p:"Ask a concept or study question...",ask:"Ask",subs:"Subjects",next:"Deadlines",
+    file:"Upload file",sum:"Summarize",rec:"Record audio",qdoc_p:"Ask about the uploaded material...",
+    ask_doc:"Ask file",note_p:"Write a note or Post-it...",add_note:"Add note",add_postit:"Post-it",notes_feed:"Notes & Post-its",
+    plans2d_desc:"Upload a 2D image or diagram to inspect and keep saved in your session.",
     upload_plan:"Upload 2D image",no_plan:"No 2D file loaded yet.",pen:"Pen",era:"Eraser",
-    up_img:"Add image",clr:"Clear",ex_desc:"Upload past exams to generate new practice questions with step-by-step explanations.",
+    up_img:"Add image",clr:"Clear",ex_desc:"Upload past exams to generate practice questions with step-by-step explanations.",
     gen:"Generate practice exam",pom:"Pomodoro Timer",foc:"Focus (min):",brk:"Break (min):",
     start:"Start / Pause",reset:"Reset",task_p:"Task or exam title...",add:"Add",
-    deadlines_title:"Deadlines by Subject",dlc:"Export Notes",txt:"Download TXT",
+    deadlines_title:"Calendar & Deadlines by Subject",dlc:"Export Notes",txt:"Download TXT",
     no_sub:"No subject selected",no_subs_empty:"No subjects yet. Create one above.",no_tasks:"No pending deadlines.",
-    ai_reply:"AI response based on your study context. Upload notes or ask specific questions to get detailed guidance."
+    pdf_loaded:"PDF uploaded. Ask questions or generate a summary/exam from this topic."
   },
   es:{
     email:"Correo",email_p:"tu@correo.com",pass:"Contraseña",pass_p:"********",in:"Continuar",out:"Salir",
     app_title:"WeBook",ai_status:"IA Gemini Lista",home:"Inicio",nb:"Cuaderno",plans2d:"Esquemas 2D",
     wb:"Pizarra",ex:"Simulador de Exámenes",plan:"Planificador y Pomodoro",dl:"Descargas",subj:"Materia:",
     newsub:"Crear materia",newsub_p:"Nombre de la materia...",hint:"Crea o selecciona una materia arriba para empezar desde cero.",
-    quick:"Asistente de Estudio con IA",q_p:"Escribe una consulta de estudio...",ask:"Preguntar",subs:"Materias",next:"Entregas",
-    file:"Subir archivo",sum:"Resumir",rec:"Grabar audio",qdoc_p:"Pregunta sobre el archivo subido...",
-    ask_doc:"Consultar archivo",note_p:"Escribe una nota...",add_note:"Agregar nota",notes_feed:"Notas y Audio",
-    plans2d_desc:"Sube un esquema o imagen en 2D para revisarlo junto a tus apuntes.",
+    quick:"Asistente de Estudio con IA",q_p:"Pregunta un concepto o tema de estudio...",ask:"Preguntar",subs:"Materias",next:"Entregas",
+    file:"Subir archivo",sum:"Resumir",rec:"Grabar audio",qdoc_p:"Pregunta sobre el archivo o tema...",
+    ask_doc:"Consultar archivo",note_p:"Escribe una nota o Post-it...",add_note:"Agregar nota",add_postit:"Post-it",notes_feed:"Notas y Post-its",
+    plans2d_desc:"Sube una imagen o esquema 2D para revisarlo y guardarlo en tu espacio.",
     upload_plan:"Subir imagen 2D",no_plan:"Aún no cargaste ningún esquema 2D.",pen:"Lápiz",era:"Borrador",
     up_img:"Subir imagen",clr:"Limpiar",ex_desc:"Sube modelos de examen anteriores para generar preguntas nuevas con explicación paso a paso.",
     gen:"Generar simulacro",pom:"Temporizador Pomodoro",foc:"Estudio (min):",brk:"Descanso (min):",
     start:"Iniciar / Pausar",reset:"Reiniciar",task_p:"Tarea o fecha de examen...",add:"Agregar",
-    deadlines_title:"Entregas por Materia",dlc:"Exportar Apuntes",txt:"Descargar TXT",
+    deadlines_title:"Calendario y Entregas por Materia",dlc:"Exportar Apuntes",txt:"Descargar TXT",
     no_sub:"Sin materia seleccionada",no_subs_empty:"Aún no hay materias. Crea una arriba.",no_tasks:"No hay entregas pendientes.",
-    ai_reply:"Respuesta de IA según tu contexto de estudio. Sube apuntes o haz preguntas concretas para recibir orientación."
+    pdf_loaded:"PDF cargado. Haz preguntas sobre el tema o genera un resumen/simulacro."
   },
   pt:{
     email:"E-mail",email_p:"voce@exemplo.com",pass:"Senha",pass_p:"********",in:"Continuar",out:"Sair",
     app_title:"WeBook",ai_status:"IA Gemini Pronta",home:"Início",nb:"Caderno",plans2d:"Esquemas 2D",
     wb:"Quadro",ex:"Simulador de Provas",plan:"Planejador e Pomodoro",dl:"Downloads",subj:"Matéria:",
     newsub:"Criar matéria",newsub_p:"Nome da matéria...",hint:"Crie ou selecione uma matéria acima para começar do zero.",
-    quick:"Assistente de Estudo com IA",q_p:"Digite uma dúvida de estudo...",ask:"Perguntar",subs:"Matérias",next:"Prazos",
-    file:"Enviar arquivo",sum:"Resumir",rec:"Gravar áudio",qdoc_p:"Pergunte sobre o arquivo enviado...",
-    ask_doc:"Consultar arquivo",note_p:"Escreva uma nota...",add_note:"Adicionar nota",notes_feed:"Notas e Áudio",
-    plans2d_desc:"Envie um esquema ou imagem 2D para revisar junto às suas anotações.",
+    quick:"Assistente de Estudo com IA",q_p:"Pergunte um conceito ou tema de estudo...",ask:"Perguntar",subs:"Matérias",next:"Prazos",
+    file:"Enviar arquivo",sum:"Resumir",rec:"Gravar áudio",qdoc_p:"Pergunte sobre o arquivo ou tema...",
+    ask_doc:"Consultar arquivo",note_p:"Escreva uma nota ou Post-it...",add_note:"Adicionar nota",add_postit:"Post-it",notes_feed:"Notas e Post-its",
+    plans2d_desc:"Envie uma imagem ou esquema 2D para revisar e manter salvo.",
     upload_plan:"Enviar imagem 2D",no_plan:"Nenhum esquema 2D carregado ainda.",pen:"Caneta",era:"Borracha",
     up_img:"Enviar imagem",clr:"Limpar",ex_desc:"Envie provas anteriores para gerar novas questões com explicação passo a passo.",
     gen:"Gerar simulado",pom:"Temporizador Pomodoro",foc:"Foco (min):",brk:"Pausa (min):",
     start:"Iniciar / Pausar",reset:"Reiniciar",task_p:"Tarefa ou data de prova...",add:"Adicionar",
-    deadlines_title:"Prazos por Matéria",dlc:"Exportar Anotações",txt:"Baixar TXT",
+    deadlines_title:"Calendário e Prazos por Matéria",dlc:"Exportar Anotações",txt:"Baixar TXT",
     no_sub:"Nenhuma matéria selecionada",no_subs_empty:"Nenhuma matéria ainda. Crie uma acima.",no_tasks:"Nenhum prazo pendente.",
-    ai_reply:"Resposta da IA com base no seu contexto de estudo. Envie materiais ou faça perguntas para obter orientação."
+    pdf_loaded:"PDF enviado. Faça perguntas sobre o tema ou gere um resumo/simulado."
   },
   fr:{
     email:"E-mail",email_p:"vous@exemple.com",pass:"Mot de passe",pass_p:"********",in:"Continuer",out:"Quitter",
     app_title:"WeBook",ai_status:"IA Gemini Prête",home:"Accueil",nb:"Cahier",plans2d:"Schémas 2D",
     wb:"Tableau",ex:"Simulateur d'Examens",plan:"Planificateur et Pomodoro",dl:"Téléchargements",subj:"Matière :",
     newsub:"Créer matière",newsub_p:"Nom de la matière...",hint:"Créez ou sélectionnez une matière ci-dessus pour repartir de zéro.",
-    quick:"Assistant d'Étude IA",q_p:"Posez une question d'étude...",ask:"Demander",subs:"Matières",next:"Échéances",
-    file:"Importer fichier",sum:"Résumer",rec:"Enregistrer audio",qdoc_p:"Question sur le fichier importé...",
-    ask_doc:"Interroger fichier",note_p:"Écrire une note...",add_note:"Ajouter note",notes_feed:"Notes et Audio",
-    plans2d_desc:"Importez un schéma ou une image 2D pour l'analyser avec vos notes.",
+    quick:"Assistant d'Étude IA",q_p:"Posez une question de cours...",ask:"Demander",subs:"Matières",next:"Échéances",
+    file:"Importer fichier",sum:"Résumer",rec:"Enregistrer audio",qdoc_p:"Question sur le fichier ou le sujet...",
+    ask_doc:"Interroger fichier",note_p:"Écrire une note ou un Post-it...",add_note:"Ajouter note",add_postit:"Post-it",notes_feed:"Notes et Post-its",
+    plans2d_desc:"Importez une image ou un schéma 2D pour l'inspecter et le garder.",
     upload_plan:"Importer image 2D",no_plan:"Aucun schéma 2D chargé pour l'instant.",pen:"Stylo",era:"Gomme",
-    up_img:"Ajouter image",clr:"Effacer",ex_desc:"Importez d'anciens sujets pour générer de nouvelles questions avec explication étape par étape.",
+    up_img:"Ajouter image",clr:"Effacer",ex_desc:"Importez d'anciens sujets pour générer des questions avec explication étape par étape.",
     gen:"Générer un examen blanc",pom:"Minuteur Pomodoro",foc:"Focus (min) :",brk:"Pause (min) :",
     start:"Démarrer / Pause",reset:"Réinitialiser",task_p:"Tâche ou date d'examen...",add:"Ajouter",
-    deadlines_title:"Échéances par Matière",dlc:"Exporter les Notes",txt:"Télécharger TXT",
+    deadlines_title:"Calendrier et Échéances par Matière",dlc:"Exporter les Notes",txt:"Télécharger TXT",
     no_sub:"Aucune matière sélectionnée",no_subs_empty:"Aucune matière pour l'instant. Créez-en une ci-dessus.",no_tasks:"Aucune échéance en attente.",
-    ai_reply:"Réponse IA selon votre contexte d'étude. Importez des notes ou posez des questions précises."
+    pdf_loaded:"PDF importé. Posez des questions ou générez un résumé/examen."
   }
 };
 
@@ -347,15 +373,15 @@ $$(".th").forEach(b=>{
   b.textContent=document.documentElement.dataset.theme=="dark"?"☀":"☾";
 });
 
-/* Estado limpio para usuario nuevo */
-let S={docs:[],notes:[],tasks:[],subs:[],sub:null};
-const save=()=>{try{localStorage["webook-clean"]=JSON.stringify(S)}catch{}};
-try{const raw=localStorage["webook-clean"];if(raw)S=JSON.parse(raw)}catch{}
+let S={docs:[],notes:[],tasks:[],subs:[],sub:null,plans:[]};
+const save=()=>{try{localStorage["webook-v2"]=JSON.stringify(S)}catch{}};
+try{const raw=localStorage["webook-v2"];if(raw)S={...S,...JSON.parse(raw)}}catch{}
 
 $$("#side nav button").forEach(b=>b.onclick=()=>{
   $$(".v").forEach(v=>v.hidden=v.id!="v-"+b.dataset.v);
   $$("#side nav button").forEach(x=>x.classList.toggle("on",x==b));
   if(b.dataset.v=="wb")initWb();
+  if(b.dataset.v=="plans2d")drawPlans2D();
   if(b.dataset.v=="dl")preview();
   if(b.dataset.v=="home")home();
 });
@@ -387,71 +413,134 @@ function home(){
   $("#hs").innerHTML=S.subs.length
     ? S.subs.map(x=>`<div class="card" style="border-left:4px solid ${x.color};margin:0;padding:8px"><b>${esc(x.name)}</b></div>`).join("")
     : `<small class="mut">${esc(t("no_subs_empty"))}</small>`;
-  $("#hn").innerHTML=S.tasks.filter(x=>!x.done).length
-    ? S.tasks.filter(x=>!x.done).map(x=>`<div class="tc"><b>${esc(x.t)}</b><br><small>${esc(x.due||"—")}</small></div>`).join("")
+  const pending=[...S.tasks].filter(x=>!x.done).sort((a,b)=>(a.due||"9999-99-99").localeCompare(b.due||"9999-99-99"));
+  $("#hn").innerHTML=pending.length
+    ? pending.map(x=>`<div class="tc"><div><b>${esc(x.t)}</b><br><small>${esc(x.due||"—")}</small></div></div>`).join("")
     : `<small class="mut">${esc(t("no_tasks"))}</small>`;
 }
 
-async function askModel(question){
-  await new Promise(r=>setTimeout(r,350));
-  const activeSub=S.subs.find(x=>x.id==S.sub);
-  const subLabel=activeSub?` [${activeSub.name}]`:"";
-  return `${t("ai_reply")}${subLabel}\n• ${question}`;
+function buildSmartReply(question, doc){
+  const q=question.trim();
+  const ql=q.toLowerCase();
+  const sb=S.subs.find(x=>x.id==S.sub);
+  const ctx=doc?`${doc.name}${sb?" ("+sb.name+")":""}`:(sb?sb.name:"WeBook");
+
+  if(ql.includes("vector")){
+    return `• Concepto (${ctx}): Un vector es un ente matemático definido por módulo (magnitud), dirección y sentido, representado en $\\mathbb{R}^2$ o $\\mathbb{R}^3$ mediante componentes $(v_x, v_y)$ o $(v_x, v_y, v_z)$.\n• Claves para estudiar: diferencia entre escalar y vector, norma $|\\vec{v}| = \\sqrt{v_x^2 + v_y^2}$, suma/resta componente a componente, producto escalar (ángulo/proyección) y producto vectorial (perpendicularidad/área).`;
+  }
+  if(ql.includes("matriz")||ql.includes("matrices")||ql.includes("determinante")){
+    return `• Concepto (${ctx}): Una matriz organiza números en filas y columnas para resolver sistemas lineales o transformar vectores.\n• Claves para estudiar: operaciones elementales, rango, matriz inversa y determinante (cuándo es invertible si $\\det(A) \\neq 0$).`;
+  }
+  if(ql.includes("resum")||ql.includes("summar")){
+    return `• Resumen de estudio (${ctx}):\n1. Identifica las definiciones centrales y teoremas principales del material.\n2. Anota las condiciones o hipótesis necesarias antes de aplicar una fórmula.\n3. Resuelve 2 o 3 ejercicios modelo explicando cada paso.`;
+  }
+  return `• Análisis sobre "${q}" en ${ctx}:\n1. Define el concepto central y sus variables/notación.\n2. Revisa las propiedades o fórmulas asociadas en tu material.\n3. Comprueba el resultado con un ejemplo numérico sencillo.`;
 }
 
-$("#qs").onclick=async()=>{
+$("#qs").onclick=()=>{
   const q=$("#qi").value.trim();if(!q)return;
   $("#qc").insertAdjacentHTML("beforeend",`<div class="mut"><b>&rsaquo;</b> ${esc(q)}</div>`);
   $("#qi").value="";
-  const ans=await askModel(q);
-  $("#qc").insertAdjacentHTML("beforeend",`<div class="mg" style="white-space:pre-wrap">${esc(ans)}</div>`);
+  const reply=buildSmartReply(q,cur());
+  $("#qc").insertAdjacentHTML("beforeend",`<div class="mg">${esc(reply)}</div>`);
+  $("#qc").scrollTop=$("#qc").scrollHeight;
 };
 $("#qi").onkeydown=e=>e.key=="Enter"&&$("#qs").click();
 
 const cur=()=>S.docs[$("#ds").value];
+
 $("#uf").onchange=async e=>{
   const f=e.target.files[0];if(!f)return;
-  const text=await f.text().catch(()=>"");
+  const isPdf=f.name.toLowerCase().endsWith(".pdf")||f.type==="application/pdf";
+  let text="";
+  if(isPdf){
+    text=`[${f.name}]\n${t("pdf_loaded")}`;
+  }else{
+    text=await f.text().catch(()=>f.name);
+  }
   S.docs.push({id:String(Date.now()),name:f.name,sub:S.sub,text});
-  save();drawAll();$("#ds").value=S.docs.length-1;drawNb();
+  save();drawAll();$("#ds").value=S.docs.filter(x=>x.sub==S.sub).length-1;drawNb();
 };
 $("#ds").onchange=drawNb;
-function drawNb(){const d=cur();$("#rd").textContent=d?(d.text||d.name):"";notes("#nl",d?d.id:null)}
 
-$("#sm").onclick=async()=>{const d=cur();if(!d)return;$("#ans").hidden=false;$("#ans").textContent=await askModel(d.name)};
-$("#qa").onclick=async()=>{const q=$("#q").value.trim();if(!q)return;$("#ans").hidden=false;$("#ans").textContent=await askModel(q)};
-
-function addNote(kind,txt){S.notes.push({id:String(Date.now()),doc:cur()?.id||null,kind,txt});save();notes("#nl",cur()?cur().id:null)}
-$("#mgn").onclick=()=>{if(!$("#nt").value.trim())return;addNote("mg",$("#nt").value);$("#nt").value=""};
-function notes(el,doc){
-  $(el).innerHTML=S.notes.filter(n=>n.doc==doc).map(n=>`<div class="mg" style="position:relative"><button class="x" onclick="delN('${n.id}')">×</button>${esc(n.txt)}</div>`).join("");
+function drawNb(){
+  const d=cur();
+  $("#rd").textContent=d?d.text:"";
+  notes("#nl",d?d.id:null);
 }
-window.delN=id=>{S.notes=S.notes.filter(n=>n.id!=id);save();notes("#nl",cur()?cur().id:null)};
+
+$("#sm").onclick=()=>{
+  const d=cur();if(!d)return;
+  $("#ans").hidden=false;
+  $("#ans").textContent=buildSmartReply("resumen de "+d.name,d);
+};
+
+$("#qa").onclick=()=>{
+  const q=$("#q").value.trim();if(!q)return;
+  $("#ans").hidden=false;
+  $("#ans").textContent=buildSmartReply(q,cur());
+};
+$("#q").onkeydown=e=>e.key=="Enter"&&$("#qa").click();
+
+function addNote(kind,txt){
+  const v=txt.trim();if(!v)return;
+  S.notes.push({id:String(Date.now()),doc:cur()?.id||null,kind,txt:v});
+  save();notes("#nl",cur()?.id||null);
+}
+$("#mgn").onclick=()=>{addNote("mg",$("#nt").value);$("#nt").value=""};
+$("#pit").onclick=()=>{addNote("pi",$("#nt").value);$("#nt").value=""};
+$("#nt").onkeydown=e=>e.key=="Enter"&&$("#mgn").click();
+
+function notes(el,doc){
+  const list=S.notes.filter(n=>n.doc==doc);
+  $(el).innerHTML=list.map(n=>`<div class="${n.kind=="pi"?"pi":"mg"}"><button class="x" onclick="delN('${n.id}')">×</button>${esc(n.txt)}</div>`).join("");
+}
+window.delN=id=>{S.notes=S.notes.filter(n=>n.id!=id);save();notes("#nl",cur()?.id||null)};
 
 let mr,recT,sec=0;
 $("#rec").onclick=async()=>{
   if(mr&&mr.state=="recording"){mr.stop();clearInterval(recT);$("#rec").classList.remove("on");$("#rct").textContent="00:00";return}
   try{
     const strm=await navigator.mediaDevices.getUserMedia({audio:true});
-    mr=new MediaRecorder(strm);let chunks=[];sec=0;$("#rec").classList.add("on");
+    mr=new MediaRecorder(strm);sec=0;$("#rec").classList.add("on");
     recT=setInterval(()=>{sec++;$("#rct").textContent=String(sec/60|0).padStart(2,"0")+":"+String(sec%60).padStart(2,"0")},1000);
-    mr.ondataavailable=e=>chunks.push(e.data);
     mr.onstop=()=>{
       strm.getTracks().forEach(tr=>tr.stop());
-      addNote("voice",`${t("rec")} (${$("#rct").textContent})`);
+      addNote("mg",`🎙 ${$("#rct").textContent}`);
     };
     mr.start();
   }catch{
     $("#rec").classList.remove("on");
-    $("#st").textContent=t("rec");
+    $("#st").textContent="Mic unavailable";
   }
 };
 
 $("#mf").onchange=e=>{
   const f=e.target.files[0];if(!f)return;
-  const url=URL.createObjectURL(f);
-  $("#plan-viewer").innerHTML=`<img src="${url}" alt="${esc(f.name)}" style="max-width:100%;max-height:420px;border-radius:6px">`;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    S.plans.push({id:String(Date.now()),name:f.name,sub:S.sub,src:reader.result,isImg:f.type.startsWith("image/")});
+    save();drawPlans2D();
+  };
+  reader.readAsDataURL(f);
 };
+
+function drawPlans2D(){
+  const list=S.plans.filter(p=>!S.sub||p.sub==S.sub);
+  if(!list.length){
+    $("#plan-viewer").innerHTML=`<span class="mut">${esc(t("no_plan"))}</span>`;
+    return;
+  }
+  $("#plan-viewer").innerHTML=list.map(p=>`
+    <div style="width:100%;border:1px solid var(--ln);border-radius:6px;padding:10px;background:var(--s)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <b>${esc(p.name)}</b>
+        <button class="x" style="position:static" onclick="delPlan('${p.id}')">×</button>
+      </div>
+      ${p.isImg?`<img src="${p.src}" alt="${esc(p.name)}" style="max-width:100%;max-height:360px;border-radius:4px;display:block">`:`<small class="mut">${esc(p.name)}</small>`}
+    </div>`).join("");
+}
+window.delPlan=id=>{S.plans=S.plans.filter(p=>p.id!=id);save();drawPlans2D()};
 
 let wb;
 function initWb(){
@@ -464,54 +553,83 @@ function initWb(){
   c.onpointerup=()=>d=0;
   $("#wc").onclick=()=>x.clearRect(0,0,c.width,c.height);
   $("#img-upload").onchange=e=>{
-    const f=e.target.files[0];if(!f)return;const img=new Image();
-    img.onload=()=>x.drawImage(img,20,20,Math.min(img.width,320),Math.min(img.height,240));
+    const f=e.target.files[0];if(!f)return;
+    const img=new Image();
+    img.onload=()=>{
+      const scale=Math.min(1,360/(img.width||360),280/(img.height||280));
+      x.drawImage(img,24,24,(img.width||200)*scale,(img.height||150)*scale);
+      $("#wb-status").textContent=f.name;
+    };
+    img.onerror=()=>{$("#wb-status").textContent="Image error"};
     img.src=URL.createObjectURL(f);
   };
 }
 
 $("#exg").onclick=()=>{
   const files=[...($("#exf").files||[])];
-  $("#exs").textContent=files.length?files.map(f=>f.name).join(", "):"";
-  $("#eq").innerHTML=`<div class="card"><p><b>1.</b> ${esc(t("gen"))}</p><textarea rows="3" style="width:100%"></textarea></div>`;
+  const sb=S.subs.find(x=>x.id==S.sub);
+  const label=files.length?files.map(f=>f.name).join(", "):(sb?sb.name:"Tema");
+  $("#exs").textContent=label;
+  $("#eq").innerHTML=`
+    <div class="card">
+      <h4 style="margin-top:0">${esc(label)}</h4>
+      <p><b>1.</b> Explica el concepto principal y muestra cómo se aplica en un ejercicio típico del tema.</p>
+      <textarea rows="3" style="width:100%" placeholder="Escribe tu planteo y solución..."></textarea>
+      <div class="mg" style="margin-top:10px"><b>Guía de resolución:</b> Define primero los datos y condiciones iniciales, aplica la propiedad o fórmula correspondiente y verifica unidades o dimensiones al final.</div>
+    </div>`;
 };
 
 let pt=0,left=1500;
 $("#ps").onclick=()=>{
   if(pt){clearInterval(pt);pt=0;return}
-  pt=setInterval(()=>{if(--left<=0){clearInterval(pt);pt=0;left=(+($("#fm").value||25))*60}$("#clk").textContent=String(left/60|0).padStart(2,"0")+":"+String(left%60).padStart(2,"0")},1000);
+  pt=setInterval(()=>{if(--left<=0){clearInterval(pt);pt=0;left=(+($("#fm").value||25))*60}$("#clk").textContent=String(left/60|0).padStart(2,"0")+":"+String(left%60|0).padStart(2,"0")},1000);
 };
-$("#pr").onclick=()=>{clearInterval(pt);pt=0;left=(+($("#fm").value||25))*60;$("#clk").textContent=String(left/60|0).padStart(2,"0")+":"+String(left%60).padStart(2,"0")};
+$("#pr").onclick=()=>{clearInterval(pt);pt=0;left=(+($("#fm").value||25))*60;$("#clk").textContent=String(left/60|0).padStart(2,"0")+":"+String(left%60|0).padStart(2,"0")};
 
 $("#ta").onclick=()=>{
   const title=$("#tk").value.trim();if(!title)return;
-  S.tasks.push({t:title,sub:$("#ts").value||S.sub,due:$("#td").value||"",done:false});
+  S.tasks.push({id:String(Date.now()),t:title,sub:$("#ts").value||S.sub,due:$("#td").value||"",done:false});
   $("#tk").value="";save();cal();home();
 };
+$("#tk").onkeydown=e=>e.key=="Enter"&&$("#ta").click();
 
 function cal(){
-  $("#bo").innerHTML=S.subs.map(sb=>`
-    <div class="col" style="border-top:3px solid ${sb.color}">
-      <h5><b>${esc(sb.name)}</b></h5>
-      ${S.tasks.filter(x=>x.sub==sb.id).map((x,idx)=>`
-        <div class="tc ${x.done?"dn":""}">
-          <input type="checkbox" ${x.done?"checked":""} onchange="toggleT(${idx})">
-          <b>${esc(x.t)}</b><br><small>${esc(x.due||"—")}</small>
-        </div>`).join("")||`<small class="mut">${esc(t("no_tasks"))}</small>`}
-    </div>`).join("");
+  const today=new Date().toISOString().slice(0,10);
+  const cols=S.subs.length?S.subs:[{id:null,name:"General",color:"#4F7260"}];
+  $("#bo").innerHTML=cols.map(sb=>{
+    const items=S.tasks
+      .filter(x=>x.sub==sb.id)
+      .sort((a,b)=>(a.due||"9999-99-99").localeCompare(b.due||"9999-99-99"));
+    return `
+      <div class="col" style="border-top:3px solid ${sb.color}">
+        <h5><b>${esc(sb.name)}</b><small>${items.length}</small></h5>
+        ${items.map(x=>{
+          const isUrgent=!x.done&&x.due&&x.due<=today;
+          return `
+            <div class="tc ${x.done?"dn":""} ${isUrgent?"urgent":""}">
+              <input type="checkbox" ${x.done?"checked":""} onchange="toggleT('${x.id}')">
+              <div><b>${esc(x.t)}</b><br><small>${esc(x.due||"—")}</small></div>
+            </div>`;
+        }).join("")||`<small class="mut">${esc(t("no_tasks"))}</small>`}
+      </div>`;
+  }).join("");
 }
-window.toggleT=i=>{S.tasks[i].done=!S.tasks[i].done;save();cal();home()};
+window.toggleT=id=>{
+  const item=S.tasks.find(x=>x.id==id);
+  if(item){item.done=!item.done;save();cal();home()}
+};
 
 function preview(){
   const sb=S.subs.find(x=>x.id==$("#xs").value);
   if(!sb){$("#xv").textContent="";return}
-  const docs=S.docs.filter(d=>d.sub==sb.id).map(d=>`${d.name}\n${d.text||""}`).join("\n\n");
-  $("#xv").textContent=`${sb.name}\n\n${docs}`;
+  const docs=S.docs.filter(d=>d.sub==sb.id).map(d=>`--- ${d.name} ---\n${d.text||""}`).join("\n\n");
+  const nts=S.notes.filter(n=>S.docs.some(d=>d.id==n.doc&&d.sub==sb.id)).map(n=>`• [${n.kind=="pi"?"Post-it":"Nota"}] ${n.txt}`).join("\n");
+  $("#xv").textContent=`${sb.name}\n\n${docs}${nts?"\n\nNotas:\n"+nts:""}`;
 }
 $("#xs").onchange=preview;
 $("#xt").onclick=()=>{
   const blob=new Blob([$("#xv").textContent||""],{type:"text/plain;charset=utf-8"});
-  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="webook-export.txt";a.click();
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="webook-notes.txt";a.click();
 };
 
 $("#auth").onsubmit=e=>{e.preventDefault();$("#auth").hidden=true;$("#app").hidden=false;drawAll()};
