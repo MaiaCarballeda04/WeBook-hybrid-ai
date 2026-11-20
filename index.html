@@ -19,6 +19,7 @@ body{margin:0;font:400 15px/1.55 'Plus Jakarta Sans',system-ui,sans-serif;backgr
 b,strong,h1,h2,h3,h4,h5{font-weight:600}button{font-weight:500}
 button,select,input,textarea{font:inherit;color:inherit}
 button{padding:7px 12px;border:1px solid var(--ln);background:var(--s);border-radius:6px;cursor:pointer;min-height:38px}
+button:hover{border-color:var(--ac)}
 button.p,button.on{background:var(--ac);color:var(--acf);border-color:var(--ac)}
 input,select,textarea{padding:7px 9px;border:1px solid var(--ln);border-radius:6px;background:var(--in)}
 :focus-visible{outline:2px solid var(--ac);outline-offset:2px}
@@ -49,8 +50,11 @@ main{padding:16px;max-width:1200px;margin:auto}
 .mg{position:relative;border-left:3px solid var(--ac);padding:8px 26px 8px 10px;margin:8px 0;background:var(--mgb);border-radius:4px;white-space:pre-wrap}
 .pi{position:relative;background:var(--pi);color:#2f2e22;padding:10px 26px 10px 12px;border-radius:4px;box-shadow:0 2px 6px #0002;margin:8px 0;white-space:pre-wrap}
 .voice-card{position:relative;border-left:3px solid #8a6d1d;padding:8px 26px 8px 10px;margin:8px 0;background:var(--mgb);border-radius:4px}
-.voice-title{font-weight:600;border:0;background:transparent;padding:2px 4px;border-bottom:1px dashed var(--ln);width:100%;max-width:210px;margin-bottom:4px}
+.voice-title{font-weight:600;border:0;background:transparent;padding:2px 4px;border-bottom:1px dashed var(--ln);width:100%;max-width:220px;margin-bottom:4px}
 .x{position:absolute;right:6px;top:4px;border:0;background:none;padding:2px 6px;min-height:auto;color:inherit}
+
+.anno-box{background:var(--mgb);border:1px solid var(--ln);border-radius:6px;padding:8px 10px;margin-top:8px;display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;font-size:12px;background:var(--mgb);border:1px solid var(--ln);font-weight:500}
 
 #clk{font:300 44px 'Plus Jakarta Sans',system-ui,sans-serif}
 .week-grid{display:grid;grid-template-columns:repeat(7,minmax(150px,1fr));gap:10px;overflow-x:auto;padding-bottom:6px}
@@ -79,6 +83,7 @@ main{padding:16px;max-width:1200px;margin:auto}
    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%234F7260'/><text x='50' y='62' font-size='45' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>W</text></svg>" alt="WeBook">
    WeBook
  </div>
+ <small class="mut" data-l="auth_hint"></small>
  <label class="fd"><small data-l="email"></small><input id="em" type="email" data-p="email_p" autocomplete="email"></label>
  <label class="fd"><small data-l="pass"></small><input id="pw" type="password" data-p="pass_p" autocomplete="current-password"></label>
  <div class="row" style="margin-top:8px">
@@ -108,7 +113,7 @@ main{padding:16px;max-width:1200px;margin:auto}
 <div id="wrap">
 <header>
  <span class="brand" data-l="app_title"></span>
- <input id="api-key-in" type="password" size="22" autocomplete="off" placeholder="Gemini API Key (opcional)...">
+ <span class="badge" data-l="ready_badge"></span>
  <select class="lg" aria-label="Language"></select>
  <button type="button" class="th" aria-label="Theme">☾</button>
  <button id="out" type="button" data-l="out"></button>
@@ -182,7 +187,7 @@ main{padding:16px;max-width:1200px;margin:auto}
  </div>
 </section>
 
-<!-- ESQUEMAS Y MULTIMEDIA 2D -->
+<!-- ESQUEMAS 2D/3D Y MULTIMEDIA -->
 <section class="v" id="v-plans2d" hidden>
  <div class="card">
    <h3 style="margin-top:0" data-l="plans2d"></h3>
@@ -191,6 +196,9 @@ main{padding:16px;max-width:1200px;margin:auto}
      <label class="btn-label">
        <span data-l="upload_plan"></span><input id="mf" type="file" hidden accept=".pdf,.png,.jpg,.jpeg,.webp,.mp4,.webm,image/*,video/*">
      </label>
+     <input id="anno-measure" size="16" autocomplete="off" data-p="measure_p">
+     <input id="anno-text" style="flex:1;min-width:180px" autocomplete="off" data-p="anno_p">
+     <button id="anno-add" type="button" class="p" data-l="add_anno"></button>
    </div>
    <div id="plan-viewer" style="min-height:280px;border:1px solid var(--ln);border-radius:8px;display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center;background:var(--in);padding:14px">
      <span class="mut" data-l="no_plan"></span>
@@ -228,6 +236,11 @@ main{padding:16px;max-width:1200px;margin:auto}
    <p class="mut" data-l="ex_desc"></p>
    <div class="row">
      <input id="exf" type="file" accept=".pdf,.txt,.md,.png,.jpg,.jpeg,.webp,image/*" multiple>
+     <select id="ex-diff" aria-label="Difficulty">
+       <option value="same" data-l="diff_same"></option>
+       <option value="medium" data-l="diff_med"></option>
+       <option value="hard" data-l="diff_hard"></option>
+     </select>
      <button class="p" id="exg" type="button" data-l="gen"></button>
      <small id="exs" role="status"></small>
    </div>
@@ -240,8 +253,12 @@ main{padding:16px;max-width:1200px;margin:auto}
  <div class="card">
   <b data-l="pom"></b>
   <div class="row" style="margin-top:8px">
-    <span data-l="foc"></span><input id="fm" type="number" min="1" value="25" style="width:70px">
-    <span data-l="brk"></span><input id="bm" type="number" min="1" value="5" style="width:70px">
+    <select id="pom-unit" aria-label="Unit">
+      <option value="min" data-l="unit_min"></option>
+      <option value="hr" data-l="unit_hr"></option>
+    </select>
+    <span data-l="foc"></span><input id="fm" type="number" min="1" value="25" style="width:74px">
+    <span data-l="brk"></span><input id="bm" type="number" min="1" value="5" style="width:74px">
     <span id="pom-label" class="mut"></span>
   </div>
   <div class="row">
@@ -254,10 +271,17 @@ main{padding:16px;max-width:1200px;margin:auto}
  <div class="card">
   <div class="row">
     <input id="tk" autocomplete="off" data-p="task_p" style="flex:1">
+    <select id="tk-type" aria-label="Type">
+      <option value="exam" data-l="t_exam"></option>
+      <option value="delivery" data-l="t_delivery"></option>
+      <option value="tp" data-l="t_tp"></option>
+      <option value="study" data-l="t_study"></option>
+    </select>
     <select id="ts" aria-label="Subject"></select>
     <input id="td" type="date">
     <button id="ta" type="button" class="p" data-l="add"></button>
   </div>
+  <div id="study-guide" class="mg" style="margin-top:8px"></div>
  </div>
 
  <div class="card">
@@ -280,16 +304,17 @@ main{padding:16px;max-width:1200px;margin:auto}
   <div class="row" style="margin:10px 0">
     <select id="xs" style="flex:1"></select>
     <select id="x-order" aria-label="Order">
-      <option value="topics_notes_audio_media">Orden: Temas → Notas → Audios → Esquemas/Videos</option>
-      <option value="audio_notes_topics_media">Orden: Audios → Notas → Temas → Esquemas/Videos</option>
+      <option value="topics_notes_audio_media" data-l="ord_1"></option>
+      <option value="audio_notes_topics_media" data-l="ord_2"></option>
     </select>
     <button id="xt" type="button" class="p" data-l="txt"></button>
+    <button id="xdoc" type="button" data-l="doc"></button>
   </div>
   <div class="row" style="margin-bottom:12px">
-    <label><input type="checkbox" id="inc-docs" checked> Apuntes y temas</label>
-    <label><input type="checkbox" id="inc-notes" checked> Notas y Post-its</label>
-    <label><input type="checkbox" id="inc-voices" checked> Audios</label>
-    <label><input type="checkbox" id="inc-media" checked> Esquemas / Videos</label>
+    <label><input type="checkbox" id="inc-docs" checked> <span data-l="inc_docs"></span></label>
+    <label><input type="checkbox" id="inc-notes" checked> <span data-l="inc_notes"></span></label>
+    <label><input type="checkbox" id="inc-voices" checked> <span data-l="inc_voices"></span></label>
+    <label><input type="checkbox" id="inc-media" checked> <span data-l="inc_media"></span></label>
   </div>
   <div id="dl-media-links" class="row" style="margin-bottom:10px"></div>
   <pre id="xv" style="white-space:pre-wrap;max-height:380px;overflow:auto;background:var(--in);padding:12px;border-radius:6px"></pre>
@@ -309,72 +334,108 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 const LG=["en","es","pt","fr"], LN={en:"English",es:"Español",pt:"Português",fr:"Français"};
 const DICT={
   en:{
-    email:"Email",email_p:"you@example.com",pass:"Password",pass_p:"********",in:"Continue",out:"Sign out",
-    app_title:"WeBook",home:"Dashboard",nb:"Notebook",plans2d:"2D Schemes & Videos",
+    auth_hint:"Instant demo ready — no API key or password required.",
+    ready_badge:"Ready • No API key needed",
+    email:"Email",email_p:"you@example.com",pass:"Password",pass_p:"********",in:"Enter WeBook",out:"Sign out",
+    app_title:"WeBook",home:"Dashboard",nb:"Notebook",plans2d:"2D/3D Schemes & Media",
     wb:"Whiteboard",ex:"Exam Simulator",plan:"Calendar & Pomodoro",dl:"Downloads",subj:"Subject:",
-    newsub:"Create subject",newsub_p:"New subject name...",hint:"Create or select a subject above to start from scratch.",
-    quick:"AI Study Assistant",q_p:"Ask a study question or topic...",ask:"Ask",subs:"Subjects",next:"Upcoming deadlines",
-    file:"Upload PDF/file/photo",sum:"Summarize & Notes",rec:"Record audio",qdoc_p:"Ask about the uploaded material...",
+    newsub:"Create subject",newsub_p:"New subject name...",hint:"Create or select a subject above to start.",
+    quick:"Class & Notes Study Assistant",q_p:"Ask about a topic or your class notes...",ask:"Ask",subs:"Subjects",next:"Prioritized deadlines",
+    file:"Upload PDF/file/photo",sum:"Summary & Key Notes",rec:"Record audio",qdoc_p:"Ask strictly based on the uploaded material...",
     ask_doc:"Ask material",note_p:"Write a note or Post-it...",add_note:"Add note",add_postit:"Post-it",notes_feed:"Notes, Post-its & Audios",
-    plans2d_desc:"Upload 2D diagrams, images, or study videos for your subject.",
-    upload_plan:"Upload 2D/video",no_plan:"No 2D schemes or videos loaded yet.",pen:"Pen",era:"Eraser",
-    board_postit:"+ Post-it",board_txt_p:"Text for board...",board_txt_btn:"Add text",
-    up_img:"Add image",clr:"Clear",ex_desc:"Upload past exams (PDF or photos) to generate equivalent practice problems with step-by-step solutions.",
-    gen:"Generate mock exam",pom:"Pomodoro Timer",foc:"Focus (min):",brk:"Break (min):",
-    start:"Start / Pause",reset:"Reset",task_p:"Task or exam title...",add:"Add",
-    deadlines_title:"Weekly Study Calendar",dlc:"Export Organized Material",txt:"Download TXT",
+    plans2d_desc:"Upload 2D schemes, 3D/SketchUp captures, or videos and add test measurements & annotations.",
+    upload_plan:"Upload 2D/3D/video",no_plan:"No 2D/3D schemes or videos loaded yet.",
+    measure_p:"Measurement (e.g. 120 mm, 45°)",anno_p:"Annotation or test check...",add_anno:"Add annotation",
+    pen:"Pen",era:"Eraser",board_postit:"+ Post-it",board_txt_p:"Text for board...",board_txt_btn:"Add text",
+    up_img:"Add image",clr:"Clear",
+    ex_desc:"Upload past exams (PDF or photos) to generate equivalent practice problems, multiple choice & step-by-step solutions.",
+    diff_same:"Same difficulty as exam",diff_med:"Balanced practice",diff_hard:"Challenge mode",
+    gen:"Generate mock exam",pom:"Flexible Pomodoro",unit_min:"Minutes",unit_hr:"Hours",foc:"Focus:",brk:"Break:",
+    start:"Start / Pause",reset:"Reset",
+    task_p:"Midterm, delivery, exam, or practical work...",add:"Add",
+    t_exam:"Midterm / Exam",t_delivery:"Delivery",t_tp:"Practical work",t_study:"Study block",
+    deadlines_title:"Weekly Study Calendar",dlc:"Export Organized Material",txt:"Download TXT",doc:"Download Word (.doc)",
+    ord_1:"Order: Topics → Notes → Audios → Schemes/Videos",ord_2:"Order: Audios → Notes → Topics → Schemes/Videos",
+    inc_docs:"Notes & topics",inc_notes:"Notes & Post-its",inc_voices:"Voice recordings",inc_media:"2D/3D & Videos",
     no_sub:"No subject selected",no_subs_empty:"No subjects yet. Create one above.",no_tasks:"No items"
   },
   es:{
-    email:"Correo",email_p:"tu@correo.com",pass:"Contraseña",pass_p:"********",in:"Continuar",out:"Salir",
-    app_title:"WeBook",home:"Inicio",nb:"Cuaderno",plans2d:"Esquemas 2D y Videos",
+    auth_hint:"Listo para usar al instante — sin clave API ni contraseña obligatoria.",
+    ready_badge:"Listo • Sin clave API",
+    email:"Correo",email_p:"tu@correo.com",pass:"Contraseña",pass_p:"********",in:"Entrar a WeBook",out:"Salir",
+    app_title:"WeBook",home:"Inicio",nb:"Cuaderno",plans2d:"Esquemas 2D/3D y Videos",
     wb:"Pizarra",ex:"Simulador de Exámenes",plan:"Calendario y Pomodoro",dl:"Descargas",subj:"Materia:",
-    newsub:"Crear materia",newsub_p:"Nombre de la materia...",hint:"Crea o selecciona una materia arriba para empezar desde cero.",
-    quick:"Asistente de Estudio con IA",q_p:"Pregunta un tema o duda de estudio...",ask:"Preguntar",subs:"Materias",next:"Próximas entregas",
-    file:"Subir PDF/archivo/foto",sum:"Resumir y Notas",rec:"Grabar audio",qdoc_p:"Pregunta sobre el material subido...",
+    newsub:"Crear materia",newsub_p:"Nombre de la materia...",hint:"Crea o selecciona una materia arriba para empezar.",
+    quick:"Asistente de Clase y Apuntes",q_p:"Pregunta un tema o duda según tus apuntes...",ask:"Preguntar",subs:"Materias",next:"Entregas priorizadas",
+    file:"Subir PDF/archivo/foto",sum:"Resumen y Notas Clave",rec:"Grabar audio",qdoc_p:"Pregunta estrictamente sobre el material subido...",
     ask_doc:"Consultar material",note_p:"Escribe una nota o Post-it...",add_note:"Agregar nota",add_postit:"Post-it",notes_feed:"Notas, Post-its y Audios",
-    plans2d_desc:"Sube esquemas 2D, imágenes o videos de clase para tu materia.",
-    upload_plan:"Subir esquema/video",no_plan:"Aún no cargaste esquemas ni videos.",pen:"Lápiz",era:"Borrador",
-    board_postit:"+ Post-it",board_txt_p:"Texto para pizarra...",board_txt_btn:"Agregar texto",
-    up_img:"Subir imagen",clr:"Limpiar",ex_desc:"Sube parciales viejos (PDF o fotos) para generar ejercicios equivalentes con resolución paso a paso.",
-    gen:"Generar simulacro",pom:"Temporizador Pomodoro",foc:"Estudio (min):",brk:"Descanso (min):",
-    start:"Iniciar / Pausar",reset:"Reiniciar",task_p:"Tarea o fecha de examen...",add:"Agregar",
-    deadlines_title:"Calendario Semanal de Estudio",dlc:"Exportar Material Ordenado",txt:"Descargar TXT",
+    plans2d_desc:"Sube planos 2D, capturas 3D/SketchUp o videos y agregá medidas de prueba y anotaciones.",
+    upload_plan:"Subir 2D/3D/video",no_plan:"Aún no cargaste esquemas 2D/3D ni videos.",
+    measure_p:"Medida (ej. 120 mm, 45°)",anno_p:"Anotación o prueba...",add_anno:"Agregar anotación",
+    pen:"Lápiz",era:"Borrador",board_postit:"+ Post-it",board_txt_p:"Texto para pizarra...",board_txt_btn:"Agregar texto",
+    up_img:"Subir imagen",clr:"Limpiar",
+    ex_desc:"Sube parciales viejos (PDF o fotos) para generar modelos equivalentes, multiple choice y resolución paso a paso.",
+    diff_same:"Misma dificultad que el parcial",diff_med:"Práctica intermedia",diff_hard:"Dificultad exigente",
+    gen:"Generar simulacro",pom:"Pomodoro Flexible",unit_min:"Minutos",unit_hr:"Horas",foc:"Estudio:",brk:"Descanso:",
+    start:"Iniciar / Pausar",reset:"Reiniciar",
+    task_p:"Parcial, entrega, examen o trabajo práctico...",add:"Agregar",
+    t_exam:"Parcial / Examen",t_delivery:"Entrega",t_tp:"Trabajo práctico",t_study:"Bloque de estudio",
+    deadlines_title:"Calendario Semanal de Estudio",dlc:"Exportar Material Ordenado",txt:"Descargar TXT",doc:"Descargar Word (.doc)",
+    ord_1:"Orden: Temas → Notas → Audios → Esquemas/Videos",ord_2:"Orden: Audios → Notas → Temas → Esquemas/Videos",
+    inc_docs:"Apuntes y temas",inc_notes:"Notas y Post-its",inc_voices:"Grabaciones de voz",inc_media:"Esquemas 2D/3D y Videos",
     no_sub:"Sin materia seleccionada",no_subs_empty:"Aún no hay materias. Crea una arriba.",no_tasks:"Sin entregas"
   },
   pt:{
-    email:"E-mail",email_p:"voce@exemplo.com",pass:"Senha",pass_p:"********",in:"Continuar",out:"Sair",
-    app_title:"WeBook",home:"Início",nb:"Caderno",plans2d:"Esquemas 2D e Vídeos",
+    auth_hint:"Pronto para usar na hora — sem chave de API obrigatória.",
+    ready_badge:"Pronto • Sem chave API",
+    email:"E-mail",email_p:"voce@exemplo.com",pass:"Senha",pass_p:"********",in:"Entrar no WeBook",out:"Sair",
+    app_title:"WeBook",home:"Início",nb:"Caderno",plans2d:"Esquemas 2D/3D e Vídeos",
     wb:"Quadro",ex:"Simulador de Provas",plan:"Calendário e Pomodoro",dl:"Downloads",subj:"Matéria:",
-    newsub:"Criar matéria",newsub_p:"Nome da matéria...",hint:"Crie ou selecione uma matéria acima para começar do zero.",
-    quick:"Assistente de Estudo com IA",q_p:"Pergunte um tema ou dúvida de estudo...",ask:"Perguntar",subs:"Matérias",next:"Próximos prazos",
-    file:"Enviar PDF/arquivo/foto",sum:"Resumir e Notas",rec:"Gravar áudio",qdoc_p:"Pergunte sobre o material enviado...",
+    newsub:"Criar matéria",newsub_p:"Nome da matéria...",hint:"Crie ou selecione uma matéria acima.",
+    quick:"Assistente de Aula e Notas",q_p:"Pergunte sobre um tema ou suas anotações...",ask:"Perguntar",subs:"Matérias",next:"Prazos priorizados",
+    file:"Enviar PDF/arquivo/foto",sum:"Resumo e Notas-Chave",rec:"Gravar áudio",qdoc_p:"Pergunte estritamente sobre o material enviado...",
     ask_doc:"Consultar material",note_p:"Escreva uma nota ou Post-it...",add_note:"Adicionar nota",add_postit:"Post-it",notes_feed:"Notas, Post-its e Áudios",
-    plans2d_desc:"Envie esquemas 2D, imagens ou vídeos de aula para sua matéria.",
-    upload_plan:"Enviar esquema/vídeo",no_plan:"Nenhum esquema ou vídeo carregado ainda.",pen:"Caneta",era:"Borracha",
-    board_postit:"+ Post-it",board_txt_p:"Texto no quadro...",board_txt_btn:"Adicionar texto",
-    up_img:"Enviar imagem",clr:"Limpar",ex_desc:"Envie provas antigas (PDF ou fotos) para gerar questões equivalentes com resolução passo a passo.",
-    gen:"Gerar simulado",pom:"Temporizador Pomodoro",foc:"Foco (min):",brk:"Pausa (min):",
-    start:"Iniciar / Pausar",reset:"Reiniciar",task_p:"Tarefa ou data de prova...",add:"Adicionar",
-    deadlines_title:"Calendário Semanal de Estudos",dlc:"Exportar Material Organizado",txt:"Baixar TXT",
-    no_sub:"Nenhuma matéria selecionada",no_subs_empty:"Nenhuma matéria ainda. Crie uma acima.",no_tasks:"Sem prazos"
+    plans2d_desc:"Envie esquemas 2D, capturas 3D/SketchUp ou vídeos e adicione medidas de teste e anotações.",
+    upload_plan:"Enviar 2D/3D/vídeo",no_plan:"Nenhum esquema 2D/3D ou vídeo carregado.",
+    measure_p:"Medida (ex. 120 mm, 45°)",anno_p:"Anotação ou teste...",add_anno:"Adicionar anotação",
+    pen:"Caneta",era:"Borracha",board_postit:"+ Post-it",board_txt_p:"Texto no quadro...",board_txt_btn:"Adicionar texto",
+    up_img:"Enviar imagem",clr:"Limpar",
+    ex_desc:"Envie provas antigas (PDF ou fotos) para gerar modelos equivalentes, múltipla escolha e passo a passo.",
+    diff_same:"Mesma dificuldade da prova",diff_med:"Prática intermediária",diff_hard:"Nível avançado",
+    gen:"Gerar simulado",pom:"Pomodoro Flexível",unit_min:"Minutos",unit_hr:"Horas",foc:"Foco:",brk:"Pausa:",
+    start:"Iniciar / Pausar",reset:"Reiniciar",
+    task_p:"Prova, entrega ou trabalho prático...",add:"Adicionar",
+    t_exam:"Prova / Exame",t_delivery:"Entrega",t_tp:"Trabalho prático",t_study:"Bloco de estudo",
+    deadlines_title:"Calendário Semanal de Estudos",dlc:"Exportar Material Organizado",txt:"Baixar TXT",doc:"Baixar Word (.doc)",
+    ord_1:"Ordem: Temas → Notas → Áudios → Esquemas/Vídeos",ord_2:"Ordem: Áudios → Notas → Temas → Esquemas/Vídeos",
+    inc_docs:"Resumos e temas",inc_notes:"Notas e Post-its",inc_voices:"Gravações de voz",inc_media:"Esquemas 2D/3D e Vídeos",
+    no_sub:"Nenhuma matéria selecionada",no_subs_empty:"Nenhuma matéria ainda.",no_tasks:"Sem prazos"
   },
   fr:{
-    email:"E-mail",email_p:"vous@exemple.com",pass:"Mot de passe",pass_p:"********",in:"Continuer",out:"Quitter",
-    app_title:"WeBook",home:"Accueil",nb:"Cahier",plans2d:"Schémas 2D et Vidéos",
+    auth_hint:"Prêt immédiatement — aucune clé API requise.",
+    ready_badge:"Prêt • Sans clé API",
+    email:"E-mail",email_p:"vous@exemple.com",pass:"Mot de passe",pass_p:"********",in:"Entrer dans WeBook",out:"Quitter",
+    app_title:"WeBook",home:"Accueil",nb:"Cahier",plans2d:"Schémas 2D/3D et Vidéos",
     wb:"Tableau",ex:"Simulateur d'Examens",plan:"Calendrier et Pomodoro",dl:"Téléchargements",subj:"Matière :",
-    newsub:"Créer matière",newsub_p:"Nom de la matière...",hint:"Créez ou sélectionnez une matière ci-dessus pour repartir de zéro.",
-    quick:"Assistant d'Étude IA",q_p:"Posez une question ou un thème d'étude...",ask:"Demander",subs:"Matières",next:"Échéances à venir",
-    file:"Importer PDF/fichier/photo",sum:"Résumer et Notes",rec:"Enregistrer audio",qdoc_p:"Question sur le matériel importé...",
+    newsub:"Créer matière",newsub_p:"Nom de la matière...",hint:"Créez ou sélectionnez une matière ci-dessus.",
+    quick:"Assistant Cours & Notes",q_p:"Posez une question sur un thème ou vos notes...",ask:"Demander",subs:"Matières",next:"Échéances priorisées",
+    file:"Importer PDF/fichier/photo",sum:"Résumé & Notes Clés",rec:"Enregistrer audio",qdoc_p:"Question strictement sur le document importé...",
     ask_doc:"Interroger matériel",note_p:"Écrire une note ou un Post-it...",add_note:"Ajouter note",add_postit:"Post-it",notes_feed:"Notes, Post-its et Audios",
-    plans2d_desc:"Importez des schémas 2D, images ou vidéos de cours pour votre matière.",
-    upload_plan:"Importer schéma/vidéo",no_plan:"Aucun schéma ni vidéo chargé pour l'instant.",pen:"Stylo",era:"Gomme",
-    board_postit:"+ Post-it",board_txt_p:"Texte sur le tableau...",board_txt_btn:"Ajouter texte",
-    up_img:"Ajouter image",clr:"Effacer",ex_desc:"Importez d'anciens sujets (PDF ou photos) pour générer des exercices équivalents avec résolution étape par étape.",
-    gen:"Générer un examen blanc",pom:"Minuteur Pomodoro",foc:"Focus (min) :",brk:"Pause (min) :",
-    start:"Démarrer / Pause",reset:"Réinitialiser",task_p:"Tâche ou date d'examen...",add:"Ajouter",
-    deadlines_title:"Calendrier Hebdomadaire d'Étude",dlc:"Exporter le Matériel Classé",txt:"Télécharger TXT",
-    no_sub:"Aucune matière sélectionnée",no_subs_empty:"Aucune matière pour l'instant. Créez-en une ci-dessus.",no_tasks:"Aucune échéance"
+    plans2d_desc:"Importez des schémas 2D, captures 3D/SketchUp ou vidéos et ajoutez mesures de test et annotations.",
+    upload_plan:"Importer 2D/3D/vidéo",no_plan:"Aucun schéma 2D/3D ni vidéo chargé.",
+    measure_p:"Mesure (ex. 120 mm, 45°)",anno_p:"Annotation ou test...",add_anno:"Ajouter annotation",
+    pen:"Stylo",era:"Gomme",board_postit:"+ Post-it",board_txt_p:"Texte sur le tableau...",board_txt_btn:"Ajouter texte",
+    up_img:"Ajouter image",clr:"Effacer",
+    ex_desc:"Importez d'anciens sujets (PDF ou photos) pour générer des modèles équivalents, QCM et corrigé étape par étape.",
+    diff_same:"Même difficulté que l'examen",diff_med:"Pratique intermédiaire",diff_hard:"Niveau avancé",
+    gen:"Générer un examen blanc",pom:"Pomodoro Flexible",unit_min:"Minutes",unit_hr:"Heures",foc:"Focus :",brk:"Pause :",
+    start:"Démarrer / Pause",reset:"Réinitialiser",
+    task_p:"Partiel, rendu, examen ou TP...",add:"Ajouter",
+    t_exam:"Partiel / Examen",t_delivery:"Rendu",t_tp:"Travaux pratiques",t_study:"Bloc d'étude",
+    deadlines_title:"Calendrier Hebdomadaire d'Étude",dlc:"Exporter le Matériel Classé",txt:"Télécharger TXT",doc:"Télécharger Word (.doc)",
+    ord_1:"Ordre : Thèmes → Notes → Audios → Schémas/Vidéos",ord_2:"Ordre : Audios → Notes → Thèmes → Schémas/Vidéos",
+    inc_docs:"Notes et thèmes",inc_notes:"Notes et Post-its",inc_voices:"Enregistrements vocaux",inc_media:"Schémas 2D/3D et Vidéos",
+    no_sub:"Aucune matière sélectionnée",no_subs_empty:"Aucune matière pour l'instant.",no_tasks:"Aucune échéance"
   }
 };
 
@@ -395,7 +456,7 @@ $$(".lg").forEach(s=>{
     L=s.value;
     localStorage.wbl=L;
     applyStaticLabels();
-    if(!$("#app").hidden){subsUI();home();renderCalendar();renderExams()}
+    if(!$("#app").hidden){subsUI();home();renderCalendar();renderExams();drawPlans2D();previewExport()}
   };
 });
 
@@ -409,13 +470,10 @@ $$(".th").forEach(b=>{
   b.textContent=document.documentElement.dataset.theme=="dark"?"☀":"☾";
 });
 
-$("#api-key-in").value=localStorage.webook_gemini_key||"";
-$("#api-key-in").oninput=e=>{localStorage.webook_gemini_key=e.target.value.trim()};
-
 let S={docs:[],notes:[],voices:[],tasks:[],exams:[],subs:[],sub:null,plans:[]};
 function loadSavedState(){
   try{
-    const raw=localStorage.webook_full_state_v3;
+    const raw=localStorage.webook_full_state_v5;
     if(raw){
       const parsed=JSON.parse(raw);
       S={...S,...parsed,
@@ -425,27 +483,15 @@ function loadSavedState(){
         tasks:Array.isArray(parsed.tasks)?parsed.tasks:[],
         exams:Array.isArray(parsed.exams)?parsed.exams:[],
         subs:Array.isArray(parsed.subs)?parsed.subs:[],
-        plans:Array.isArray(parsed.plans)?parsed.plans:[]
+        plans:Array.isArray(parsed.plans)?parsed.plans.map(p=>({...p,annos:Array.isArray(p.annos)?p.annos:[]})):[]
       };
     }
   }catch{}
 }
 function save(){
-  try{localStorage.webook_full_state_v3=JSON.stringify(S)}catch{}
+  try{localStorage.webook_full_state_v5=JSON.stringify(S)}catch{}
 }
 loadSavedState();
-
-function fileToBase64Part(file){
-  return new Promise((resolve,reject)=>{
-    const reader=new FileReader();
-    reader.onload=()=>{
-      const base64=String(reader.result||"").split(",")[1]||"";
-      resolve({inlineData:{mimeType:file.type||"application/octet-stream",data:base64}});
-    };
-    reader.onerror=reject;
-    reader.readAsDataURL(file);
-  });
-}
 
 async function extractPdfText(file){
   if(!window.pdfjsLib)return "";
@@ -456,7 +502,7 @@ async function extractPdfText(file){
     const page=await pdf.getPage(p);
     const tc=await page.getTextContent();
     const pageText=tc.items.map(item=>item.str).join(" ").replace(/\s+/g," ").trim();
-    if(pageText)pages.push(`--- Página ${p} ---\n${pageText}`);
+    if(pageText)pages.push(`--- Page ${p} ---\n${pageText}`);
   }
   return pages.join("\n\n").trim();
 }
@@ -465,47 +511,50 @@ function detectSubjectDomain(text,fallback){
   const sb=S.subs.find(x=>String(x.id)===String(S.sub));
   const blob=`${sb?.name||""} ${fallback||""} ${text||""}`.toLowerCase();
   if(/matriz|matrices|determinante|vector|vectores|álgebra|algebra|rango|sistema|lineal/.test(blob))return "algebra";
-  if(/derivada|integral|límite|limite|función|funcion|análisis|analisis|sucesión|sucesion/.test(blob))return "analisis";
-  if(/fuerza|cinemática|cinematica|dinámica|dinamica|energía|energia|física|fisica|campo/.test(blob))return "fisica";
+  if(/derivada|integral|límite|limite|función|funcion|análisis|analisis|sucesión|sucesion|derivative|integral|limit/.test(blob))return "analisis";
+  if(/fuerza|cinemática|cinematica|dinámica|dinamica|energía|energia|física|fisica|campo|force|motion|energy/.test(blob))return "fisica";
+  if(/plano|sketchup|cota|medida|escala|2d|3d|pieza|diseño|diseno|arquitectura|mecánica|mecanica|scale|tolerance/.test(blob))return "design";
   return "general";
 }
 
-function buildEquivalentMockExam(text,label){
-  const domain=detectSubjectDomain(text,label);
-  if(domain==="algebra"){
-    return [
-      "1. Matrices y sistemas lineales\nSea A = [[2, 1, -1], [0, 3, 2], [1, -1, 4]] y b = [3, 5, 1]^T. Analiza la compatibilidad del sistema A·x = b y halla la solución.\nResolución paso a paso:\n- Calcula det(A): 2·(12+2) - 1·(0-2) + (-1)·(0-3) = 28 + 2 + 3 = 33 ≠ 0.\n- Como det(A) ≠ 0, el rango de A y de la ampliada es 3 (sistema compatible determinado).\n- Resuelve por sustitución o Gauss para obtener las tres componentes (x, y, z).",
-      "2. Vectores en R³ (producto escalar, vectorial y proyección)\nDados u = (2, -1, 3) y v = (1, 4, -2), calcula u × v, el módulo |u × v| y la proyección ortogonal de u sobre v.\nResolución paso a paso:\n- u × v = ( (-1)(-2) - (3)(4), (3)(1) - (2)(-2), (2)(4) - (-1)(1) ) = (-10, 7, 9).\n- |u × v| = √((-10)² + 7² + 9²) = √(100 + 49 + 81) = √230.\n- proy_v(u) = ((u · v) / |v|²) · v, con u·v = 2 - 4 - 6 = -8 y |v|² = 1 + 16 + 4 = 21."
-    ].join("\n\n");
-  }
-  if(domain==="analisis"){
-    return [
-      "1. Límites y continuidad\nAnaliza la continuidad en x = 2 y calcula lim_{x→2} (x² - 4) / (x - 2).\nResolución paso a paso:\n- Factoriza el numerador como diferencia de cuadrados: (x - 2)(x + 2).\n- Simplifica (x - 2) para x ≠ 2 y evalúa en x = 2: 2 + 2 = 4.\n- Indica el tipo de discontinuidad si la función original no estaba definida en x = 2.",
-      "2. Derivadas y estudio de variación\nDada f(x) = x³ - 3x² + 2, determina intervalos de crecimiento/decrecimiento y extremos locales.\nResolución paso a paso:\n- Deriva: f'(x) = 3x² - 6x = 3x(x - 2).\n- Igualando a cero se obtienen puntos críticos en x = 0 y x = 2.\n- Analiza el signo de f'(x) en (-∞, 0), (0, 2) y (2, +∞)."
-    ].join("\n\n");
-  }
-  if(domain==="fisica"){
-    return [
-      "1. Dinámica y leyes de Newton\nUn cuerpo de masa m = 4 kg asciende por un plano inclinado de 30° con rozamiento dinámico μ_k = 0,2. Plantea el diagrama de cuerpo libre y calcula la aceleración.\nResolución paso a paso:\n- Descompone el peso: P_x = m·g·sen(30°) y P_y = m·g·cos(30°).\n- Normal N = P_y y fricción f_k = μ_k·N.\n- Aplica ΣF_x = m·a para despejar a.",
-      "2. Trabajo y conservación de la energía\nSi el cuerpo recorre d = 5 m sobre el plano, determina el trabajo neto y la velocidad final partiendo del reposo.\nResolución paso a paso:\n- Calcula W_neto = F_neta · d.\n- Usa ΔK = W_neto con K_i = 0 para hallar v_f = √(2·a·d)."
-    ].join("\n\n");
-  }
-  const topic=(S.subs.find(x=>String(x.id)===String(S.sub))?.name)||"la unidad";
-  return [
-    `1. Ejercicio aplicado de ${topic}\nPlantea y resuelve un problema integrador sobre los conceptos centrales de ${topic} justificando cada paso.\nResolución paso a paso:\n- Identifica datos, variables y condiciones iniciales.\n- Selecciona la ley, definición o propiedad correspondiente.\n- Opera con orden y verifica coherencia del resultado.`,
-    `2. Pregunta de análisis y justificación\nExplica cuándo se cumple la propiedad principal de ${topic} y muestra un contraejemplo donde no aplique.\nResolución paso a paso:\n- Enuncia la condición necesaria/suficiente.\n- Construye un caso concreto que cumpla y otro que falle.`
-  ].join("\n\n");
+function extractKeyPhrases(text,limit=5){
+  const clean=(text||"").replace(/\s+/g," ").trim();
+  if(!clean)return[];
+  const parts=clean.split(/(?<=[.!?])\s+|\n+/).map(s=>s.trim()).filter(s=>s.length>12);
+  const scored=parts.map(s=>{
+    const words=s.split(/\s+/).length;
+    const score=(words>=6&&words<=32?2:1)+(/[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+/.test(s)?1:0);
+    return{s,score};
+  }).sort((a,b)=>b.score-a.score);
+  return scored.slice(0,limit).map(x=>x.s);
 }
 
-function answerFromTextLocal(query,doc){
+function buildDocSummaryLocal(doc){
   const body=(doc?.content||"").trim();
+  const es=L==="es";
   if(!body){
-    const domain=detectSubjectDomain("",doc?.name||"");
-    if(domain==="algebra")return "• Álgebra: revisa operaciones con matrices, determinantes, sistemas lineales y vectores en R²/R³ (módulo, producto escalar y producto vectorial).";
-    return "Agrega una Gemini API Key arriba si quieres que el modelo lea directamente el contenido o la imagen de este archivo.";
+    return es
+      ? `Archivo cargado: ${doc?.name||"material"}. Ya podés agregar tus propias notas clave y Post-its a la derecha, o subir un archivo de texto / PDF con texto para resumir automáticamente.`
+      : `Uploaded file: ${doc?.name||"material"}. You can add key notes and Post-its on the right, or upload a text file / text-based PDF for automatic summarization.`;
   }
-  const sentences=body.split(/(?<=[.!?])\s+|\n+/).map(s=>s.trim()).filter(Boolean);
-  const terms=query.toLowerCase().split(/\W+/).filter(w=>w.length>3);
+  const keyPoints=extractKeyPhrases(body,5);
+  const topics=keyPoints.slice(0,3).map((pt,i)=>`${i+1}. ${pt.slice(0,95)}${pt.length>95?"...":""}`).join("\n");
+  const notes=keyPoints.map(pt=>"• "+pt).join("\n");
+  return es
+    ? `Temas principales (${doc.name}):\n${topics}\n\nResumen y notas clave:\n${notes}`
+    : `Main topics (${doc.name}):\n${topics}\n\nSummary & key notes:\n${notes}`;
+}
+
+function answerFromTextLocal(query,doc,extraContext=""){
+  const combined=[doc?.content||"",extraContext||""].filter(Boolean).join("\n\n").trim();
+  const es=L==="es";
+  if(!combined){
+    return es
+      ? "Aún no hay texto cargado en este material para responder. Subí un documento o agregá notas en el cuaderno."
+      : "No text is loaded in this material yet. Upload a document or add notes in the notebook.";
+  }
+  const sentences=combined.split(/(?<=[.!?])\s+|\n+/).map(s=>s.trim()).filter(Boolean);
+  const terms=query.toLowerCase().split(/\W+/).filter(w=>w.length>2);
   const scored=sentences.map(s=>{
     const sl=s.toLowerCase();
     const hits=terms.reduce((acc,w)=>acc+(sl.includes(w)?1:0),0);
@@ -513,37 +562,55 @@ function answerFromTextLocal(query,doc){
   }).filter(x=>x.hits>0).sort((a,b)=>b.hits-a.hits);
 
   if(scored.length){
-    return scored.slice(0,5).map(x=>"• "+x.s).join("\n");
+    const header=es?"Según tu material cargad0:":"Based on your uploaded material:";
+    return header.replace("cargad0","cargado")+"\n"+scored.slice(0,5).map(x=>"• "+x.s).join("\n");
   }
-  return sentences.slice(0,4).map(s=>"• "+s).join("\n");
+  const fallbackHeader=es
+    ?"No encontré coincidencia exacta con esa palabra en el texto, pero estos puntos clave del material se relacionan con el tema:"
+    :"No exact keyword match was found in the text, but these key points from your material relate to the topic:";
+  return fallbackHeader+"\n"+sentences.slice(0,4).map(s=>"• "+s).join("\n");
 }
 
-async function generateWithGemini(parts,systemText=""){
-  const apiKey=(localStorage.webook_gemini_key||"").trim();
-  if(!apiKey){
-    throw new Error("NO_API_KEY");
+function buildEquivalentMockExam(text,label,diff="same"){
+  const domain=detectSubjectDomain(text,label);
+  const es=L==="es";
+  const diffLabel=diff==="hard"
+    ?(es?"Nivel exigente":"Challenge difficulty")
+    :diff==="medium"
+      ?(es?"Práctica intermedia":"Balanced difficulty")
+      :(es?"Misma dificultad del parcial":"Equivalent exam difficulty");
+
+  if(domain==="algebra"){
+    return es
+      ? `[${diffLabel}] 1. Multiple Choice — Matrices y determinantes\nDada A = [[2, 1, -1], [0, 3, 2], [1, -1, 4]], ¿cuál es det(A)?\nA) 25   B) 33   C) 19   D) 0\nPaso a paso: det(A) = 2·(12+2) - 1·(0-2) + (-1)·(0-3) = 28 + 2 + 3 = 33. Opción correcta: B.\n\n[${diffLabel}] 2. Ejercicio práctico — Vectores en R³\nDados u = (2, -1, 3) y v = (1, 4, -2), calcula u × v y su módulo.\nPaso a paso: u × v = (-10, 7, 9); |u × v| = √((-10)² + 7² + 9²) = √230.`
+      : `[${diffLabel}] 1. Multiple Choice — Matrices & Determinants\nGiven A = [[2, 1, -1], [0, 3, 2], [1, -1, 4]], what is det(A)?\nA) 25   B) 33   C) 19   D) 0\nStep-by-step: det(A) = 2(12+2) - 1(0-2) + (-1)(0-3) = 28 + 2 + 3 = 33. Correct option: B.\n\n[${diffLabel}] 2. Practice Problem — Vectors in R³\nGiven u = (2, -1, 3) and v = (1, 4, -2), find u × v and its magnitude.\nStep-by-step: u × v = (-10, 7, 9); |u × v| = √((-10)² + 7² + 9²) = √230.`;
   }
-  const payload={contents:[{role:"user",parts}]};
-  if(systemText)payload.systemInstruction={parts:[{text:systemText}]};
-  const resp=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`,{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify(payload)
-  });
-  const data=await resp.json().catch(()=>({}));
-  if(!resp.ok){
-    throw new Error(data?.error?.message||`Error al consultar Gemini (${resp.status}).`);
+  if(domain==="analisis"){
+    return es
+      ? `[${diffLabel}] 1. Multiple Choice — Límites\nCalcula lim_{x→2} (x² - 4) / (x - 2):\nA) 0   B) 2   C) 4   D) No existe\nPaso a paso: factorizá (x-2)(x+2)/(x-2) = x+2 y evaluá en x = 2 → 4. Opción correcta: C.\n\n[${diffLabel}] 2. Ejercicio práctico — Derivadas y extremos\nDada f(x) = x³ - 3x² + 2, hallá los puntos críticos y el crecimiento.\nPaso a paso: f'(x) = 3x(x - 2) = 0 → x = 0 y x = 2.`
+      : `[${diffLabel}] 1. Multiple Choice — Limits\nEvaluate lim_{x→2} (x² - 4) / (x - 2):\nA) 0   B) 2   C) 4   D) Does not exist\nStep-by-step: Factor (x-2)(x+2)/(x-2) = x+2 and evaluate at x = 2 → 4. Correct option: C.\n\n[${diffLabel}] 2. Practice Problem — Derivatives & Extrema\nGiven f(x) = x³ - 3x² + 2, find critical points and monotonicity.\nStep-by-step: f'(x) = 3x(x - 2) = 0 → x = 0 and x = 2.`;
   }
-  const out=data?.candidates?.[0]?.content?.parts?.map(p=>p.text||"").join("\n").trim();
-  if(!out)throw new Error("Gemini no devolvió una respuesta.");
-  return out;
+  if(domain==="fisica"){
+    return es
+      ? `[${diffLabel}] 1. Multiple Choice — Plano inclinado\nEn un plano inclinado de 30°, la componente del peso paralela al plano es:\nA) m·g·cos(30°)   B) m·g·sen(30°)   C) m·g·tan(30°)   D) m·g\nPaso a paso: sobre el eje paralelo al plano actúa m·g·sen(θ). Opción correcta: B.\n\n[${diffLabel}] 2. Ejercicio práctico — Dinámica y trabajo\nUn cuerpo de 4 kg avanza 5 m en un plano con μ_k = 0,2. Planteá fuerzas y trabajo.\nPaso a paso: N = m·g·cos(30°), f_k = μ_k·N, F_neta = m·g·sen(30°) - f_k, W = F_neta·d.`
+      : `[${diffLabel}] 1. Multiple Choice — Inclined Plane\nOn a 30° incline, the weight component parallel to the plane is:\nA) m·g·cos(30°)   B) m·g·sen(30°)   C) m·g·tan(30°)   D) m·g\nStep-by-step: Along the incline axis, gravity acts as m·g·sen(θ). Correct option: B.\n\n[${diffLabel}] 2. Practice Problem — Dynamics & Work\nA 4 kg block moves 5 m with μ_k = 0.2. Outline forces and net work.\nStep-by-step: N = m·g·cos(30°), f_k = μ_k·N, F_net = m·g·sen(30°) - f_k, W = F_net·d.`;
+  }
+  if(domain==="design"){
+    return es
+      ? `[${diffLabel}] 1. Multiple Choice — Escalas y medidas 2D/3D\nEn un plano a escala 1:50, un tramo de 120 mm en el dibujo equivale en realidad a:\nA) 2,4 mm   B) 120 mm   C) 6.000 mm   D) 500 mm\nPaso a paso: medida real = 120 mm × 50 = 6.000 mm. Opción correcta: C.\n\n[${diffLabel}] 2. Verificación 2D/3D — SketchUp y cotas\nIndicá qué medidas y tolerancias debés comprobar antes de validar la pieza.\nPaso a paso: revisá cotas principales, holguras y ejes de referencia.`
+      : `[${diffLabel}] 1. Multiple Choice — 2D/3D Scale & Measurements\nAt a 1:50 scale, a 120 mm drawing segment equals in reality:\nA) 2.4 mm   B) 120 mm   C) 6,000 mm   D) 500 mm\nStep-by-step: Real size = 120 mm × 50 = 6,000 mm. Correct option: C.\n\n[${diffLabel}] 2. 2D/3D Check — SketchUp & Dimensions\nList key dimensions, clearances, and reference axes to verify on the piece.\nStep-by-step: Check main dimensions, fit tolerances, and datum axes.`;
+  }
+  const topic=(S.subs.find(x=>String(x.id)===String(S.sub))?.name)||label||(es?"la materia":"the subject");
+  return es
+    ? `[${diffLabel}] 1. Multiple Choice — Concepto clave de ${topic}\n¿Cuál es el mejor criterio al resolver un problema de ${topic}?\nA) Verificar condiciones y unidades antes de operar\nB) Omitir los datos iniciales\nC) Saltar pasos sin justificar\nD) Aplicar fórmulas sin revisar supuestos\nPaso a paso: siempre validá hipótesis, variables y unidades. Opción correcta: A.\n\n[${diffLabel}] 2. Problema equivalente de ${topic}\nResolvé un ejercicio integrador de ${topic} mostrando cada paso.\nPaso a paso: 1) Identificá datos; 2) Aplicá el método correspondiente; 3) Verificá el resultado.`
+    : `[${diffLabel}] 1. Multiple Choice — Core Concept (${topic})\nWhat is the best practice when solving a ${topic} problem?\nA) Check conditions and units before calculating\nB) Ignore given constraints\nC) Skip steps without justification\nD) Apply formulas blindly\nStep-by-step: Always verify assumptions, variables, and units. Correct option: A.\n\n[${diffLabel}] 2. Equivalent Practice Problem (${topic})\nSolve a structured ${topic} problem showing every step.\nStep-by-step: 1) List given data; 2) Apply the rule/method; 3) Verify the result.`;
 }
 
 function addAutoNotesFromText(doc,summaryOrTopicsText){
   const existing=new Set(S.notes.filter(n=>n.doc===doc.id).map(n=>n.text));
   const lines=summaryOrTopicsText.split("\n")
     .map(l=>l.replace(/^[-•*\d.)\s]+/,"").trim())
-    .filter(l=>l.length>=10&&l.length<=160);
+    .filter(l=>l.length>=12&&l.length<=160&&!/^(temas principales|resumen y notas clave|main topics|summary & key notes)/i.test(l));
   let added=0;
   for(const ln of lines){
     if(!existing.has(ln)){
@@ -582,15 +649,17 @@ $("#sbs").onchange=()=>{
   save();
   refreshDocSelect();
   drawNb();
+  drawPlans2D();
   home();
   renderCalendar();
+  previewExport();
 };
 
 $("#sa").onclick=()=>{
   const n=$("#sn").value.trim();if(!n)return;
   const item={id:String(Date.now()),name:n,color:"#4F7260"};
   S.subs.push(item);S.sub=item.id;$("#sn").value="";
-  save();subsUI();refreshDocSelect();drawNb();home();renderCalendar();
+  save();subsUI();refreshDocSelect();drawNb();drawPlans2D();home();renderCalendar();previewExport();
 };
 
 function refreshDocSelect(){
@@ -608,36 +677,22 @@ function home(){
   $("#hs").innerHTML=S.subs.length
     ? S.subs.map(x=>`<div class="card" style="border-left:4px solid ${x.color};margin:0;padding:8px"><b>${esc(x.name)}</b></div>`).join("")
     : `<small class="mut">${esc(t("no_subs_empty"))}</small>`;
-  const pending=[...S.tasks].filter(x=>!x.done).sort((a,b)=>(a.due||"9999-99-99").localeCompare(b.due||"9999-99-99"));
+  const pending=getPrioritizedTasks().filter(x=>!x.done);
   $("#hn").innerHTML=pending.length
-    ? pending.slice(0,6).map(x=>`<div class="tc"><div class="tc-top"><span class="t-title"><b>${esc(x.title)}</b><br><small>${esc(x.due||"—")}</small></span></div></div>`).join("")
+    ? pending.slice(0,6).map(x=>`<div class="tc"><div class="tc-top"><span class="t-title"><b>${esc(x.title)}</b> <span class="badge">${esc(taskTypeLabel(x.kind))}</span><br><small>${esc(x.due||"—")}</small></span></div></div>`).join("")
     : `<small class="mut">${esc(t("no_tasks"))}</small>`;
 }
 
-$("#qs").onclick=async()=>{
+$("#qs").onclick=()=>{
   const q=$("#qi").value.trim();if(!q)return;
   $("#qc").insertAdjacentHTML("beforeend",`<div class="mut"><b>&rsaquo;</b> ${esc(q)}</div>`);
   $("#qi").value="";
   const sb=S.subs.find(x=>x.id==S.sub);
   const subDocs=S.docs.filter(d=>d.sub==S.sub);
-  const parts=[];
-  subDocs.forEach(d=>{
-    if(d.inlinePart)parts.push(d.inlinePart);
-    if(d.content)parts.push(`Material (${d.name}):\n${d.content.slice(0,12000)}`);
-  });
-  parts.push(q);
-  try{
-    const ans=await generateWithGemini(parts,`Eres un asistente de estudio para ${sb?sb.name:"el estudiante"}. Responde en ${LN[L]} yendo directo a los temas y conceptos.`);
-    $("#qc").insertAdjacentHTML("beforeend",`<div class="mg">${esc(ans)}</div>`);
-  }catch(err){
-    if(err.message==="NO_API_KEY"){
-      const combined=subDocs.map(d=>d.content||"").join("\n");
-      const fallback=answerFromTextLocal(q,{name:sb?.name||q,content:combined});
-      $("#qc").insertAdjacentHTML("beforeend",`<div class="mg">${esc(fallback)}</div>`);
-    }else{
-      $("#qc").insertAdjacentHTML("beforeend",`<div class="mg">${esc(err.message)}</div>`);
-    }
-  }
+  const subNotes=S.notes.filter(n=>n.sub==S.sub).map(n=>`[${n.kind}] ${n.text}`).join("\n");
+  const combined=subDocs.map(d=>d.content||"").join("\n");
+  const ans=answerFromTextLocal(q,{name:sb?.name||q,content:combined},subNotes);
+  $("#qc").insertAdjacentHTML("beforeend",`<div class="mg">${esc(ans)}</div>`);
   $("#qc").scrollTop=$("#qc").scrollHeight;
   $("#qi").focus();
 };
@@ -650,7 +705,6 @@ $("#uf").onchange=async e=>{
   const f=e.target.files[0];if(!f)return;
   $("#st").textContent="...";
   let content="";
-  let inlinePart=null;
   const isPdf=f.type==="application/pdf"||/\.pdf$/i.test(f.name);
   const isText=f.type.startsWith("text/")||/\.(txt|md)$/i.test(f.name);
   try{
@@ -658,11 +712,8 @@ $("#uf").onchange=async e=>{
       content=await f.text();
     }else if(isPdf){
       content=await extractPdfText(f);
-      if(!content)inlinePart=await fileToBase64Part(f);
-    }else{
-      inlinePart=await fileToBase64Part(f);
     }
-    const doc={id:String(Date.now()),name:f.name,sub:S.sub,content,inlinePart,lastAiOutput:""};
+    const doc={id:String(Date.now()),name:f.name,sub:S.sub,content,lastAiOutput:""};
     S.docs.push(doc);
     save();
     refreshDocSelect();
@@ -683,52 +734,29 @@ function drawNb(){
     renderNotesPanel(null);
     return;
   }
-  $("#rd").textContent=d.content||(d.inlinePart?`[${d.name}]`:"");
+  $("#rd").textContent=d.content||`[${d.name}]`;
   renderNotesPanel(d.id);
 }
 
-async function runDocAI(promptText,isSummary=false){
+function runDocStudy(promptText,isSummary=false){
   const d=curDoc();
   if(!d){
     $("#ans").hidden=false;
-    $("#ans").textContent="Sube o selecciona un archivo en el cuaderno primero.";
+    $("#ans").textContent=L==="es"?"Sube o selecciona un archivo en el cuaderno primero.":"Upload or select a document in the notebook first.";
     return;
   }
   $("#ans").hidden=false;
-  $("#ans").textContent="...";
-  const parts=[];
-  if(d.inlinePart)parts.push(d.inlinePart);
-  if(d.content)parts.push(`Contenido del documento (${d.name}):\n${d.content.slice(0,15000)}`);
-  parts.push(
-    isSummary
-      ? "Lista los temas principales del documento, resume cada tema en puntos claros y extrae 3 notas clave cortas."
-      : `Responde estrictamente en base a este material (${d.name}). Pregunta: ${promptText}`
-  );
-  try{
-    const out=await generateWithGemini(parts,`Responde en ${LN[L]} con precisión y sin relleno.`);
-    d.lastAiOutput=out;
-    addAutoNotesFromText(d,out);
-    save();
-    $("#ans").textContent=out;
-  }catch(err){
-    if(err.message==="NO_API_KEY"){
-      const localOut=isSummary
-        ? buildEquivalentMockExam(d.content,d.name)
-        : answerFromTextLocal(promptText,d);
-      d.lastAiOutput=localOut;
-      addAutoNotesFromText(d,localOut);
-      save();
-      $("#ans").textContent=localOut;
-    }else{
-      $("#ans").textContent=err.message;
-    }
-  }
+  const out=isSummary?buildDocSummaryLocal(d):answerFromTextLocal(promptText,d);
+  d.lastAiOutput=out;
+  addAutoNotesFromText(d,out);
+  save();
+  $("#ans").textContent=out;
 }
 
-$("#sm").onclick=()=>runDocAI("Resumen de temas",true);
+$("#sm").onclick=()=>runDocStudy("Summary & key notes",true);
 $("#qa").onclick=()=>{
   const q=$("#q").value.trim();if(!q)return;
-  runDocAI(q,false);
+  runDocStudy(q,false);
   $("#q").focus();
 };
 $("#q").onkeydown=e=>e.key=="Enter"&&$("#qa").click();
@@ -765,7 +793,7 @@ function renderNotesPanel(docId){
   html+=listVoices.map(v=>`
     <div class="voice-card">
       <button type="button" class="x" onclick="delVoice('${v.id}')">×</button>
-      <input class="voice-title" value="${esc(v.title)}" onchange="renameVoice('${v.id}',this.value)">
+      <input class="voice-title" value="${esc(v.title)}" onchange="renameVoice('${v.id}',this.value)" title="Rename audio">
       <small class="mut">(${esc(v.duration)})</small>
       ${v.audioDataUrl?`<audio controls src="${v.audioDataUrl}" style="width:100%;height:32px;margin-top:6px"></audio>`:""}
     </div>`).join("");
@@ -783,7 +811,7 @@ window.delVoice=id=>{
 };
 window.renameVoice=(id,val)=>{
   const item=S.voices.find(v=>String(v.id)===String(id));
-  if(item){item.title=val.trim()||"Audio";save()}
+  if(item){item.title=val.trim()||"Audio";save();previewExport()}
 };
 
 /* Grabadora de voz */
@@ -812,7 +840,7 @@ $("#rec").onclick=async()=>{
         id:String(Date.now()),
         doc:curDoc()?.id||null,
         sub:S.sub,
-        title:`Audio ${idx}`,
+        title:`Voice Note ${idx}`,
         duration:durStr,
         audioDataUrl
       });
@@ -830,7 +858,7 @@ $("#rec").onclick=async()=>{
   }
 };
 
-/* Esquemas 2D y Videos */
+/* Esquemas 2D/3D y Videos + Medidas y Anotaciones */
 $("#mf").onchange=e=>{
   const f=e.target.files[0];if(!f)return;
   const reader=new FileReader();
@@ -841,31 +869,68 @@ $("#mf").onchange=e=>{
       sub:S.sub,
       src:String(reader.result||""),
       isImg:f.type.startsWith("image/"),
-      isVideo:f.type.startsWith("video/")
+      isVideo:f.type.startsWith("video/"),
+      annos:[]
     });
     save();drawPlans2D();
   };
   reader.readAsDataURL(f);
 };
 
+$("#anno-add").onclick=()=>{
+  const measure=$("#anno-measure").value.trim();
+  const note=$("#anno-text").value.trim();
+  if(!measure&&!note)return;
+  const list=S.plans.filter(p=>!S.sub||String(p.sub)===String(S.sub));
+  const target=list[list.length-1];
+  if(!target){
+    S.plans.push({
+      id:String(Date.now()),
+      name:"2D/3D Piece Sheet",
+      sub:S.sub,
+      src:"",
+      isImg:false,
+      isVideo:false,
+      annos:[{id:String(Date.now()+1),measure,note}]
+    });
+  }else{
+    target.annos=target.annos||[];
+    target.annos.push({id:String(Date.now()+1),measure,note});
+  }
+  $("#anno-measure").value="";
+  $("#anno-text").value="";
+  save();drawPlans2D();
+};
+
 function drawPlans2D(){
-  const list=S.plans.filter(p=>!S.sub||p.sub==S.sub);
+  const list=S.plans.filter(p=>!S.sub||String(p.sub)===String(S.sub));
   if(!list.length){
     $("#plan-viewer").innerHTML=`<span class="mut">${esc(t("no_plan"))}</span>`;
     return;
   }
   $("#plan-viewer").innerHTML=list.map(p=>`
-    <div style="width:100%;border:1px solid var(--ln);border-radius:6px;padding:10px;background:var(--s)">
+    <div style="width:100%;border:1px solid var(--ln);border-radius:6px;padding:12px;background:var(--s)">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
         <b>${esc(p.name)}</b>
         <button type="button" class="x" style="position:static" onclick="delPlan('${p.id}')">×</button>
       </div>
-      ${p.isImg?`<img src="${p.src}" alt="${esc(p.name)}" style="max-width:100%;max-height:360px;border-radius:4px;display:block">`:""}
-      ${p.isVideo?`<video controls src="${p.src}" style="max-width:100%;max-height:360px;border-radius:4px;display:block"></video>`:""}
-      ${(!p.isImg&&!p.isVideo)?`<small class="mut">${esc(p.name)}</small>`:""}
+      ${p.isImg?`<img src="${p.src}" alt="${esc(p.name)}" style="max-width:100%;max-height:340px;border-radius:4px;display:block;margin-bottom:8px">`:""}
+      ${p.isVideo?`<video controls src="${p.src}" style="max-width:100%;max-height:340px;border-radius:4px;display:block;margin-bottom:8px"></video>`:""}
+      ${(p.annos||[]).map(a=>`
+        <div class="anno-box">
+          <div>
+            ${a.measure?`<span class="badge">${esc(a.measure)}</span>`:""}
+            <span>${esc(a.note||"")}</span>
+          </div>
+          <button type="button" class="x" style="position:static" onclick="delAnno('${p.id}','${a.id}')">×</button>
+        </div>`).join("")}
     </div>`).join("");
 }
 window.delPlan=id=>{S.plans=S.plans.filter(p=>String(p.id)!==String(id));save();drawPlans2D()};
+window.delAnno=(planId,annoId)=>{
+  const p=S.plans.find(x=>String(x.id)===String(planId));
+  if(p){p.annos=(p.annos||[]).filter(a=>String(a.id)!==String(annoId));save();drawPlans2D()}
+};
 
 /* Pizarra (sin tocar su estructura ni herramientas) */
 function makeDraggable(el,container){
@@ -960,56 +1025,32 @@ function initWb(){
 /* Simulador de Exámenes */
 $("#exg").onclick=async()=>{
   const files=[...($("#exf").files||[])];
+  const diff=$("#ex-diff").value||"same";
   const sb=S.subs.find(x=>String(x.id)===String(S.sub));
   const subDocs=S.docs.filter(d=>d.sub==S.sub);
   $("#exs").textContent="...";
-  const parts=[];
   let extractedTexts=[];
   for(const f of files){
     const isPdf=f.type==="application/pdf"||/\.pdf$/i.test(f.name);
     const isText=f.type.startsWith("text/")||/\.(txt|md)$/i.test(f.name);
     if(isText){
-      const txt=await f.text();
-      extractedTexts.push(txt);
-      parts.push(`Parcial (${f.name}):\n${txt.slice(0,12000)}`);
+      extractedTexts.push(await f.text());
     }else if(isPdf){
       const txt=await extractPdfText(f);
-      if(txt){
-        extractedTexts.push(txt);
-        parts.push(`Parcial (${f.name}):\n${txt.slice(0,12000)}`);
-      }else{
-        parts.push(await fileToBase64Part(f));
-      }
-    }else{
-      parts.push(await fileToBase64Part(f));
+      if(txt)extractedTexts.push(txt);
     }
   }
-  if(!files.length){
-    subDocs.forEach(d=>{
-      if(d.content){extractedTexts.push(d.content);parts.push(`Material (${d.name}):\n${d.content.slice(0,10000)}`)}
-      if(d.inlinePart)parts.push(d.inlinePart);
-    });
+  if(!extractedTexts.length&&subDocs.length){
+    extractedTexts=subDocs.map(d=>d.content||"").filter(Boolean);
   }
-  parts.push("Genera ejercicios equivalentes en dificultad a los parciales/temas subidos, con resolución paso a paso debajo de cada ejercicio.");
-  const label=files.length?files.map(f=>f.name).join(", "):(sb?.name||"Simulacro");
-
-  try{
-    const raw=await generateWithGemini(parts,`Eres un profesor universitario. Responde en ${LN[L]}.`);
-    S.exams.unshift({id:String(Date.now()),sub:S.sub,title:label,content:raw,answers:{}});
-    save();$("#exs").textContent="";renderExams();
-  }catch(err){
-    if(err.message==="NO_API_KEY"){
-      const mock=buildEquivalentMockExam(extractedTexts.join("\n"),label);
-      S.exams.unshift({id:String(Date.now()),sub:S.sub,title:label,content:mock,answers:{}});
-      save();$("#exs").textContent="";renderExams();
-    }else{
-      $("#exs").textContent=err.message;
-    }
-  }
+  const label=files.length?files.map(f=>f.name).join(", "):(sb?.name||(L==="es"?"Simulacro":"Mock Exam"));
+  const mock=buildEquivalentMockExam(extractedTexts.join("\n"),label,diff);
+  S.exams.unshift({id:String(Date.now()),sub:S.sub,title:label,content:mock,answers:{}});
+  save();$("#exs").textContent="";renderExams();
 };
 
 function renderExams(){
-  const list=S.exams.filter(e=>!S.sub||e.sub==S.sub);
+  const list=S.exams.filter(e=>!S.sub||String(e.sub)===String(S.sub));
   $("#eq").innerHTML=list.map(ex=>{
     const ansVal=ex.answers?.[0]||"";
     return `
@@ -1020,7 +1061,7 @@ function renderExams(){
         </div>
         <div style="white-space:pre-wrap;margin-bottom:10px">${esc(ex.content)}</div>
         <label class="fd">
-          <small>Planteo / Respuesta del estudiante</small>
+          <small>${esc(L==="es"?"Tu respuesta / planteo":"Your answer / solution")}</small>
           <textarea rows="4" style="width:100%" oninput="onExamAnswer('${ex.id}',this.value)">${esc(ansVal)}</textarea>
         </label>
       </div>`;
@@ -1036,13 +1077,27 @@ window.delExam=id=>{
   save();renderExams();
 };
 
-/* Calendario Semanal & Pomodoro */
+/* Calendario Semanal con Prioridad y Plan Diario + Pomodoro Flexible */
 let pt=0,left=1500,weekOffset=0;
-const fmtClock=s=>String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
+const fmtClock=s=>{
+  const n=Math.max(0,Math.floor(s));
+  const h=Math.floor(n/3600);
+  const m=Math.floor((n%3600)/60);
+  const sec=n%60;
+  return h>0
+    ? `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(sec).padStart(2,"0")}`
+    : `${String(m).padStart(2,"0")}:${String(sec).padStart(2,"0")}`;
+};
+
+function getPomodoroSeconds(inputId,defaultVal){
+  const raw=Math.max(1,+($(inputId)?.value||defaultVal));
+  const unit=$("#pom-unit")?.value||"min";
+  return unit==="hr"?raw*3600:raw*60;
+}
 
 function resetPomodoro(){
   clearInterval(pt);pt=0;
-  left=Math.max(60,(+($("#fm").value||25))*60);
+  left=getPomodoroSeconds("#fm",25);
   $("#clk").textContent=fmtClock(left);
 }
 
@@ -1052,14 +1107,15 @@ $("#ps").onclick=()=>{
   pt=setInterval(()=>{
     if(--left<=0){
       clearInterval(pt);pt=0;
-      left=(+($("#bm").value||5))*60;
-      $("#pom-label").textContent="Break";
+      left=getPomodoroSeconds("#bm",5);
+      $("#pom-label").textContent=L==="es"?"Descanso":"Break";
     }
     $("#clk").textContent=fmtClock(left);
   },1000);
 };
 $("#pr").onclick=resetPomodoro;
 $("#fm").onchange=resetPomodoro;
+$("#pom-unit").onchange=resetPomodoro;
 
 window.startTaskPomodoro=title=>{
   $("#pom-label").textContent=title;
@@ -1067,10 +1123,44 @@ window.startTaskPomodoro=title=>{
   $("#ps").click();
 };
 
+const TYPE_WEIGHT={exam:1,delivery:2,tp:3,study:4};
+function taskTypeLabel(kind){
+  const map={exam:"t_exam",delivery:"t_delivery",tp:"t_tp",study:"t_study"};
+  return t(map[kind]||"t_study");
+}
+
+function getPrioritizedTasks(){
+  return [...S.tasks].sort((a,b)=>{
+    if(a.done!==b.done)return a.done?1:-1;
+    const d=(a.due||"9999-99-99").localeCompare(b.due||"9999-99-99");
+    if(d!==0)return d;
+    return (TYPE_WEIGHT[a.kind]||9)-(TYPE_WEIGHT[b.kind]||9);
+  });
+}
+
+function renderStudyGuide(){
+  const pending=getPrioritizedTasks().filter(x=>!x.done);
+  if(!pending.length){
+    $("#study-guide").textContent=L==="es"
+      ?"Plan de estudio: agregá parciales, entregas o trabajos prácticos con fecha para ordenar prioridades y armar tu rutina diaria."
+      :"Daily study plan: add midterms, deliveries, or practical works with dates to prioritize deadlines and plan daily study topics.";
+    return;
+  }
+  const lines=pending.slice(0,4).map((x,idx)=>{
+    const sb=S.subs.find(s=>String(s.id)===String(x.sub));
+    const subjName=sb?sb.name:(L==="es"?"Materia general":"General");
+    return L==="es"
+      ? `${idx+1}. [${taskTypeLabel(x.kind)}] ${x.title} (${subjName} — fecha: ${x.due||"—"}) → Repasar conceptos clave y resolver 2 ejercicios hoy.`
+      : `${idx+1}. [${taskTypeLabel(x.kind)}] ${x.title} (${subjName} — due: ${x.due||"—"}) → Review core topics and solve 2 practice items today.`;
+  });
+  $("#study-guide").textContent=lines.join("\n");
+}
+
 $("#ta").onclick=()=>{
   const title=$("#tk").value.trim();if(!title)return;
+  const kind=$("#tk-type").value||"study";
   const due=$("#td").value||new Date().toISOString().slice(0,10);
-  S.tasks.push({id:String(Date.now()),title,sub:$("#ts").value||S.sub||null,due,done:false});
+  S.tasks.push({id:String(Date.now()),title,kind,sub:$("#ts").value||S.sub||null,due,done:false});
   $("#tk").value="";
   save();renderCalendar();home();$("#tk").focus();
 };
@@ -1091,12 +1181,13 @@ $("#wk-prev").onclick=()=>{weekOffset--;renderCalendar()};
 $("#wk-next").onclick=()=>{weekOffset++;renderCalendar()};
 
 function renderCalendar(){
+  renderStudyGuide();
   const days=getWeekDays(weekOffset);
   $("#wk-range").textContent=`${days[0].label} — ${days[6].label}`;
   const today=new Date().toISOString().slice(0,10);
 
   $("#bo").innerHTML=days.map(day=>{
-    const items=S.tasks.filter(x=>x.due===day.iso);
+    const items=getPrioritizedTasks().filter(x=>x.due===day.iso);
     return `
       <div class="day-col">
         <div class="day-head"><b>${esc(day.label)}</b><small>${items.length}</small></div>
@@ -1108,7 +1199,8 @@ function renderCalendar(){
               <div class="tc-top">
                 <input type="checkbox" ${x.done?"checked":""} onchange="toggleTask('${x.id}')">
                 <div class="t-title">
-                  <b>${esc(x.title)}</b>
+                  <b>${esc(x.title)}</b><br>
+                  <span class="badge">${esc(taskTypeLabel(x.kind))}</span>
                   ${sb?`<br><small class="mut">${esc(sb.name)}</small>`:""}
                 </div>
               </div>
@@ -1131,10 +1223,10 @@ window.delTask=id=>{
   save();renderCalendar();home();
 };
 
-/* Descargas organizadas */
+/* Descargas organizadas (TXT + Word .doc + Audios y Esquemas) */
 function buildExportData(subId){
   const sb=S.subs.find(x=>String(x.id)===String(subId));
-  if(!sb)return{text:"",voices:[],plans:[]};
+  if(!sb)return{text:"",html:"",voices:[],plans:[],subjectName:"WeBook"};
 
   const docs=S.docs.filter(d=>String(d.sub)===String(sb.id));
   const docIds=new Set(docs.map(d=>String(d.id)));
@@ -1147,17 +1239,17 @@ function buildExportData(subId){
   if($("#inc-docs")?.checked){
     const arr=[
       "============================================================",
-      "1. APUNTES Y TEMAS PRINCIPALES",
+      "1. TOPICS & NOTES / APUNTES Y TEMAS",
       "============================================================"
     ];
     if(!docs.length){
-      arr.push("Sin apuntes cargados en esta materia.");
+      arr.push("No documents loaded in this subject.");
     }else{
       docs.forEach((d,idx)=>{
         arr.push(`\n[${idx+1}] ${d.name}`);
         const body=(d.content||"").trim();
         if(body)arr.push(body);
-        if(d.lastAiOutput)arr.push("\nResumen / Respuesta IA:\n"+d.lastAiOutput);
+        if(d.lastAiOutput)arr.push("\nSummary / Notes:\n"+d.lastAiOutput);
       });
     }
     sections.topics=arr.join("\n");
@@ -1166,14 +1258,14 @@ function buildExportData(subId){
   if($("#inc-notes")?.checked){
     const arr=[
       "============================================================",
-      "2. NOTAS Y POST-ITS",
+      "2. NOTES & POST-ITS / NOTAS Y POST-ITS",
       "============================================================"
     ];
     if(!notes.length){
-      arr.push("Sin notas ni Post-its registrados.");
+      arr.push("No notes or Post-its recorded.");
     }else{
       notes.forEach(n=>{
-        const tag=n.kind==="postit"?"POST-IT":"NOTA";
+        const tag=n.kind==="postit"?"POST-IT":"NOTE";
         arr.push(`• [${tag}] ${n.text}`);
       });
     }
@@ -1183,14 +1275,14 @@ function buildExportData(subId){
   if($("#inc-voices")?.checked){
     const arr=[
       "============================================================",
-      "3. GRABACIONES DE VOZ",
+      "3. VOICE RECORDINGS / GRABACIONES DE VOZ",
       "============================================================"
     ];
     if(!voices.length){
-      arr.push("Sin grabaciones de voz guardadas.");
+      arr.push("No voice recordings saved.");
     }else{
       voices.forEach(v=>{
-        arr.push(`• ${v.title} — Duración: ${v.duration}`);
+        arr.push(`• ${v.title} — Duration: ${v.duration} (audio file downloadable below)`);
       });
     }
     sections.audio=arr.join("\n");
@@ -1199,15 +1291,16 @@ function buildExportData(subId){
   if($("#inc-media")?.checked){
     const arr=[
       "============================================================",
-      "4. ESQUEMAS 2D Y VIDEOS",
+      "4. 2D/3D SCHEMES & VIDEOS / ESQUEMAS Y VIDEOS",
       "============================================================"
     ];
     if(!plans.length){
-      arr.push("Sin esquemas ni videos guardados.");
+      arr.push("No 2D/3D schemes or videos saved.");
     }else{
       plans.forEach(p=>{
-        const kind=p.isVideo?"Video":(p.isImg?"Esquema/Imagen":"Archivo");
-        arr.push(`• [${kind}] ${p.name}`);
+        const kind=p.isVideo?"Video":(p.isImg?"2D/3D Image":"File");
+        const annos=(p.annos||[]).map(a=>`${a.measure||""} ${a.note||""}`.trim()).filter(Boolean).join(" | ");
+        arr.push(`• [${kind}] ${p.name}${annos?` — Annotations: ${annos}`:""}`);
       });
     }
     sections.media=arr.join("\n");
@@ -1221,14 +1314,16 @@ function buildExportData(subId){
 
   const header=[
     "************************************************************",
-    `WEBOOK — MATERIA: ${sb.name.toUpperCase()}`,
-    `Fecha: ${new Date().toLocaleDateString()}`,
+    `WEBOOK — SUBJECT / MATERIA: ${sb.name.toUpperCase()}`,
+    `Date: ${new Date().toLocaleDateString()}`,
     "************************************************************",
     ""
   ].join("\n");
 
   const bodyBlocks=orderMap.map(k=>sections[k]).filter(Boolean).join("\n\n");
-  return{text:header+bodyBlocks,voices,plans};
+  const fullText=header+bodyBlocks;
+  const htmlDoc=`<!doctype html><html><head><meta charset="utf-8"><title>${esc(sb.name)}</title><style>body{font-family:Calibri,Arial,sans-serif;line-height:1.5;color:#222;padding:24px}pre{white-space:pre-wrap;font-family:inherit}</style></head><body><pre>${esc(fullText)}</pre></body></html>`;
+  return{text:fullText,html:htmlDoc,voices,plans,subjectName:sb.name};
 }
 
 function previewExport(){
@@ -1241,6 +1336,15 @@ function previewExport(){
   $("#dl-media-links").innerHTML=mediaHtml;
 }
 
+function triggerDownload(content,mime,filename){
+  const blob=new Blob([content],{type:mime});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=filename;
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1500);
+}
+
 $("#xs").onchange=previewExport;
 $("#x-order").onchange=previewExport;
 ["#inc-docs","#inc-notes","#inc-voices","#inc-media"].forEach(sel=>{
@@ -1248,14 +1352,16 @@ $("#x-order").onchange=previewExport;
 });
 
 $("#xt").onclick=()=>{
-  const content=$("#xv").textContent||buildExportData($("#xs").value).text;
+  const res=buildExportData($("#xs").value);
+  const content=$("#xv").textContent||res.text;
   if(!content)return;
-  const blob=new Blob([content],{type:"text/plain;charset=utf-8"});
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(blob);
-  a.download="webook-material-ordenado.txt";
-  a.click();
-  setTimeout(()=>URL.revokeObjectURL(a.href),1500);
+  triggerDownload(content,"text/plain;charset=utf-8",`webook-${(res.subjectName||"study").toLowerCase().replace(/\s+/g,"-")}.txt`);
+};
+
+$("#xdoc").onclick=()=>{
+  const res=buildExportData($("#xs").value);
+  if(!res.html)return;
+  triggerDownload(res.html,"application/msword;charset=utf-8",`webook-${(res.subjectName||"study").toLowerCase().replace(/\s+/g,"-")}.doc`);
 };
 
 /* Acceso */
@@ -1266,9 +1372,11 @@ $("#auth").onsubmit=e=>{
   subsUI();
   refreshDocSelect();
   drawNb();
+  drawPlans2D();
   home();
   renderCalendar();
   renderExams();
+  previewExport();
 };
 $("#out").onclick=()=>{
   $("#app").hidden=true;
