@@ -54,6 +54,7 @@ main{padding:16px;max-width:1200px;margin:auto}
 .voice-title{font-weight:600;border:0;background:transparent;padding:2px 4px;border-bottom:1px dashed var(--ln);width:100%;max-width:220px;margin-bottom:4px}
 .x{position:absolute;right:6px;top:4px;border:0;background:none;padding:2px 6px;min-height:auto;color:inherit}
 
+.q-block{border:1px solid var(--ln);border-radius:8px;padding:12px;margin-bottom:12px;background:var(--in)}
 .anno-box{background:var(--mgb);border:1px solid var(--ln);border-radius:6px;padding:8px 10px;margin-top:8px;display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
 .badge{display:inline-block;padding:2px 7px;border-radius:999px;font-size:12px;background:var(--mgb);border:1px solid var(--ln);font-weight:500}
 
@@ -348,7 +349,7 @@ const DICT={
     measure_p:"Measurement (e.g. 120 mm, 45°)",anno_p:"Annotation or test check...",add_anno:"Add annotation",
     pen:"Pen",era:"Eraser",board_postit:"+ Post-it",board_txt_p:"Text for board...",board_txt_btn:"Add text",
     up_img:"Add image",clr:"Clear",
-    ex_desc:"Practice exams by level or theory, write your solution, and debate your reasoning before revealing the answer.",
+    ex_desc:"Complete multi-question mock exams: debate each item first, reveal answers per question or all together.",
     mode_full:"Full exam (Theory + MC + Practice)",mode_easy:"Easy practice",mode_hard:"Hard challenge",mode_theory:"Theory focus",
     gen:"Generate mock exam",pom:"Flexible Pomodoro",unit_min:"Minutes",unit_hr:"Hours",foc:"Focus:",brk:"Break:",
     start:"Start / Pause",reset:"Reset",
@@ -373,7 +374,7 @@ const DICT={
     measure_p:"Medida (ej. 120 mm, 45°)",anno_p:"Anotación o prueba...",add_anno:"Agregar anotación",
     pen:"Lápiz",era:"Borrador",board_postit:"+ Post-it",board_txt_p:"Texto para pizarra...",board_txt_btn:"Agregar texto",
     up_img:"Subir imagen",clr:"Limpiar",
-    ex_desc:"Elegí nivel o teoría, escribí tu planteo y debatí tu razonamiento antes de ver la resolución.",
+    ex_desc:"Simulacros completos con varias consignas: debatí cada punto y revelá respuestas una por una o todas juntas.",
     mode_full:"Examen completo (Teoría + MC + Práctica)",mode_easy:"Simulacro fácil",mode_hard:"Simulacro difícil",mode_theory:"Enfoque teórico",
     gen:"Generar simulacro",pom:"Pomodoro Flexible",unit_min:"Minutos",unit_hr:"Horas",foc:"Estudio:",brk:"Descanso:",
     start:"Iniciar / Pausar",reset:"Reiniciar",
@@ -398,7 +399,7 @@ const DICT={
     measure_p:"Medida (ex. 120 mm, 45°)",anno_p:"Anotação ou teste...",add_anno:"Adicionar anotação",
     pen:"Caneta",era:"Borracha",board_postit:"+ Post-it",board_txt_p:"Texto no quadro...",board_txt_btn:"Adicionar texto",
     up_img:"Enviar imagem",clr:"Limpar",
-    ex_desc:"Escolha nível ou teoria, escreva sua resolução e debata antes de ver a resposta.",
+    ex_desc:"Simulados completos com várias questões: debata cada item e revele respostas uma a uma ou todas juntas.",
     mode_full:"Prova completa (Teoria + MC + Prática)",mode_easy:"Simulado fácil",mode_hard:"Simulado difícil",mode_theory:"Foco teórico",
     gen:"Gerar simulado",pom:"Pomodoro Flexível",unit_min:"Minutos",unit_hr:"Horas",foc:"Foco:",brk:"Pausa:",
     start:"Iniciar / Pausar",reset:"Reiniciar",
@@ -423,7 +424,7 @@ const DICT={
     measure_p:"Mesure (ex. 120 mm, 45°)",anno_p:"Annotation ou test...",add_anno:"Ajouter annotation",
     pen:"Stylo",era:"Gomme",board_postit:"+ Post-it",board_txt_p:"Texte sur le tableau...",board_txt_btn:"Ajouter texte",
     up_img:"Ajouter image",clr:"Effacer",
-    ex_desc:"Choisissez niveau ou théorie, rédigez votre démarche et débattez avant de voir la solution.",
+    ex_desc:"Examens blancs complets à plusieurs consignes : débattez chaque point et révélez les réponses une à une ou toutes ensemble.",
     mode_full:"Examen complet (Théorie + QCM + Pratique)",mode_easy:"Sujet facile",mode_hard:"Sujet difficile",mode_theory:"Focus théorie",
     gen:"Générer un examen blanc",pom:"Pomodoro Flexible",unit_min:"Minutes",unit_hr:"Heures",foc:"Focus :",brk:"Pause :",
     start:"Démarrer / Pause",reset:"Réinitialiser",
@@ -470,7 +471,7 @@ $$(".th").forEach(b=>{
 let S={docs:[],notes:[],voices:[],tasks:[],exams:[],subs:[],sub:null,plans:[]};
 function loadSavedState(){
   try{
-    const raw=localStorage.webook_full_state_v6;
+    const raw=localStorage.webook_full_state_v7;
     if(raw){
       const parsed=JSON.parse(raw);
       S={...S,...parsed,
@@ -478,7 +479,13 @@ function loadSavedState(){
         notes:Array.isArray(parsed.notes)?parsed.notes:[],
         voices:Array.isArray(parsed.voices)?parsed.voices:[],
         tasks:Array.isArray(parsed.tasks)?parsed.tasks:[],
-        exams:Array.isArray(parsed.exams)?parsed.exams.map(e=>({...e,answers:e.answers||{},debates:e.debates||"",revealed:!!e.revealed})):[],
+        exams:Array.isArray(parsed.exams)?parsed.exams.map(e=>({
+          ...e,
+          questions:Array.isArray(e.questions)?e.questions:[],
+          answers:e.answers||{},
+          debates:e.debates||{},
+          revealed:e.revealed||{}
+        })):[],
         subs:Array.isArray(parsed.subs)?parsed.subs:[],
         plans:Array.isArray(parsed.plans)?parsed.plans.map(p=>({...p,annos:Array.isArray(p.annos)?p.annos:[]})):[]
       };
@@ -486,7 +493,7 @@ function loadSavedState(){
   }catch{}
 }
 function save(){
-  try{localStorage.webook_full_state_v6=JSON.stringify(S)}catch{}
+  try{localStorage.webook_full_state_v7=JSON.stringify(S)}catch{}
 }
 loadSavedState();
 
@@ -564,94 +571,134 @@ function answerFromTextLocal(query,doc,extraContext=""){
   return (es?"Puntos relacionados en tu material:\n":"Related points in your material:\n")+sentences.slice(0,4).map(s=>"• "+s).join("\n");
 }
 
-function buildMockExamItem(text,label,mode="full"){
+/* Simulacro extenso con múltiples consignas por examen */
+function buildExtensiveExamQuestions(text,label,mode="full"){
   const domain=detectSubjectDomain(text,label);
   const es=L==="es";
   const topic=(S.subs.find(x=>String(x.id)===String(S.sub))?.name)||label||(es?"la materia":"the subject");
 
-  if(mode==="theory"){
-    return {
-      prompt: es
-        ? `[Teoría — ${topic}]\n1. Explicá con tus palabras la diferencia entre independencia lineal y generar un espacio/subespacio (o la condición clave del tema en ${topic}).\n2. Verdadero o Falso (justificá): "Si un conjunto de vectores es linealmente dependiente, al menos uno de ellos es combinación lineal de los demás."`
-        : `[Theory — ${topic}]\n1. Explain in your own words the difference between linear independence and spanning a space/subspace (or the core condition in ${topic}).\n2. True or False (justify): "If a set of vectors is linearly dependent, at least one vector is a linear combination of the others."`,
-      solution: es
-        ? `Resolución orientativa:\n- En V/F: Verdadero. Por definición de dependencia lineal, existe una combinación lineal no trivial igual al vector nulo, lo que permite despejar al menos un vector en función de los otros.\n- Justificá siempre con la definición formal y un ejemplo concreto.`
-        : `Guideline solution:\n- True/False: True. By definition of linear dependence, a non-trivial linear combination equals the zero vector, allowing at least one vector to be written as a linear combination of the rest.\n- Always justify using the formal definition and a concrete example.`
-    };
+  if(domain==="algebra"||mode==="hard"||mode==="theory"){
+    return [
+      {
+        id:"q1",
+        label: es?"Consigna 1 — Teoría y Definición":"Item 1 — Theory & Definition",
+        prompt: es
+          ? `Definí con precisión qué significa que un conjunto {v₁, v₂, v₃} sea linealmente independiente en un espacio vectorial y explicá cómo se relaciona con que la única combinación lineal igual al vector nulo tenga escalares nulos.`
+          : `Define precisely what it means for {v₁, v₂, v₃} to be linearly independent in a vector space and explain why the only linear combination equal to the zero vector has zero scalars.`,
+        solution: es
+          ? `Respuesta: {v₁, v₂, v₃} es linealmente independiente si α₁v₁ + α₂v₂ + α₃v₃ = 0 implica α₁ = α₂ = α₃ = 0. Ningún vector del conjunto puede expresarse como combinación lineal de los restantes.`
+          : `Answer: {v₁, v₂, v₃} is linearly independent if α₁v₁ + α₂v₂ + α₃v₃ = 0 implies α₁ = α₂ = α₃ = 0. No vector in the set can be written as a linear combination of the others.`
+      },
+      {
+        id:"q2",
+        label: es?"Consigna 2 — Verdadero o Falso con Justificación":"Item 2 — True or False with Justification",
+        prompt: es
+          ? `Indicá si la afirmación es Verdadera o Falsa y justificá: "Si un sistema lineal homogéneo A·x = 0 tiene más incógnitas que ecuaciones (n > m), entonces siempre tiene infinitas soluciones."`
+          : `State whether the statement is True or False and justify: "If a homogeneous linear system A·x = 0 has more unknowns than equations (n > m), it always has infinitely many solutions."`,
+        solution: es
+          ? `Respuesta: Verdadero. A·x = 0 siempre es compatible (x = 0 es solución). Al haber n > m, el rango r ≤ m < n, por lo que quedan n − r ≥ 1 variables libres y, por tanto, infinitas soluciones.`
+          : `Answer: True. A·x = 0 is always consistent (x = 0 is a solution). Since n > m, rank r ≤ m < n, leaving n − r ≥ 1 free variables and hence infinitely many solutions.`
+      },
+      {
+        id:"q3",
+        label: es?"Consigna 3 — Multiple Choice Conceptual":"Item 3 — Conceptual Multiple Choice",
+        prompt: es
+          ? `¿Qué información geométrica y algebraica aporta el producto vectorial u × v entre dos vectores u, v de R³?\nA) Un escalar igual al producto de módulos por el coseno\nB) Un vector perpendicular a u y v cuyo módulo es el área del paralelogramo que determinan\nC) Un vector paralelo a u + v\nD) Solo existe si u y v son unitarios`
+          : `What geometric and algebraic information does the cross product u × v give for two vectors u, v in R³?\nA) A scalar equal to product of norms times cosine\nB) A vector perpendicular to u and v whose norm is the area of the parallelogram they span\nC) A vector parallel to u + v\nD) Only defined when u and v are unit vectors`,
+        solution: es
+          ? `Respuesta: B. El producto vectorial u × v devuelve un vector ortogonal a u y a v (regla de la mano derecha) y su módulo |u × v| coincide con el área del paralelogramo formado por ambos.`
+          : `Answer: B. The cross product u × v yields a vector orthogonal to u and v, and its magnitude |u × v| equals the area of the parallelogram spanned by u and v.`
+      },
+      {
+        id:"q4",
+        label: es?"Consigna 4 — Desarrollo y Planteo Práctico":"Item 4 — Practical Setup & Analysis",
+        prompt: es
+          ? `Planteá paso a paso cómo determinar si un vector a pertenece al subespacio generado por {b, c} y cómo hallar la ecuación de un plano dado un punto P₀ y un vector normal n.`
+          : `Set up step by step how to test whether a vector a belongs to the span of {b, c} and how to write the equation of a plane given point P₀ and normal vector n.`,
+        solution: es
+          ? `Respuesta: 1) a ∈ gen{b, c} si existen escalares λ, μ tales que λb + μc = a (sistema compatible). 2) Plano: n · (X − P₀) = 0, es decir n₁(x − x₀) + n₂(y − y₀) + n₃(z − z₀) = 0.`
+          : `Answer: 1) a ∈ span{b, c} iff scalars λ, μ exist such that λb + μc = a (consistent system). 2) Plane: n · (X − P₀) = 0, i.e., n₁(x − x₀) + n₂(y − y₀) + n₃(z − z₀) = 0.`
+      },
+      {
+        id:"q5",
+        label: es?"Consigna 5 — Síntesis de Parcial":"Item 5 — Exam Synthesis",
+        prompt: es
+          ? `Explicá en 3-4 líneas qué error conceptual es más frecuente al confundir base de un espacio con sistema de generadores y cómo lo verificás en un examen.`
+          : `Explain in 3–4 lines a common conceptual mistake when confusing a basis with a spanning set and how to verify it on an exam.`,
+        solution: es
+          ? `Respuesta: Un conjunto generador cubre todo el espacio pero puede tener vectores redundantes; una base exige además independencia lineal. Se verifica comprobando que genera el espacio y que la única combinación nula es la trivial.`
+          : `Answer: A spanning set covers the space but may have redundant vectors; a basis also requires linear independence. Verify both spanning and trivial-only zero combination.`
+      }
+    ];
   }
 
-  if(mode==="easy"){
-    return {
+  return [
+    {
+      id:"q1",
+      label: es?"Consigna 1 — Teoría Fundamental":"Item 1 — Core Theory",
       prompt: es
-        ? `[Fácil — ${topic}]\nMultiple Choice: ¿Cuál es el primer paso recomendado al plantear un ejercicio de ${topic}?\nA) Identificar datos, notación y condiciones iniciales\nB) Aplicar fórmulas sin revisar qué pide cada inciso\nC) Ignorar unidades o dimensiones\nD) Saltar la verificación final\n\nPlanteá tu elección y por qué descartarías las otras opciones.`
-        : `[Easy — ${topic}]\nMultiple Choice: What is the best first step when solving a ${topic} problem?\nA) Identify given data, notation, and conditions\nB) Apply formulas without checking what each part asks\nC) Ignore units or dimensions\nD) Skip checking the result\n\nState your choice and why you rule out the other options.`,
+        ? `Explicá con tus palabras el concepto central de ${topic}, cuáles son sus condiciones de validez y por qué es importante en la materia.`
+        : `Explain in your own words the core concept of ${topic}, its validity conditions, and why it matters in the subject.`,
       solution: es
-        ? `Resolución orientativa:\n- Opción correcta: A. Identificar datos y condiciones evita errores de signo, notación o dominio desde el inicio.`
-        : `Guideline solution:\n- Correct option: A. Identifying data and conditions prevents sign, notation, or domain errors early on.`
-    };
-  }
-
-  if(mode==="hard"){
-    return {
+        ? `Respuesta: Identificá la definición formal del tema en ${topic}, comprobá las hipótesis exigidas y vinculá su uso con la resolución del problema.`
+        : `Answer: State the formal definition for ${topic}, check required hypotheses, and connect it to solving the problem.`
+    },
+    {
+      id:"q2",
+      label: es?"Consigna 2 — Verdadero o Falso Justificado":"Item 2 — Justified True/False",
       prompt: es
-        ? `[Difícil — ${topic}]\n1. Demostración / Análisis: Dado un sistema o conjunto de vectores en R³ (o modelo de ${topic}), analizá bajo qué condición de parámetro existe solución única, infinitas soluciones o inconsistencia.\n2. Multiple Choice: Si un sistema homogéneo A·x = 0 tiene más incógnitas que ecuaciones:\nA) Solo tiene solución trivial\nB) Siempre tiene infinitas soluciones\nC) Es incompatible\nD) No tiene solución única si A es cuadrada`
-        : `[Hard — ${topic}]\n1. Proof / Analysis: Given a system or vector set in R³ (or ${topic} model), analyze parameter conditions for unique solution, infinitely many solutions, or inconsistency.\n2. Multiple Choice: If a homogeneous system A·x = 0 has more unknowns than equations:\nA) Only the trivial solution exists\nB) It always has infinitely many solutions\nC) It is inconsistent\nD) It cannot have a unique solution if A is square`,
+        ? `Verdadero o Falso (justificá): "Aplicar una fórmula o regla sin verificar previamente las condiciones o unidades siempre es válido si se despeja bien."`
+        : `True or False (justify): "Applying a formula or rule without checking conditions or units first is always valid if algebra is done carefully."`,
       solution: es
-        ? `Resolución orientativa:\n- En el MC: B. Un sistema homogéneo siempre es compatible (x = 0 es solución) y si n > m tiene al menos una variable libre, por lo que posee infinitas soluciones.`
-        : `Guideline solution:\n- MC answer: B. A homogeneous system is always consistent (x = 0 is a solution) and when unknowns > equations there is at least one free variable, giving infinitely many solutions.`
-    };
-  }
-
-  if(domain==="algebra"){
-    return {
+        ? `Respuesta: Falso. Si no se cumplen las hipótesis o las unidades no son consistentes, el resultado puede ser inválido o erróneo aunque el álgebra sea correcta.`
+        : `Answer: False. If hypotheses fail or units are inconsistent, the result can be invalid or wrong even when algebra is careful.`
+    },
+    {
+      id:"q3",
+      label: es?"Consigna 3 — Multiple Choice":"Item 3 — Multiple Choice",
       prompt: es
-        ? `[Examen Completo — Álgebra]\nParte 1 (Teoría / MC): Indicá qué significa que un conjunto {v₁, v₂, v₃} sea linealmente independiente.\nA) Ninguno es combinación lineal de los demás   B) Suman cero   C) Son ortogonales entre sí   D) Generan R³\n\nParte 2 (Práctica): Planteá cómo hallarías el producto vectorial u × v entre dos vectores de R³ y qué representa geométricamente su módulo.`
-        : `[Full Exam — Algebra]\nPart 1 (Theory / MC): What does it mean for {v₁, v₂, v₃} to be linearly independent?\nA) None is a linear combination of the others   B) They sum to zero   C) They are mutually orthogonal   D) They span R³\n\nPart 2 (Practice): Explain how to set up the cross product u × v for two R³ vectors and what its magnitude represents geometrically.`,
+        ? `En un examen de ${topic}, ¿qué estrategia ayuda más a evitar errores?\nA) Leer todas las consignas, identificar datos/condiciones y justificar cada paso\nB) Responder sin leer qué pide cada inciso\nC) Omitir unidades y justificativos teóricos\nD) Hacer todo de memoria sin revisar el enunciado`
+        : `In a ${topic} exam, which strategy best prevents mistakes?\nA) Read all items, identify data/conditions, and justify each step\nB) Answer without checking what each part asks\nC) Skip units and theoretical justifications\nD) Work purely from memory without re-reading the prompt`,
       solution: es
-        ? `Resolución orientativa:\n- Parte 1: A. Ningún vector puede escribirse como combinación lineal de los otros.\n- Parte 2: u × v se calcula con el determinante simbólico con i, j, k (o regla de Sarrus/cofactores); su módulo |u × v| representa el área del paralelogramo formado por u y v.`
-        : `Guideline solution:\n- Part 1: A. No vector can be written as a linear combination of the others.\n- Part 2: u × v comes from the symbolic determinant with i, j, k; |u × v| equals the area of the parallelogram spanned by u and v.`
-    };
-  }
-
-  return {
-    prompt: es
-      ? `[Examen Completo — ${topic}]\nParte 1 (Teoría / MC): ¿Qué conviene revisar primero antes de aplicar una fórmula o regla en ${topic}?\nA) Condiciones de validez y definiciones   B) Solo el resultado numérico   C) Omitir pasos intermedios\n\nParte 2 (Práctica): Escribí el planteo paso a paso de un ejercicio típico de ${topic} y explicá por qué elegís ese método.`
-      : `[Full Exam — ${topic}]\nPart 1 (Theory / MC): What should you check first before applying a formula or rule in ${topic}?\nA) Validity conditions and definitions   B) Only the numerical answer   C) Skipping intermediate steps\n\nPart 2 (Practice): Write a step-by-step setup for a typical ${topic} problem and explain why you choose that method.`,
-    solution: es
-      ? `Resolución orientativa:\n- Parte 1: A. Validar condiciones y definiciones asegura que el método aplique.\n- Parte 2: Definí variables, planteá la ecuación/regla base y justificá cada paso.`
-      : `Guideline solution:\n- Part 1: A. Checking conditions and definitions ensures the method applies.\n- Part 2: Define variables, state the base rule/equation, and justify each step.`
-  };
+        ? `Respuesta: A. Leer todo el enunciado, verificar condiciones y justificar pasos ordena el trabajo y reduce errores.`
+        : `Answer: A. Reading the prompt, checking conditions, and justifying steps structures the work and reduces errors.`
+    },
+    {
+      id:"q4",
+      label: es?"Consigna 4 — Planteo Práctico":"Item 4 — Practical Setup",
+      prompt: es
+        ? `Redactá el planteo completo (datos, incógnitas, ley/fórmula y verificación) para un ejercicio representativo de ${topic}.`
+        : `Write a complete setup (given data, unknowns, law/formula, and check) for a representative ${topic} problem.`,
+      solution: es
+        ? `Respuesta: Listá datos con unidades, definí la incógnita, elegí el modelo/ecuación adecuado, resolvé paso a paso y verificá coherencia.`
+        : `Answer: List given data with units, define unknowns, choose the proper equation/model, solve step by step, and check consistency.`
+    }
+  ];
 }
 
-function debateExamAnswer(exam,userAttempt){
+function debateQuestionAttempt(qObj,userAttempt){
   const attempt=(userAttempt||"").trim();
   const es=L==="es";
   if(!attempt){
     return es
-      ? "Escribí primero tu planteo o qué opción elegís en el cuadro de arriba para que podamos debatirlo."
-      : "Write your attempt or chosen option in the box above first so we can debate it.";
+      ? "Escribí primero tu planteo o respuesta en esta consigna para que podamos debatir."
+      : "Write your attempt or answer for this item first so we can debate it.";
   }
   const hasFormula=/[=×·+\-*/^<>]/.test(attempt);
-  const hasReason=/porque|por qué|ya que|dado que|definici|combinaci|lineal|modulo|módulo|área|area|because|since|definition|linear|span/i.test(attempt);
+  const hasReason=/porque|por qué|ya que|dado que|definici|combinaci|lineal|modulo|módulo|área|area|rango|because|since|definition|linear|span|rank/i.test(attempt);
   if(es){
-    const feedback=[];
-    feedback.push(`Debate sobre tu planteo: "${attempt.slice(0,180)}${attempt.length>180?"...":""}"`);
-    if(!hasReason){
-      feedback.push("• En teoría y parciales suele pedirse justificar el PORQUÉ: ¿qué definición o propiedad respalda tu elección?");
-    }else{
-      feedback.push("• Bien ahí incluyendo justificación: revisá si la definición aplica en todos los casos o si hay alguna excepción.");
-    }
-    if(!hasFormula){
-      feedback.push("• Si hay cálculo o vector/matriz involucrado, explicitá la expresión o ecuación antes de operar.");
-    }
-    feedback.push("• ¿Querés defender tu postura o probar otro enfoque antes de ver la resolución?");
-    return feedback.join("\n");
+    const lines=[`Debate (${qObj.label}): tomaste la postura "${attempt.slice(0,150)}${attempt.length>150?"...":""}".`];
+    if(!hasReason)lines.push("• Faltaría explicitár la justificación teórica (¿qué definición o criterio respalda tu respuesta?).");
+    else lines.push("• Buena base al incluir justificación: revisá que no haya casos borde ni supuestos sin aclarar.");
+    if(!hasFormula)lines.push("• Si corresponde, escribí la expresión, ecuación o condición algebraica/geométrica que usás.");
+    lines.push("• Podés ajustar tu planteo arriba o abrir solo la respuesta de esta consigna cuando quieras.");
+    return lines.join("\n");
   }
-  const feedback=[`Debate on your attempt: "${attempt.slice(0,180)}${attempt.length>180?"...":""}"`];
-  if(!hasReason)feedback.push("• Examiners usually look for the WHY: which definition or theorem supports your step?");
-  if(!hasFormula)feedback.push("• Write out the key expression or condition explicitly so we can check each step.");
-  feedback.push("• Want to refine your argument or check a hint before revealing the solution?");
-  return feedback.join("\n");
+  const lines=[`Debate (${qObj.label}): your attempt is "${attempt.slice(0,150)}${attempt.length>150?"...":""}".`];
+  if(!hasReason)lines.push("• Add the theoretical reason: which definition or theorem supports your claim?");
+  if(!hasFormula)lines.push("• Write out the key formula, equation, or condition explicitly when applicable.");
+  lines.push("• Refine your attempt above or reveal this item's answer whenever ready.");
+  return lines.join("\n");
 }
 
 function addAutoNotesFromText(doc,summaryOrTopicsText){
@@ -1071,7 +1118,7 @@ function initWb(){
   };
 }
 
-/* Simulador de Exámenes con Debate */
+/* Simulador de Exámenes Extenso + Respuestas por Consigna o Todas Juntas */
 $("#exg").onclick=async()=>{
   const files=[...($("#exf").files||[])];
   const mode=$("#ex-mode").value||"full";
@@ -1093,16 +1140,15 @@ $("#exg").onclick=async()=>{
     extractedTexts=subDocs.map(d=>d.content||"").filter(Boolean);
   }
   const label=files.length?files.map(f=>f.name).join(", "):(sb?.name||(L==="es"?"Simulacro":"Mock Exam"));
-  const item=buildMockExamItem(extractedTexts.join("\n"),label,mode);
+  const questions=buildExtensiveExamQuestions(extractedTexts.join("\n"),label,mode);
   S.exams.unshift({
     id:String(Date.now()),
     sub:S.sub,
     title:label,
-    prompt:item.prompt,
-    solution:item.solution,
-    answers:{0:""},
-    debates:"",
-    revealed:false
+    questions,
+    answers:{},
+    debates:{},
+    revealed:{}
   });
   save();$("#exs").textContent="";renderExams();
 };
@@ -1111,42 +1157,70 @@ function renderExams(){
   const es=L==="es";
   const list=S.exams.filter(e=>!S.sub||String(e.sub)===String(S.sub));
   $("#eq").innerHTML=list.map(ex=>{
-    const ansVal=ex.answers?.[0]||"";
+    const qs=Array.isArray(ex.questions)&&ex.questions.length?ex.questions:[];
+    const allRevealed=qs.length>0&&qs.every(q=>!!ex.revealed?.[q.id]);
     return `
       <div class="card" data-exam-id="${ex.id}">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">
           <b>${esc(ex.title)}</b>
-          <button type="button" class="x" style="position:static" onclick="delExam('${ex.id}')">×</button>
+          <div class="row" style="margin:0">
+            <button type="button" class="p" onclick="toggleAllAnswers('${ex.id}')">${esc(allRevealed?(es?"Ocultar todas las respuestas":"Hide all answers"):(es?"Ver todas las respuestas":"Show all answers"))}</button>
+            <button type="button" class="x" style="position:static" onclick="delExam('${ex.id}')">×</button>
+          </div>
         </div>
-        <div style="white-space:pre-wrap;margin-bottom:10px">${esc(ex.prompt)}</div>
-        <label class="fd">
-          <small>${esc(es?"Tu planteo / elección para debatir":"Your attempt / choice to debate")}</small>
-          <textarea rows="3" style="width:100%" oninput="onExamAnswer('${ex.id}',this.value)">${esc(ansVal)}</textarea>
-        </label>
-        <div class="row" style="margin-top:8px">
-          <button type="button" class="p" onclick="debateExam('${ex.id}')">${esc(es?"Debatir planteo":"Debate attempt")}</button>
-          <button type="button" onclick="toggleExamSolution('${ex.id}')">${esc(ex.revealed?(es?"Ocultar resolución":"Hide solution"):(es?"Ver resolución":"Show solution"))}</button>
-        </div>
-        ${ex.debates?`<div class="mg">${esc(ex.debates)}</div>`:""}
-        ${ex.revealed?`<div class="mg">${esc(ex.solution)}</div>`:""}
+        ${qs.map(q=>{
+          const ansVal=ex.answers?.[q.id]||"";
+          const debVal=ex.debates?.[q.id]||"";
+          const isRev=!!ex.revealed?.[q.id];
+          return `
+            <div class="q-block">
+              <b style="display:block;margin-bottom:4px">${esc(q.label)}</b>
+              <div style="white-space:pre-wrap;margin-bottom:8px">${esc(q.prompt)}</div>
+              <label class="fd">
+                <small>${esc(es?"Tu planteo / respuesta para esta consigna":"Your attempt / answer for this item")}</small>
+                <textarea rows="2" style="width:100%" oninput="onQuestionAnswer('${ex.id}','${q.id}',this.value)">${esc(ansVal)}</textarea>
+              </label>
+              <div class="row" style="margin-top:8px;margin-bottom:0">
+                <button type="button" onclick="debateQuestion('${ex.id}','${q.id}')">${esc(es?"Debatir consigna":"Debate item")}</button>
+                <button type="button" onclick="toggleQuestionAnswer('${ex.id}','${q.id}')">${esc(isRev?(es?"Ocultar respuesta":"Hide answer"):(es?"Ver respuesta":"Show answer"))}</button>
+              </div>
+              ${debVal?`<div class="mg">${esc(debVal)}</div>`:""}
+              ${isRev?`<div class="mg">${esc(q.solution)}</div>`:""}
+            </div>`;
+        }).join("")}
       </div>`;
   }).join("");
 }
 
-window.onExamAnswer=(examId,val)=>{
+window.onQuestionAnswer=(examId,qId,val)=>{
   const ex=S.exams.find(e=>String(e.id)===String(examId));
-  if(ex){ex.answers=ex.answers||{};ex.answers[0]=val;save()}
+  if(ex){ex.answers=ex.answers||{};ex.answers[qId]=val;save()}
 };
-window.debateExam=examId=>{
+window.debateQuestion=(examId,qId)=>{
   const ex=S.exams.find(e=>String(e.id)===String(examId));
   if(!ex)return;
-  ex.debates=debateExamAnswer(ex,ex.answers?.[0]||"");
+  const qObj=(ex.questions||[]).find(q=>q.id===qId);
+  if(!qObj)return;
+  ex.debates=ex.debates||{};
+  ex.debates[qId]=debateQuestionAttempt(qObj,ex.answers?.[qId]||"");
   save();renderExams();
 };
-window.toggleExamSolution=examId=>{
+window.toggleQuestionAnswer=(examId,qId)=>{
   const ex=S.exams.find(e=>String(e.id)===String(examId));
   if(!ex)return;
-  ex.revealed=!ex.revealed;
+  ex.revealed=ex.revealed||{};
+  ex.revealed[qId]=!ex.revealed[qId];
+  save();renderExams();
+};
+window.toggleAllAnswers=examId=>{
+  const ex=S.exams.find(e=>String(e.id)===String(examId));
+  if(!ex)return;
+  const qs=ex.questions||[];
+  const allRevealed=qs.length>0&&qs.every(q=>!!ex.revealed?.[q.id]);
+  ex.revealed={};
+  if(!allRevealed){
+    qs.forEach(q=>{ex.revealed[q.id]=true});
+  }
   save();renderExams();
 };
 window.delExam=id=>{
@@ -1463,7 +1537,7 @@ $("#out").onclick=()=>{
   $("#auth").hidden=false;
 };
 
-/* Blindaje de campos de escritura ante interferencias externas */
+/* Blindaje de escritura y borrado ante interferencias externas */
 document.addEventListener("pointerdown",e=>{
   const field=e.target.closest("input, textarea, select, [contenteditable='true']");
   if(!field)return;
@@ -1477,7 +1551,9 @@ document.addEventListener("pointerdown",e=>{
 document.addEventListener("keydown",e=>{
   const field=e.target.closest("input, textarea, [contenteditable='true']");
   if(!field)return;
-  if(e.key.length===1&&!e.ctrlKey&&!e.metaKey&&!e.altKey){
+  const isPrintable=e.key.length===1&&!e.ctrlKey&&!e.metaKey&&!e.altKey;
+  const isEditingKey=e.key==="Backspace"||e.key==="Delete";
+  if(isPrintable||isEditingKey){
     e.stopImmediatePropagation();
   }
 },true);
