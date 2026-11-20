@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
 <script>
 try{document.documentElement.dataset.theme=localStorage.wbt||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}catch(e){document.documentElement.dataset.theme="light"}
 </script>
@@ -21,7 +22,7 @@ button,select,input,textarea{font:inherit;color:inherit}
 button{padding:7px 12px;border:1px solid var(--ln);background:var(--s);border-radius:6px;cursor:pointer;min-height:38px}
 button:hover{border-color:var(--ac)}
 button.p,button.on{background:var(--ac);color:var(--acf);border-color:var(--ac)}
-input,select,textarea{padding:7px 9px;border:1px solid var(--ln);border-radius:6px;background:var(--in)}
+input,select,textarea{padding:7px 9px;border:1px solid var(--ln);border-radius:6px;background:var(--in);position:relative;z-index:2}
 :focus-visible{outline:2px solid var(--ac);outline-offset:2px}
 small,.mut{color:var(--mut)}
 
@@ -563,7 +564,6 @@ function answerFromTextLocal(query,doc,extraContext=""){
   return (es?"Puntos relacionados en tu material:\n":"Related points in your material:\n")+sentences.slice(0,4).map(s=>"• "+s).join("\n");
 }
 
-/* Simulador: genera enunciado + debate sin dar respuesta de entrada */
 function buildMockExamItem(text,label,mode="full"){
   const domain=detectSubjectDomain(text,label);
   const es=L==="es";
@@ -602,7 +602,6 @@ function buildMockExamItem(text,label,mode="full"){
     };
   }
 
-  // mode === "full"
   if(domain==="algebra"){
     return {
       prompt: es
@@ -1463,6 +1462,25 @@ $("#out").onclick=()=>{
   $("#app").hidden=true;
   $("#auth").hidden=false;
 };
+
+/* Blindaje de campos de escritura ante interferencias externas */
+document.addEventListener("pointerdown",e=>{
+  const field=e.target.closest("input, textarea, select, [contenteditable='true']");
+  if(!field)return;
+  field.disabled=false;
+  field.readOnly=false;
+  requestAnimationFrame(()=>{
+    if(document.activeElement!==field)field.focus();
+  });
+},true);
+
+document.addEventListener("keydown",e=>{
+  const field=e.target.closest("input, textarea, [contenteditable='true']");
+  if(!field)return;
+  if(e.key.length===1&&!e.ctrlKey&&!e.metaKey&&!e.altKey){
+    e.stopImmediatePropagation();
+  }
+},true);
 
 applyStaticLabels();
 </script>
