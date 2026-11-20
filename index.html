@@ -108,7 +108,7 @@ main{padding:16px;max-width:1200px;margin:auto}
 <div id="wrap">
 <header>
  <span class="brand" data-l="app_title"></span>
- <input id="api-key-in" type="password" size="22" autocomplete="off" placeholder="Gemini API Key...">
+ <input id="api-key-in" type="password" size="22" autocomplete="off" placeholder="Gemini API Key (opcional)...">
  <select class="lg" aria-label="Language"></select>
  <button type="button" class="th" aria-label="Theme">☾</button>
  <button id="out" type="button" data-l="out"></button>
@@ -314,12 +314,12 @@ const DICT={
     wb:"Whiteboard",ex:"Exam Simulator",plan:"Calendar & Pomodoro",dl:"Downloads",subj:"Subject:",
     newsub:"Create subject",newsub_p:"New subject name...",hint:"Create or select a subject above to start from scratch.",
     quick:"AI Study Assistant",q_p:"Ask a study question or topic...",ask:"Ask",subs:"Subjects",next:"Upcoming deadlines",
-    file:"Upload PDF/file/photo",sum:"Summarize & Notes",rec:"Record audio",qdoc_p:"Ask strictly about the uploaded document...",
-    ask_doc:"Ask document",note_p:"Write a note or Post-it...",add_note:"Add note",add_postit:"Post-it",notes_feed:"Notes, Post-its & Audios",
+    file:"Upload PDF/file/photo",sum:"Summarize & Notes",rec:"Record audio",qdoc_p:"Ask about the uploaded material...",
+    ask_doc:"Ask material",note_p:"Write a note or Post-it...",add_note:"Add note",add_postit:"Post-it",notes_feed:"Notes, Post-its & Audios",
     plans2d_desc:"Upload 2D diagrams, images, or study videos for your subject.",
     upload_plan:"Upload 2D/video",no_plan:"No 2D schemes or videos loaded yet.",pen:"Pen",era:"Eraser",
     board_postit:"+ Post-it",board_txt_p:"Text for board...",board_txt_btn:"Add text",
-    up_img:"Add image",clr:"Clear",ex_desc:"Upload past exams (PDF or photos) to generate new practice questions with step-by-step solutions.",
+    up_img:"Add image",clr:"Clear",ex_desc:"Upload past exams (PDF or photos) to generate equivalent practice problems with step-by-step solutions.",
     gen:"Generate mock exam",pom:"Pomodoro Timer",foc:"Focus (min):",brk:"Break (min):",
     start:"Start / Pause",reset:"Reset",task_p:"Task or exam title...",add:"Add",
     deadlines_title:"Weekly Study Calendar",dlc:"Export Organized Material",txt:"Download TXT",
@@ -331,12 +331,12 @@ const DICT={
     wb:"Pizarra",ex:"Simulador de Exámenes",plan:"Calendario y Pomodoro",dl:"Descargas",subj:"Materia:",
     newsub:"Crear materia",newsub_p:"Nombre de la materia...",hint:"Crea o selecciona una materia arriba para empezar desde cero.",
     quick:"Asistente de Estudio con IA",q_p:"Pregunta un tema o duda de estudio...",ask:"Preguntar",subs:"Materias",next:"Próximas entregas",
-    file:"Subir PDF/archivo/foto",sum:"Resumir y Notas",rec:"Grabar audio",qdoc_p:"Pregunta estrictamente sobre el documento subido...",
-    ask_doc:"Consultar documento",note_p:"Escribe una nota o Post-it...",add_note:"Agregar nota",add_postit:"Post-it",notes_feed:"Notas, Post-its y Audios",
+    file:"Subir PDF/archivo/foto",sum:"Resumir y Notas",rec:"Grabar audio",qdoc_p:"Pregunta sobre el material subido...",
+    ask_doc:"Consultar material",note_p:"Escribe una nota o Post-it...",add_note:"Agregar nota",add_postit:"Post-it",notes_feed:"Notas, Post-its y Audios",
     plans2d_desc:"Sube esquemas 2D, imágenes o videos de clase para tu materia.",
     upload_plan:"Subir esquema/video",no_plan:"Aún no cargaste esquemas ni videos.",pen:"Lápiz",era:"Borrador",
     board_postit:"+ Post-it",board_txt_p:"Texto para pizarra...",board_txt_btn:"Agregar texto",
-    up_img:"Subir imagen",clr:"Limpiar",ex_desc:"Sube parciales viejos (PDF o fotos) para generar preguntas nuevas con resolución paso a paso.",
+    up_img:"Subir imagen",clr:"Limpiar",ex_desc:"Sube parciales viejos (PDF o fotos) para generar ejercicios equivalentes con resolución paso a paso.",
     gen:"Generar simulacro",pom:"Temporizador Pomodoro",foc:"Estudio (min):",brk:"Descanso (min):",
     start:"Iniciar / Pausar",reset:"Reiniciar",task_p:"Tarea o fecha de examen...",add:"Agregar",
     deadlines_title:"Calendario Semanal de Estudio",dlc:"Exportar Material Ordenado",txt:"Descargar TXT",
@@ -348,12 +348,12 @@ const DICT={
     wb:"Quadro",ex:"Simulador de Provas",plan:"Calendário e Pomodoro",dl:"Downloads",subj:"Matéria:",
     newsub:"Criar matéria",newsub_p:"Nome da matéria...",hint:"Crie ou selecione uma matéria acima para começar do zero.",
     quick:"Assistente de Estudo com IA",q_p:"Pergunte um tema ou dúvida de estudo...",ask:"Perguntar",subs:"Matérias",next:"Próximos prazos",
-    file:"Enviar PDF/arquivo/foto",sum:"Resumir e Notas",rec:"Gravar áudio",qdoc_p:"Pergunte estritamente sobre o documento enviado...",
-    ask_doc:"Consultar documento",note_p:"Escreva uma nota ou Post-it...",add_note:"Adicionar nota",add_postit:"Post-it",notes_feed:"Notas, Post-its e Áudios",
+    file:"Enviar PDF/arquivo/foto",sum:"Resumir e Notas",rec:"Gravar áudio",qdoc_p:"Pergunte sobre o material enviado...",
+    ask_doc:"Consultar material",note_p:"Escreva uma nota ou Post-it...",add_note:"Adicionar nota",add_postit:"Post-it",notes_feed:"Notas, Post-its e Áudios",
     plans2d_desc:"Envie esquemas 2D, imagens ou vídeos de aula para sua matéria.",
     upload_plan:"Enviar esquema/vídeo",no_plan:"Nenhum esquema ou vídeo carregado ainda.",pen:"Caneta",era:"Borracha",
     board_postit:"+ Post-it",board_txt_p:"Texto no quadro...",board_txt_btn:"Adicionar texto",
-    up_img:"Enviar imagem",clr:"Limpar",ex_desc:"Envie provas antigas (PDF ou fotos) para gerar novas questões com resolução passo a passo.",
+    up_img:"Enviar imagem",clr:"Limpar",ex_desc:"Envie provas antigas (PDF ou fotos) para gerar questões equivalentes com resolução passo a passo.",
     gen:"Gerar simulado",pom:"Temporizador Pomodoro",foc:"Foco (min):",brk:"Pausa (min):",
     start:"Iniciar / Pausar",reset:"Reiniciar",task_p:"Tarefa ou data de prova...",add:"Adicionar",
     deadlines_title:"Calendário Semanal de Estudos",dlc:"Exportar Material Organizado",txt:"Baixar TXT",
@@ -365,16 +365,16 @@ const DICT={
     wb:"Tableau",ex:"Simulateur d'Examens",plan:"Calendrier et Pomodoro",dl:"Téléchargements",subj:"Matière :",
     newsub:"Créer matière",newsub_p:"Nom de la matière...",hint:"Créez ou sélectionnez une matière ci-dessus pour repartir de zéro.",
     quick:"Assistant d'Étude IA",q_p:"Posez une question ou un thème d'étude...",ask:"Demander",subs:"Matières",next:"Échéances à venir",
-    file:"Importer PDF/fichier/photo",sum:"Résumer et Notes",rec:"Enregistrer audio",qdoc_p:"Question strictement sur le document importé...",
-    ask_doc:"Interroger document",note_p:"Écrire une note ou un Post-it...",add_note:"Ajouter note",add_postit:"Post-it",notes_feed:"Notes, Post-its et Audios",
+    file:"Importer PDF/fichier/photo",sum:"Résumer et Notes",rec:"Enregistrer audio",qdoc_p:"Question sur le matériel importé...",
+    ask_doc:"Interroger matériel",note_p:"Écrire une note ou un Post-it...",add_note:"Ajouter note",add_postit:"Post-it",notes_feed:"Notes, Post-its et Audios",
     plans2d_desc:"Importez des schémas 2D, images ou vidéos de cours pour votre matière.",
     upload_plan:"Importer schéma/vidéo",no_plan:"Aucun schéma ni vidéo chargé pour l'instant.",pen:"Stylo",era:"Gomme",
     board_postit:"+ Post-it",board_txt_p:"Texte sur le tableau...",board_txt_btn:"Ajouter texte",
-    up_img:"Ajouter image",clr:"Effacer",ex_desc:"Importez d'anciens sujets (PDF ou photos) pour générer de nouvelles questions avec résolution étape par étape.",
+    up_img:"Ajouter image",clr:"Effacer",ex_desc:"Importez d'anciens sujets (PDF ou photos) pour générer des exercices équivalents avec résolution étape par étape.",
     gen:"Générer un examen blanc",pom:"Minuteur Pomodoro",foc:"Focus (min) :",brk:"Pause (min) :",
     start:"Démarrer / Pause",reset:"Réinitialiser",task_p:"Tâche ou date d'examen...",add:"Ajouter",
     deadlines_title:"Calendrier Hebdomadaire d'Étude",dlc:"Exporter le Matériel Classé",txt:"Télécharger TXT",
-    no_sub:"Aucune matière selecionnée",no_subs_empty:"Aucune matière pour l'instant. Créez-en une ci-dessus.",no_tasks:"Aucune échéance"
+    no_sub:"Aucune matière sélectionnée",no_subs_empty:"Aucune matière pour l'instant. Créez-en une ci-dessus.",no_tasks:"Aucune échéance"
   }
 };
 
@@ -415,7 +415,7 @@ $("#api-key-in").oninput=e=>{localStorage.webook_gemini_key=e.target.value.trim(
 let S={docs:[],notes:[],voices:[],tasks:[],exams:[],subs:[],sub:null,plans:[]};
 function loadSavedState(){
   try{
-    const raw=localStorage.webook_full_state_v2;
+    const raw=localStorage.webook_full_state_v3;
     if(raw){
       const parsed=JSON.parse(raw);
       S={...S,...parsed,
@@ -431,7 +431,7 @@ function loadSavedState(){
   }catch{}
 }
 function save(){
-  try{localStorage.webook_full_state_v2=JSON.stringify(S)}catch{}
+  try{localStorage.webook_full_state_v3=JSON.stringify(S)}catch{}
 }
 loadSavedState();
 
@@ -461,21 +461,48 @@ async function extractPdfText(file){
   return pages.join("\n\n").trim();
 }
 
-function extractTopicsLocal(text,fallbackName){
-  const clean=(text||"").replace(/--- Página \d+ ---/g," ");
-  const lines=clean.split(/[\r\n.]+/).map(s=>s.trim()).filter(s=>s.length>=12&&s.length<=95);
-  const unique=[];
-  for(const ln of lines){
-    if(!unique.some(u=>u.toLowerCase()===ln.toLowerCase()))unique.push(ln);
-    if(unique.length>=5)break;
+function detectSubjectDomain(text,fallback){
+  const sb=S.subs.find(x=>String(x.id)===String(S.sub));
+  const blob=`${sb?.name||""} ${fallback||""} ${text||""}`.toLowerCase();
+  if(/matriz|matrices|determinante|vector|vectores|álgebra|algebra|rango|sistema|lineal/.test(blob))return "algebra";
+  if(/derivada|integral|límite|limite|función|funcion|análisis|analisis|sucesión|sucesion/.test(blob))return "analisis";
+  if(/fuerza|cinemática|cinematica|dinámica|dinamica|energía|energia|física|fisica|campo/.test(blob))return "fisica";
+  return "general";
+}
+
+function buildEquivalentMockExam(text,label){
+  const domain=detectSubjectDomain(text,label);
+  if(domain==="algebra"){
+    return [
+      "1. Matrices y sistemas lineales\nSea A = [[2, 1, -1], [0, 3, 2], [1, -1, 4]] y b = [3, 5, 1]^T. Analiza la compatibilidad del sistema A·x = b y halla la solución.\nResolución paso a paso:\n- Calcula det(A): 2·(12+2) - 1·(0-2) + (-1)·(0-3) = 28 + 2 + 3 = 33 ≠ 0.\n- Como det(A) ≠ 0, el rango de A y de la ampliada es 3 (sistema compatible determinado).\n- Resuelve por sustitución o Gauss para obtener las tres componentes (x, y, z).",
+      "2. Vectores en R³ (producto escalar, vectorial y proyección)\nDados u = (2, -1, 3) y v = (1, 4, -2), calcula u × v, el módulo |u × v| y la proyección ortogonal de u sobre v.\nResolución paso a paso:\n- u × v = ( (-1)(-2) - (3)(4), (3)(1) - (2)(-2), (2)(4) - (-1)(1) ) = (-10, 7, 9).\n- |u × v| = √((-10)² + 7² + 9²) = √(100 + 49 + 81) = √230.\n- proy_v(u) = ((u · v) / |v|²) · v, con u·v = 2 - 4 - 6 = -8 y |v|² = 1 + 16 + 4 = 21."
+    ].join("\n\n");
   }
-  return unique.length?unique:[fallbackName.replace(/\.(pdf|txt|md)$/i,"")];
+  if(domain==="analisis"){
+    return [
+      "1. Límites y continuidad\nAnaliza la continuidad en x = 2 y calcula lim_{x→2} (x² - 4) / (x - 2).\nResolución paso a paso:\n- Factoriza el numerador como diferencia de cuadrados: (x - 2)(x + 2).\n- Simplifica (x - 2) para x ≠ 2 y evalúa en x = 2: 2 + 2 = 4.\n- Indica el tipo de discontinuidad si la función original no estaba definida en x = 2.",
+      "2. Derivadas y estudio de variación\nDada f(x) = x³ - 3x² + 2, determina intervalos de crecimiento/decrecimiento y extremos locales.\nResolución paso a paso:\n- Deriva: f'(x) = 3x² - 6x = 3x(x - 2).\n- Igualando a cero se obtienen puntos críticos en x = 0 y x = 2.\n- Analiza el signo de f'(x) en (-∞, 0), (0, 2) y (2, +∞)."
+    ].join("\n\n");
+  }
+  if(domain==="fisica"){
+    return [
+      "1. Dinámica y leyes de Newton\nUn cuerpo de masa m = 4 kg asciende por un plano inclinado de 30° con rozamiento dinámico μ_k = 0,2. Plantea el diagrama de cuerpo libre y calcula la aceleración.\nResolución paso a paso:\n- Descompone el peso: P_x = m·g·sen(30°) y P_y = m·g·cos(30°).\n- Normal N = P_y y fricción f_k = μ_k·N.\n- Aplica ΣF_x = m·a para despejar a.",
+      "2. Trabajo y conservación de la energía\nSi el cuerpo recorre d = 5 m sobre el plano, determina el trabajo neto y la velocidad final partiendo del reposo.\nResolución paso a paso:\n- Calcula W_neto = F_neta · d.\n- Usa ΔK = W_neto con K_i = 0 para hallar v_f = √(2·a·d)."
+    ].join("\n\n");
+  }
+  const topic=(S.subs.find(x=>String(x.id)===String(S.sub))?.name)||"la unidad";
+  return [
+    `1. Ejercicio aplicado de ${topic}\nPlantea y resuelve un problema integrador sobre los conceptos centrales de ${topic} justificando cada paso.\nResolución paso a paso:\n- Identifica datos, variables y condiciones iniciales.\n- Selecciona la ley, definición o propiedad correspondiente.\n- Opera con orden y verifica coherencia del resultado.`,
+    `2. Pregunta de análisis y justificación\nExplica cuándo se cumple la propiedad principal de ${topic} y muestra un contraejemplo donde no aplique.\nResolución paso a paso:\n- Enuncia la condición necesaria/suficiente.\n- Construye un caso concreto que cumpla y otro que falle.`
+  ].join("\n\n");
 }
 
 function answerFromTextLocal(query,doc){
   const body=(doc?.content||"").trim();
   if(!body){
-    return "Agrega una Gemini API Key arriba para analizar archivos escaneados o imágenes con inteligencia artificial.";
+    const domain=detectSubjectDomain("",doc?.name||"");
+    if(domain==="algebra")return "• Álgebra: revisa operaciones con matrices, determinantes, sistemas lineales y vectores en R²/R³ (módulo, producto escalar y producto vectorial).";
+    return "Agrega una Gemini API Key arriba si quieres que el modelo lea directamente el contenido o la imagen de este archivo.";
   }
   const sentences=body.split(/(?<=[.!?])\s+|\n+/).map(s=>s.trim()).filter(Boolean);
   const terms=query.toLowerCase().split(/\W+/).filter(w=>w.length>3);
@@ -488,8 +515,7 @@ function answerFromTextLocal(query,doc){
   if(scored.length){
     return scored.slice(0,5).map(x=>"• "+x.s).join("\n");
   }
-  const topics=extractTopicsLocal(body,doc.name);
-  return "Temas encontrados en el documento:\n"+topics.map(tp=>"• "+tp).join("\n");
+  return sentences.slice(0,4).map(s=>"• "+s).join("\n");
 }
 
 async function generateWithGemini(parts,systemText=""){
@@ -606,7 +632,7 @@ $("#qs").onclick=async()=>{
   }catch(err){
     if(err.message==="NO_API_KEY"){
       const combined=subDocs.map(d=>d.content||"").join("\n");
-      const fallback=answerFromTextLocal(q,{name:sb?.name||"Apuntes",content:combined});
+      const fallback=answerFromTextLocal(q,{name:sb?.name||q,content:combined});
       $("#qc").insertAdjacentHTML("beforeend",`<div class="mg">${esc(fallback)}</div>`);
     }else{
       $("#qc").insertAdjacentHTML("beforeend",`<div class="mg">${esc(err.message)}</div>`);
@@ -632,16 +658,12 @@ $("#uf").onchange=async e=>{
       content=await f.text();
     }else if(isPdf){
       content=await extractPdfText(f);
-      if(!content){
-        inlinePart=await fileToBase64Part(f);
-      }
+      if(!content)inlinePart=await fileToBase64Part(f);
     }else{
       inlinePart=await fileToBase64Part(f);
     }
-    const topics=extractTopicsLocal(content,f.name);
-    const doc={id:String(Date.now()),name:f.name,sub:S.sub,content,inlinePart,topics,lastAiOutput:""};
+    const doc={id:String(Date.now()),name:f.name,sub:S.sub,content,inlinePart,lastAiOutput:""};
     S.docs.push(doc);
-    addAutoNotesFromText(doc,topics.map(tp=>"• "+tp).join("\n"));
     save();
     refreshDocSelect();
     $("#ds").value=doc.id;
@@ -680,19 +702,18 @@ async function runDocAI(promptText,isSummary=false){
   parts.push(
     isSummary
       ? "Lista los temas principales del documento, resume cada tema en puntos claros y extrae 3 notas clave cortas."
-      : `Responde estrictamente en base a este documento (${d.name}). Si el dato no figura en el documento, indícalo claramente. Pregunta: ${promptText}`
+      : `Responde estrictamente en base a este material (${d.name}). Pregunta: ${promptText}`
   );
   try{
     const out=await generateWithGemini(parts,`Responde en ${LN[L]} con precisión y sin relleno.`);
     d.lastAiOutput=out;
-    d.topics=extractTopicsLocal(out,d.name);
     addAutoNotesFromText(d,out);
     save();
     $("#ans").textContent=out;
   }catch(err){
     if(err.message==="NO_API_KEY"){
       const localOut=isSummary
-        ? "Temas y puntos del documento:\n"+extractTopicsLocal(d.content,d.name).map(tp=>"• "+tp).join("\n")
+        ? buildEquivalentMockExam(d.content,d.name)
         : answerFromTextLocal(promptText,d);
       d.lastAiOutput=localOut;
       addAutoNotesFromText(d,localOut);
@@ -941,10 +962,6 @@ $("#exg").onclick=async()=>{
   const files=[...($("#exf").files||[])];
   const sb=S.subs.find(x=>String(x.id)===String(S.sub));
   const subDocs=S.docs.filter(d=>d.sub==S.sub);
-  if(!files.length&&!subDocs.length){
-    $("#exs").textContent="Sube un parcial o agrega apuntes en la materia.";
-    return;
-  }
   $("#exs").textContent="...";
   const parts=[];
   let extractedTexts=[];
@@ -973,7 +990,7 @@ $("#exg").onclick=async()=>{
       if(d.inlinePart)parts.push(d.inlinePart);
     });
   }
-  parts.push("Genera 3 consignas de práctica nuevas basadas en los temas del material subido, con nivel similar y resolución paso a paso debajo de cada consigna.");
+  parts.push("Genera ejercicios equivalentes en dificultad a los parciales/temas subidos, con resolución paso a paso debajo de cada ejercicio.");
   const label=files.length?files.map(f=>f.name).join(", "):(sb?.name||"Simulacro");
 
   try{
@@ -982,10 +999,7 @@ $("#exg").onclick=async()=>{
     save();$("#exs").textContent="";renderExams();
   }catch(err){
     if(err.message==="NO_API_KEY"){
-      const topics=extractTopicsLocal(extractedTexts.join("\n"),label);
-      const mock=topics.slice(0,3).map((tp,i)=>
-        `${i+1}. Tema: ${tp}\nConsigna: Resuelve un problema aplicado sobre "${tp}" justificando cada paso.\nResolución paso a paso:\n- Paso 1: Identifica los datos y conceptos clave de ${tp}.\n- Paso 2: Aplica la regla o definición correspondiente.\n- Paso 3: Verifica el resultado final.`
-      ).join("\n\n");
+      const mock=buildEquivalentMockExam(extractedTexts.join("\n"),label);
       S.exams.unshift({id:String(Date.now()),sub:S.sub,title:label,content:mock,answers:{}});
       save();$("#exs").textContent="";renderExams();
     }else{
@@ -1117,7 +1131,7 @@ window.delTask=id=>{
   save();renderCalendar();home();
 };
 
-/* Descargas organizadas y con acceso a audios y esquemas/videos */
+/* Descargas organizadas */
 function buildExportData(subId){
   const sb=S.subs.find(x=>String(x.id)===String(subId));
   if(!sb)return{text:"",voices:[],plans:[]};
@@ -1140,9 +1154,7 @@ function buildExportData(subId){
       arr.push("Sin apuntes cargados en esta materia.");
     }else{
       docs.forEach((d,idx)=>{
-        const topics=Array.isArray(d.topics)&&d.topics.length?d.topics:extractTopicsLocal(d.content,d.name);
         arr.push(`\n[${idx+1}] ${d.name}`);
-        arr.push("Temas detectados: "+topics.join(" | "));
         const body=(d.content||"").trim();
         if(body)arr.push(body);
         if(d.lastAiOutput)arr.push("\nResumen / Respuesta IA:\n"+d.lastAiOutput);
