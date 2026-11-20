@@ -113,7 +113,6 @@ main{padding:16px;max-width:1200px;margin:auto}
 <div id="wrap">
 <header>
  <span class="brand" data-l="app_title"></span>
- <span class="badge" data-l="ready_badge"></span>
  <select class="lg" aria-label="Language"></select>
  <button type="button" class="th" aria-label="Theme">☾</button>
  <button id="out" type="button" data-l="out"></button>
@@ -236,10 +235,11 @@ main{padding:16px;max-width:1200px;margin:auto}
    <p class="mut" data-l="ex_desc"></p>
    <div class="row">
      <input id="exf" type="file" accept=".pdf,.txt,.md,.png,.jpg,.jpeg,.webp,image/*" multiple>
-     <select id="ex-diff" aria-label="Difficulty">
-       <option value="same" data-l="diff_same"></option>
-       <option value="medium" data-l="diff_med"></option>
-       <option value="hard" data-l="diff_hard"></option>
+     <select id="ex-mode" aria-label="Mode">
+       <option value="full" data-l="mode_full"></option>
+       <option value="easy" data-l="mode_easy"></option>
+       <option value="hard" data-l="mode_hard"></option>
+       <option value="theory" data-l="mode_theory"></option>
      </select>
      <button class="p" id="exg" type="button" data-l="gen"></button>
      <small id="exs" role="status"></small>
@@ -297,7 +297,7 @@ main{padding:16px;max-width:1200px;margin:auto}
  </div>
 </section>
 
-<!-- DESCARGAS -->
+<!-- DESCARGAS (CUADERNO DIVIDIDO POR HOJAS) -->
 <section class="v" id="v-dl" hidden>
  <div class="card">
   <b data-l="dlc"></b>
@@ -334,13 +334,12 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 const LG=["en","es","pt","fr"], LN={en:"English",es:"Español",pt:"Português",fr:"Français"};
 const DICT={
   en:{
-    auth_hint:"Instant demo ready — no API key or password required.",
-    ready_badge:"Ready • No API key needed",
-    email:"Email",email_p:"you@example.com",pass:"Password",pass_p:"********",in:"Enter WeBook",out:"Sign out",
+    auth_hint:"Instant demo ready — click Continue to start.",
+    email:"Email",email_p:"you@example.com",pass:"Password",pass_p:"********",in:"Continue",out:"Sign out",
     app_title:"WeBook",home:"Dashboard",nb:"Notebook",plans2d:"2D/3D Schemes & Media",
     wb:"Whiteboard",ex:"Exam Simulator",plan:"Calendar & Pomodoro",dl:"Downloads",subj:"Subject:",
     newsub:"Create subject",newsub_p:"New subject name...",hint:"Create or select a subject above to start.",
-    quick:"Class & Notes Study Assistant",q_p:"Ask about a topic or your class notes...",ask:"Ask",subs:"Subjects",next:"Prioritized deadlines",
+    quick:"Class & Notes Study Assistant",q_p:"Ask a topic or question based on your notes...",ask:"Ask",subs:"Subjects",next:"Prioritized deadlines",
     file:"Upload PDF/file/photo",sum:"Summary & Key Notes",rec:"Record audio",qdoc_p:"Ask strictly based on the uploaded material...",
     ask_doc:"Ask material",note_p:"Write a note or Post-it...",add_note:"Add note",add_postit:"Post-it",notes_feed:"Notes, Post-its & Audios",
     plans2d_desc:"Upload 2D schemes, 3D/SketchUp captures, or videos and add test measurements & annotations.",
@@ -348,21 +347,20 @@ const DICT={
     measure_p:"Measurement (e.g. 120 mm, 45°)",anno_p:"Annotation or test check...",add_anno:"Add annotation",
     pen:"Pen",era:"Eraser",board_postit:"+ Post-it",board_txt_p:"Text for board...",board_txt_btn:"Add text",
     up_img:"Add image",clr:"Clear",
-    ex_desc:"Upload past exams (PDF or photos) to generate equivalent practice problems, multiple choice & step-by-step solutions.",
-    diff_same:"Same difficulty as exam",diff_med:"Balanced practice",diff_hard:"Challenge mode",
+    ex_desc:"Practice exams by level or theory, write your solution, and debate your reasoning before revealing the answer.",
+    mode_full:"Full exam (Theory + MC + Practice)",mode_easy:"Easy practice",mode_hard:"Hard challenge",mode_theory:"Theory focus",
     gen:"Generate mock exam",pom:"Flexible Pomodoro",unit_min:"Minutes",unit_hr:"Hours",foc:"Focus:",brk:"Break:",
     start:"Start / Pause",reset:"Reset",
     task_p:"Midterm, delivery, exam, or practical work...",add:"Add",
     t_exam:"Midterm / Exam",t_delivery:"Delivery",t_tp:"Practical work",t_study:"Study block",
-    deadlines_title:"Weekly Study Calendar",dlc:"Export Organized Material",txt:"Download TXT",doc:"Download Word (.doc)",
-    ord_1:"Order: Topics → Notes → Audios → Schemes/Videos",ord_2:"Order: Audios → Notes → Topics → Schemes/Videos",
-    inc_docs:"Notes & topics",inc_notes:"Notes & Post-its",inc_voices:"Voice recordings",inc_media:"2D/3D & Videos",
+    deadlines_title:"Weekly Study Calendar",dlc:"Export Study Notebook (Sheet by Sheet)",txt:"Download TXT",doc:"Download Notebook (.doc)",
+    ord_1:"Sheet order: Topics → Notes → Audios → Schemes/Videos",ord_2:"Sheet order: Audios → Notes → Topics → Schemes/Videos",
+    inc_docs:"Topics & notes",inc_notes:"Notes & Post-its",inc_voices:"Voice recordings",inc_media:"2D/3D & Videos",
     no_sub:"No subject selected",no_subs_empty:"No subjects yet. Create one above.",no_tasks:"No items"
   },
   es:{
-    auth_hint:"Listo para usar al instante — sin clave API ni contraseña obligatoria.",
-    ready_badge:"Listo • Sin clave API",
-    email:"Correo",email_p:"tu@correo.com",pass:"Contraseña",pass_p:"********",in:"Entrar a WeBook",out:"Salir",
+    auth_hint:"Listo para usar al instante — tocá Continuar para empezar.",
+    email:"Correo",email_p:"tu@correo.com",pass:"Contraseña",pass_p:"********",in:"Continuar",out:"Salir",
     app_title:"WeBook",home:"Inicio",nb:"Cuaderno",plans2d:"Esquemas 2D/3D y Videos",
     wb:"Pizarra",ex:"Simulador de Exámenes",plan:"Calendario y Pomodoro",dl:"Descargas",subj:"Materia:",
     newsub:"Crear materia",newsub_p:"Nombre de la materia...",hint:"Crea o selecciona una materia arriba para empezar.",
@@ -374,21 +372,20 @@ const DICT={
     measure_p:"Medida (ej. 120 mm, 45°)",anno_p:"Anotación o prueba...",add_anno:"Agregar anotación",
     pen:"Lápiz",era:"Borrador",board_postit:"+ Post-it",board_txt_p:"Texto para pizarra...",board_txt_btn:"Agregar texto",
     up_img:"Subir imagen",clr:"Limpiar",
-    ex_desc:"Sube parciales viejos (PDF o fotos) para generar modelos equivalentes, multiple choice y resolución paso a paso.",
-    diff_same:"Misma dificultad que el parcial",diff_med:"Práctica intermedia",diff_hard:"Dificultad exigente",
+    ex_desc:"Elegí nivel o teoría, escribí tu planteo y debatí tu razonamiento antes de ver la resolución.",
+    mode_full:"Examen completo (Teoría + MC + Práctica)",mode_easy:"Simulacro fácil",mode_hard:"Simulacro difícil",mode_theory:"Enfoque teórico",
     gen:"Generar simulacro",pom:"Pomodoro Flexible",unit_min:"Minutos",unit_hr:"Horas",foc:"Estudio:",brk:"Descanso:",
     start:"Iniciar / Pausar",reset:"Reiniciar",
     task_p:"Parcial, entrega, examen o trabajo práctico...",add:"Agregar",
     t_exam:"Parcial / Examen",t_delivery:"Entrega",t_tp:"Trabajo práctico",t_study:"Bloque de estudio",
-    deadlines_title:"Calendario Semanal de Estudio",dlc:"Exportar Material Ordenado",txt:"Descargar TXT",doc:"Descargar Word (.doc)",
-    ord_1:"Orden: Temas → Notas → Audios → Esquemas/Videos",ord_2:"Orden: Audios → Notas → Temas → Esquemas/Videos",
+    deadlines_title:"Calendario Semanal de Estudio",dlc:"Descargar Cuaderno por Hojas",txt:"Descargar TXT",doc:"Descargar Cuaderno (.doc)",
+    ord_1:"Hojas: Temas → Notas → Audios → Esquemas/Videos",ord_2:"Hojas: Audios → Notas → Temas → Esquemas/Videos",
     inc_docs:"Apuntes y temas",inc_notes:"Notas y Post-its",inc_voices:"Grabaciones de voz",inc_media:"Esquemas 2D/3D y Videos",
     no_sub:"Sin materia seleccionada",no_subs_empty:"Aún no hay materias. Crea una arriba.",no_tasks:"Sin entregas"
   },
   pt:{
-    auth_hint:"Pronto para usar na hora — sem chave de API obrigatória.",
-    ready_badge:"Pronto • Sem chave API",
-    email:"E-mail",email_p:"voce@exemplo.com",pass:"Senha",pass_p:"********",in:"Entrar no WeBook",out:"Sair",
+    auth_hint:"Pronto para usar — clique em Continuar.",
+    email:"E-mail",email_p:"voce@exemplo.com",pass:"Senha",pass_p:"********",in:"Continuar",out:"Sair",
     app_title:"WeBook",home:"Início",nb:"Caderno",plans2d:"Esquemas 2D/3D e Vídeos",
     wb:"Quadro",ex:"Simulador de Provas",plan:"Calendário e Pomodoro",dl:"Downloads",subj:"Matéria:",
     newsub:"Criar matéria",newsub_p:"Nome da matéria...",hint:"Crie ou selecione uma matéria acima.",
@@ -400,21 +397,20 @@ const DICT={
     measure_p:"Medida (ex. 120 mm, 45°)",anno_p:"Anotação ou teste...",add_anno:"Adicionar anotação",
     pen:"Caneta",era:"Borracha",board_postit:"+ Post-it",board_txt_p:"Texto no quadro...",board_txt_btn:"Adicionar texto",
     up_img:"Enviar imagem",clr:"Limpar",
-    ex_desc:"Envie provas antigas (PDF ou fotos) para gerar modelos equivalentes, múltipla escolha e passo a passo.",
-    diff_same:"Mesma dificuldade da prova",diff_med:"Prática intermediária",diff_hard:"Nível avançado",
+    ex_desc:"Escolha nível ou teoria, escreva sua resolução e debata antes de ver a resposta.",
+    mode_full:"Prova completa (Teoria + MC + Prática)",mode_easy:"Simulado fácil",mode_hard:"Simulado difícil",mode_theory:"Foco teórico",
     gen:"Gerar simulado",pom:"Pomodoro Flexível",unit_min:"Minutos",unit_hr:"Horas",foc:"Foco:",brk:"Pausa:",
     start:"Iniciar / Pausar",reset:"Reiniciar",
     task_p:"Prova, entrega ou trabalho prático...",add:"Adicionar",
     t_exam:"Prova / Exame",t_delivery:"Entrega",t_tp:"Trabalho prático",t_study:"Bloco de estudo",
-    deadlines_title:"Calendário Semanal de Estudos",dlc:"Exportar Material Organizado",txt:"Baixar TXT",doc:"Baixar Word (.doc)",
-    ord_1:"Ordem: Temas → Notas → Áudios → Esquemas/Vídeos",ord_2:"Ordem: Áudios → Notas → Temas → Esquemas/Vídeos",
+    deadlines_title:"Calendário Semanal de Estudos",dlc:"Baixar Caderno por Folhas",txt:"Baixar TXT",doc:"Baixar Caderno (.doc)",
+    ord_1:"Folhas: Temas → Notas → Áudios → Esquemas/Vídeos",ord_2:"Folhas: Áudios → Notas → Temas → Esquemas/Vídeos",
     inc_docs:"Resumos e temas",inc_notes:"Notas e Post-its",inc_voices:"Gravações de voz",inc_media:"Esquemas 2D/3D e Vídeos",
     no_sub:"Nenhuma matéria selecionada",no_subs_empty:"Nenhuma matéria ainda.",no_tasks:"Sem prazos"
   },
   fr:{
-    auth_hint:"Prêt immédiatement — aucune clé API requise.",
-    ready_badge:"Prêt • Sans clé API",
-    email:"E-mail",email_p:"vous@exemple.com",pass:"Mot de passe",pass_p:"********",in:"Entrer dans WeBook",out:"Quitter",
+    auth_hint:"Prêt immédiatement — cliquez sur Continuer.",
+    email:"E-mail",email_p:"vous@exemple.com",pass:"Mot de passe",pass_p:"********",in:"Continuer",out:"Quitter",
     app_title:"WeBook",home:"Accueil",nb:"Cahier",plans2d:"Schémas 2D/3D et Vidéos",
     wb:"Tableau",ex:"Simulateur d'Examens",plan:"Calendrier et Pomodoro",dl:"Téléchargements",subj:"Matière :",
     newsub:"Créer matière",newsub_p:"Nom de la matière...",hint:"Créez ou sélectionnez une matière ci-dessus.",
@@ -426,14 +422,14 @@ const DICT={
     measure_p:"Mesure (ex. 120 mm, 45°)",anno_p:"Annotation ou test...",add_anno:"Ajouter annotation",
     pen:"Stylo",era:"Gomme",board_postit:"+ Post-it",board_txt_p:"Texte sur le tableau...",board_txt_btn:"Ajouter texte",
     up_img:"Ajouter image",clr:"Effacer",
-    ex_desc:"Importez d'anciens sujets (PDF ou photos) pour générer des modèles équivalents, QCM et corrigé étape par étape.",
-    diff_same:"Même difficulté que l'examen",diff_med:"Pratique intermédiaire",diff_hard:"Niveau avancé",
+    ex_desc:"Choisissez niveau ou théorie, rédigez votre démarche et débattez avant de voir la solution.",
+    mode_full:"Examen complet (Théorie + QCM + Pratique)",mode_easy:"Sujet facile",mode_hard:"Sujet difficile",mode_theory:"Focus théorie",
     gen:"Générer un examen blanc",pom:"Pomodoro Flexible",unit_min:"Minutes",unit_hr:"Heures",foc:"Focus :",brk:"Pause :",
     start:"Démarrer / Pause",reset:"Réinitialiser",
     task_p:"Partiel, rendu, examen ou TP...",add:"Ajouter",
     t_exam:"Partiel / Examen",t_delivery:"Rendu",t_tp:"Travaux pratiques",t_study:"Bloc d'étude",
-    deadlines_title:"Calendrier Hebdomadaire d'Étude",dlc:"Exporter le Matériel Classé",txt:"Télécharger TXT",doc:"Télécharger Word (.doc)",
-    ord_1:"Ordre : Thèmes → Notes → Audios → Schémas/Vidéos",ord_2:"Ordre : Audios → Notes → Thèmes → Schémas/Vidéos",
+    deadlines_title:"Calendrier Hebdomadaire d'Étude",dlc:"Exporter le Cahier par Feuilles",txt:"Télécharger TXT",doc:"Télécharger Cahier (.doc)",
+    ord_1:"Feuilles : Thèmes → Notes → Audios → Schémas/Vidéos",ord_2:"Feuilles : Audios → Notes → Thèmes → Schémas/Vidéos",
     inc_docs:"Notes et thèmes",inc_notes:"Notes et Post-its",inc_voices:"Enregistrements vocaux",inc_media:"Schémas 2D/3D et Vidéos",
     no_sub:"Aucune matière sélectionnée",no_subs_empty:"Aucune matière pour l'instant.",no_tasks:"Aucune échéance"
   }
@@ -473,7 +469,7 @@ $$(".th").forEach(b=>{
 let S={docs:[],notes:[],voices:[],tasks:[],exams:[],subs:[],sub:null,plans:[]};
 function loadSavedState(){
   try{
-    const raw=localStorage.webook_full_state_v5;
+    const raw=localStorage.webook_full_state_v6;
     if(raw){
       const parsed=JSON.parse(raw);
       S={...S,...parsed,
@@ -481,7 +477,7 @@ function loadSavedState(){
         notes:Array.isArray(parsed.notes)?parsed.notes:[],
         voices:Array.isArray(parsed.voices)?parsed.voices:[],
         tasks:Array.isArray(parsed.tasks)?parsed.tasks:[],
-        exams:Array.isArray(parsed.exams)?parsed.exams:[],
+        exams:Array.isArray(parsed.exams)?parsed.exams.map(e=>({...e,answers:e.answers||{},debates:e.debates||"",revealed:!!e.revealed})):[],
         subs:Array.isArray(parsed.subs)?parsed.subs:[],
         plans:Array.isArray(parsed.plans)?parsed.plans.map(p=>({...p,annos:Array.isArray(p.annos)?p.annos:[]})):[]
       };
@@ -489,7 +485,7 @@ function loadSavedState(){
   }catch{}
 }
 function save(){
-  try{localStorage.webook_full_state_v5=JSON.stringify(S)}catch{}
+  try{localStorage.webook_full_state_v6=JSON.stringify(S)}catch{}
 }
 loadSavedState();
 
@@ -510,7 +506,7 @@ async function extractPdfText(file){
 function detectSubjectDomain(text,fallback){
   const sb=S.subs.find(x=>String(x.id)===String(S.sub));
   const blob=`${sb?.name||""} ${fallback||""} ${text||""}`.toLowerCase();
-  if(/matriz|matrices|determinante|vector|vectores|álgebra|algebra|rango|sistema|lineal/.test(blob))return "algebra";
+  if(/matriz|matrices|determinante|vector|vectores|álgebra|algebra|rango|sistema|lineal|subespacio|plano|recta/.test(blob))return "algebra";
   if(/derivada|integral|límite|limite|función|funcion|análisis|analisis|sucesión|sucesion|derivative|integral|limit/.test(blob))return "analisis";
   if(/fuerza|cinemática|cinematica|dinámica|dinamica|energía|energia|física|fisica|campo|force|motion|energy/.test(blob))return "fisica";
   if(/plano|sketchup|cota|medida|escala|2d|3d|pieza|diseño|diseno|arquitectura|mecánica|mecanica|scale|tolerance/.test(blob))return "design";
@@ -534,8 +530,8 @@ function buildDocSummaryLocal(doc){
   const es=L==="es";
   if(!body){
     return es
-      ? `Archivo cargado: ${doc?.name||"material"}. Ya podés agregar tus propias notas clave y Post-its a la derecha, o subir un archivo de texto / PDF con texto para resumir automáticamente.`
-      : `Uploaded file: ${doc?.name||"material"}. You can add key notes and Post-its on the right, or upload a text file / text-based PDF for automatic summarization.`;
+      ? `Archivo cargado: ${doc?.name||"material"}. Podés escribir tus notas o Post-its a la derecha para registrar lo que observaste en este archivo.`
+      : `Uploaded file: ${doc?.name||"material"}. You can write notes or Post-its on the right to record what you observe in this file.`;
   }
   const keyPoints=extractKeyPhrases(body,5);
   const topics=keyPoints.slice(0,3).map((pt,i)=>`${i+1}. ${pt.slice(0,95)}${pt.length>95?"...":""}`).join("\n");
@@ -550,8 +546,8 @@ function answerFromTextLocal(query,doc,extraContext=""){
   const es=L==="es";
   if(!combined){
     return es
-      ? "Aún no hay texto cargado en este material para responder. Subí un documento o agregá notas en el cuaderno."
-      : "No text is loaded in this material yet. Upload a document or add notes in the notebook.";
+      ? "Todavía no hay texto cargado en esta materia/documento. Subí un apunte o escribí tus notas y Post-its en el cuaderno."
+      : "No text is loaded in this subject/document yet. Upload notes or write notes and Post-its in the notebook.";
   }
   const sentences=combined.split(/(?<=[.!?])\s+|\n+/).map(s=>s.trim()).filter(Boolean);
   const terms=query.toLowerCase().split(/\W+/).filter(w=>w.length>2);
@@ -562,48 +558,101 @@ function answerFromTextLocal(query,doc,extraContext=""){
   }).filter(x=>x.hits>0).sort((a,b)=>b.hits-a.hits);
 
   if(scored.length){
-    const header=es?"Según tu material cargad0:":"Based on your uploaded material:";
-    return header.replace("cargad0","cargado")+"\n"+scored.slice(0,5).map(x=>"• "+x.s).join("\n");
+    return (es?"Según tu material y notas:\n":"Based on your material and notes:\n")+scored.slice(0,5).map(x=>"• "+x.s).join("\n");
   }
-  const fallbackHeader=es
-    ?"No encontré coincidencia exacta con esa palabra en el texto, pero estos puntos clave del material se relacionan con el tema:"
-    :"No exact keyword match was found in the text, but these key points from your material relate to the topic:";
-  return fallbackHeader+"\n"+sentences.slice(0,4).map(s=>"• "+s).join("\n");
+  return (es?"Puntos relacionados en tu material:\n":"Related points in your material:\n")+sentences.slice(0,4).map(s=>"• "+s).join("\n");
 }
 
-function buildEquivalentMockExam(text,label,diff="same"){
+/* Simulador: genera enunciado + debate sin dar respuesta de entrada */
+function buildMockExamItem(text,label,mode="full"){
   const domain=detectSubjectDomain(text,label);
   const es=L==="es";
-  const diffLabel=diff==="hard"
-    ?(es?"Nivel exigente":"Challenge difficulty")
-    :diff==="medium"
-      ?(es?"Práctica intermedia":"Balanced difficulty")
-      :(es?"Misma dificultad del parcial":"Equivalent exam difficulty");
-
-  if(domain==="algebra"){
-    return es
-      ? `[${diffLabel}] 1. Multiple Choice — Matrices y determinantes\nDada A = [[2, 1, -1], [0, 3, 2], [1, -1, 4]], ¿cuál es det(A)?\nA) 25   B) 33   C) 19   D) 0\nPaso a paso: det(A) = 2·(12+2) - 1·(0-2) + (-1)·(0-3) = 28 + 2 + 3 = 33. Opción correcta: B.\n\n[${diffLabel}] 2. Ejercicio práctico — Vectores en R³\nDados u = (2, -1, 3) y v = (1, 4, -2), calcula u × v y su módulo.\nPaso a paso: u × v = (-10, 7, 9); |u × v| = √((-10)² + 7² + 9²) = √230.`
-      : `[${diffLabel}] 1. Multiple Choice — Matrices & Determinants\nGiven A = [[2, 1, -1], [0, 3, 2], [1, -1, 4]], what is det(A)?\nA) 25   B) 33   C) 19   D) 0\nStep-by-step: det(A) = 2(12+2) - 1(0-2) + (-1)(0-3) = 28 + 2 + 3 = 33. Correct option: B.\n\n[${diffLabel}] 2. Practice Problem — Vectors in R³\nGiven u = (2, -1, 3) and v = (1, 4, -2), find u × v and its magnitude.\nStep-by-step: u × v = (-10, 7, 9); |u × v| = √((-10)² + 7² + 9²) = √230.`;
-  }
-  if(domain==="analisis"){
-    return es
-      ? `[${diffLabel}] 1. Multiple Choice — Límites\nCalcula lim_{x→2} (x² - 4) / (x - 2):\nA) 0   B) 2   C) 4   D) No existe\nPaso a paso: factorizá (x-2)(x+2)/(x-2) = x+2 y evaluá en x = 2 → 4. Opción correcta: C.\n\n[${diffLabel}] 2. Ejercicio práctico — Derivadas y extremos\nDada f(x) = x³ - 3x² + 2, hallá los puntos críticos y el crecimiento.\nPaso a paso: f'(x) = 3x(x - 2) = 0 → x = 0 y x = 2.`
-      : `[${diffLabel}] 1. Multiple Choice — Limits\nEvaluate lim_{x→2} (x² - 4) / (x - 2):\nA) 0   B) 2   C) 4   D) Does not exist\nStep-by-step: Factor (x-2)(x+2)/(x-2) = x+2 and evaluate at x = 2 → 4. Correct option: C.\n\n[${diffLabel}] 2. Practice Problem — Derivatives & Extrema\nGiven f(x) = x³ - 3x² + 2, find critical points and monotonicity.\nStep-by-step: f'(x) = 3x(x - 2) = 0 → x = 0 and x = 2.`;
-  }
-  if(domain==="fisica"){
-    return es
-      ? `[${diffLabel}] 1. Multiple Choice — Plano inclinado\nEn un plano inclinado de 30°, la componente del peso paralela al plano es:\nA) m·g·cos(30°)   B) m·g·sen(30°)   C) m·g·tan(30°)   D) m·g\nPaso a paso: sobre el eje paralelo al plano actúa m·g·sen(θ). Opción correcta: B.\n\n[${diffLabel}] 2. Ejercicio práctico — Dinámica y trabajo\nUn cuerpo de 4 kg avanza 5 m en un plano con μ_k = 0,2. Planteá fuerzas y trabajo.\nPaso a paso: N = m·g·cos(30°), f_k = μ_k·N, F_neta = m·g·sen(30°) - f_k, W = F_neta·d.`
-      : `[${diffLabel}] 1. Multiple Choice — Inclined Plane\nOn a 30° incline, the weight component parallel to the plane is:\nA) m·g·cos(30°)   B) m·g·sen(30°)   C) m·g·tan(30°)   D) m·g\nStep-by-step: Along the incline axis, gravity acts as m·g·sen(θ). Correct option: B.\n\n[${diffLabel}] 2. Practice Problem — Dynamics & Work\nA 4 kg block moves 5 m with μ_k = 0.2. Outline forces and net work.\nStep-by-step: N = m·g·cos(30°), f_k = μ_k·N, F_net = m·g·sen(30°) - f_k, W = F_net·d.`;
-  }
-  if(domain==="design"){
-    return es
-      ? `[${diffLabel}] 1. Multiple Choice — Escalas y medidas 2D/3D\nEn un plano a escala 1:50, un tramo de 120 mm en el dibujo equivale en realidad a:\nA) 2,4 mm   B) 120 mm   C) 6.000 mm   D) 500 mm\nPaso a paso: medida real = 120 mm × 50 = 6.000 mm. Opción correcta: C.\n\n[${diffLabel}] 2. Verificación 2D/3D — SketchUp y cotas\nIndicá qué medidas y tolerancias debés comprobar antes de validar la pieza.\nPaso a paso: revisá cotas principales, holguras y ejes de referencia.`
-      : `[${diffLabel}] 1. Multiple Choice — 2D/3D Scale & Measurements\nAt a 1:50 scale, a 120 mm drawing segment equals in reality:\nA) 2.4 mm   B) 120 mm   C) 6,000 mm   D) 500 mm\nStep-by-step: Real size = 120 mm × 50 = 6,000 mm. Correct option: C.\n\n[${diffLabel}] 2. 2D/3D Check — SketchUp & Dimensions\nList key dimensions, clearances, and reference axes to verify on the piece.\nStep-by-step: Check main dimensions, fit tolerances, and datum axes.`;
-  }
   const topic=(S.subs.find(x=>String(x.id)===String(S.sub))?.name)||label||(es?"la materia":"the subject");
-  return es
-    ? `[${diffLabel}] 1. Multiple Choice — Concepto clave de ${topic}\n¿Cuál es el mejor criterio al resolver un problema de ${topic}?\nA) Verificar condiciones y unidades antes de operar\nB) Omitir los datos iniciales\nC) Saltar pasos sin justificar\nD) Aplicar fórmulas sin revisar supuestos\nPaso a paso: siempre validá hipótesis, variables y unidades. Opción correcta: A.\n\n[${diffLabel}] 2. Problema equivalente de ${topic}\nResolvé un ejercicio integrador de ${topic} mostrando cada paso.\nPaso a paso: 1) Identificá datos; 2) Aplicá el método correspondiente; 3) Verificá el resultado.`
-    : `[${diffLabel}] 1. Multiple Choice — Core Concept (${topic})\nWhat is the best practice when solving a ${topic} problem?\nA) Check conditions and units before calculating\nB) Ignore given constraints\nC) Skip steps without justification\nD) Apply formulas blindly\nStep-by-step: Always verify assumptions, variables, and units. Correct option: A.\n\n[${diffLabel}] 2. Equivalent Practice Problem (${topic})\nSolve a structured ${topic} problem showing every step.\nStep-by-step: 1) List given data; 2) Apply the rule/method; 3) Verify the result.`;
+
+  if(mode==="theory"){
+    return {
+      prompt: es
+        ? `[Teoría — ${topic}]\n1. Explicá con tus palabras la diferencia entre independencia lineal y generar un espacio/subespacio (o la condición clave del tema en ${topic}).\n2. Verdadero o Falso (justificá): "Si un conjunto de vectores es linealmente dependiente, al menos uno de ellos es combinación lineal de los demás."`
+        : `[Theory — ${topic}]\n1. Explain in your own words the difference between linear independence and spanning a space/subspace (or the core condition in ${topic}).\n2. True or False (justify): "If a set of vectors is linearly dependent, at least one vector is a linear combination of the others."`,
+      solution: es
+        ? `Resolución orientativa:\n- En V/F: Verdadero. Por definición de dependencia lineal, existe una combinación lineal no trivial igual al vector nulo, lo que permite despejar al menos un vector en función de los otros.\n- Justificá siempre con la definición formal y un ejemplo concreto.`
+        : `Guideline solution:\n- True/False: True. By definition of linear dependence, a non-trivial linear combination equals the zero vector, allowing at least one vector to be written as a linear combination of the rest.\n- Always justify using the formal definition and a concrete example.`
+    };
+  }
+
+  if(mode==="easy"){
+    return {
+      prompt: es
+        ? `[Fácil — ${topic}]\nMultiple Choice: ¿Cuál es el primer paso recomendado al plantear un ejercicio de ${topic}?\nA) Identificar datos, notación y condiciones iniciales\nB) Aplicar fórmulas sin revisar qué pide cada inciso\nC) Ignorar unidades o dimensiones\nD) Saltar la verificación final\n\nPlanteá tu elección y por qué descartarías las otras opciones.`
+        : `[Easy — ${topic}]\nMultiple Choice: What is the best first step when solving a ${topic} problem?\nA) Identify given data, notation, and conditions\nB) Apply formulas without checking what each part asks\nC) Ignore units or dimensions\nD) Skip checking the result\n\nState your choice and why you rule out the other options.`,
+      solution: es
+        ? `Resolución orientativa:\n- Opción correcta: A. Identificar datos y condiciones evita errores de signo, notación o dominio desde el inicio.`
+        : `Guideline solution:\n- Correct option: A. Identifying data and conditions prevents sign, notation, or domain errors early on.`
+    };
+  }
+
+  if(mode==="hard"){
+    return {
+      prompt: es
+        ? `[Difícil — ${topic}]\n1. Demostración / Análisis: Dado un sistema o conjunto de vectores en R³ (o modelo de ${topic}), analizá bajo qué condición de parámetro existe solución única, infinitas soluciones o inconsistencia.\n2. Multiple Choice: Si un sistema homogéneo A·x = 0 tiene más incógnitas que ecuaciones:\nA) Solo tiene solución trivial\nB) Siempre tiene infinitas soluciones\nC) Es incompatible\nD) No tiene solución única si A es cuadrada`
+        : `[Hard — ${topic}]\n1. Proof / Analysis: Given a system or vector set in R³ (or ${topic} model), analyze parameter conditions for unique solution, infinitely many solutions, or inconsistency.\n2. Multiple Choice: If a homogeneous system A·x = 0 has more unknowns than equations:\nA) Only the trivial solution exists\nB) It always has infinitely many solutions\nC) It is inconsistent\nD) It cannot have a unique solution if A is square`,
+      solution: es
+        ? `Resolución orientativa:\n- En el MC: B. Un sistema homogéneo siempre es compatible (x = 0 es solución) y si n > m tiene al menos una variable libre, por lo que posee infinitas soluciones.`
+        : `Guideline solution:\n- MC answer: B. A homogeneous system is always consistent (x = 0 is a solution) and when unknowns > equations there is at least one free variable, giving infinitely many solutions.`
+    };
+  }
+
+  // mode === "full"
+  if(domain==="algebra"){
+    return {
+      prompt: es
+        ? `[Examen Completo — Álgebra]\nParte 1 (Teoría / MC): Indicá qué significa que un conjunto {v₁, v₂, v₃} sea linealmente independiente.\nA) Ninguno es combinación lineal de los demás   B) Suman cero   C) Son ortogonales entre sí   D) Generan R³\n\nParte 2 (Práctica): Planteá cómo hallarías el producto vectorial u × v entre dos vectores de R³ y qué representa geométricamente su módulo.`
+        : `[Full Exam — Algebra]\nPart 1 (Theory / MC): What does it mean for {v₁, v₂, v₃} to be linearly independent?\nA) None is a linear combination of the others   B) They sum to zero   C) They are mutually orthogonal   D) They span R³\n\nPart 2 (Practice): Explain how to set up the cross product u × v for two R³ vectors and what its magnitude represents geometrically.`,
+      solution: es
+        ? `Resolución orientativa:\n- Parte 1: A. Ningún vector puede escribirse como combinación lineal de los otros.\n- Parte 2: u × v se calcula con el determinante simbólico con i, j, k (o regla de Sarrus/cofactores); su módulo |u × v| representa el área del paralelogramo formado por u y v.`
+        : `Guideline solution:\n- Part 1: A. No vector can be written as a linear combination of the others.\n- Part 2: u × v comes from the symbolic determinant with i, j, k; |u × v| equals the area of the parallelogram spanned by u and v.`
+    };
+  }
+
+  return {
+    prompt: es
+      ? `[Examen Completo — ${topic}]\nParte 1 (Teoría / MC): ¿Qué conviene revisar primero antes de aplicar una fórmula o regla en ${topic}?\nA) Condiciones de validez y definiciones   B) Solo el resultado numérico   C) Omitir pasos intermedios\n\nParte 2 (Práctica): Escribí el planteo paso a paso de un ejercicio típico de ${topic} y explicá por qué elegís ese método.`
+      : `[Full Exam — ${topic}]\nPart 1 (Theory / MC): What should you check first before applying a formula or rule in ${topic}?\nA) Validity conditions and definitions   B) Only the numerical answer   C) Skipping intermediate steps\n\nPart 2 (Practice): Write a step-by-step setup for a typical ${topic} problem and explain why you choose that method.`,
+    solution: es
+      ? `Resolución orientativa:\n- Parte 1: A. Validar condiciones y definiciones asegura que el método aplique.\n- Parte 2: Definí variables, planteá la ecuación/regla base y justificá cada paso.`
+      : `Guideline solution:\n- Part 1: A. Checking conditions and definitions ensures the method applies.\n- Part 2: Define variables, state the base rule/equation, and justify each step.`
+  };
+}
+
+function debateExamAnswer(exam,userAttempt){
+  const attempt=(userAttempt||"").trim();
+  const es=L==="es";
+  if(!attempt){
+    return es
+      ? "Escribí primero tu planteo o qué opción elegís en el cuadro de arriba para que podamos debatirlo."
+      : "Write your attempt or chosen option in the box above first so we can debate it.";
+  }
+  const hasFormula=/[=×·+\-*/^<>]/.test(attempt);
+  const hasReason=/porque|por qué|ya que|dado que|definici|combinaci|lineal|modulo|módulo|área|area|because|since|definition|linear|span/i.test(attempt);
+  if(es){
+    const feedback=[];
+    feedback.push(`Debate sobre tu planteo: "${attempt.slice(0,180)}${attempt.length>180?"...":""}"`);
+    if(!hasReason){
+      feedback.push("• En teoría y parciales suele pedirse justificar el PORQUÉ: ¿qué definición o propiedad respalda tu elección?");
+    }else{
+      feedback.push("• Bien ahí incluyendo justificación: revisá si la definición aplica en todos los casos o si hay alguna excepción.");
+    }
+    if(!hasFormula){
+      feedback.push("• Si hay cálculo o vector/matriz involucrado, explicitá la expresión o ecuación antes de operar.");
+    }
+    feedback.push("• ¿Querés defender tu postura o probar otro enfoque antes de ver la resolución?");
+    return feedback.join("\n");
+  }
+  const feedback=[`Debate on your attempt: "${attempt.slice(0,180)}${attempt.length>180?"...":""}"`];
+  if(!hasReason)feedback.push("• Examiners usually look for the WHY: which definition or theorem supports your step?");
+  if(!hasFormula)feedback.push("• Write out the key expression or condition explicitly so we can check each step.");
+  feedback.push("• Want to refine your argument or check a hint before revealing the solution?");
+  return feedback.join("\n");
 }
 
 function addAutoNotesFromText(doc,summaryOrTopicsText){
@@ -652,6 +701,7 @@ $("#sbs").onchange=()=>{
   drawPlans2D();
   home();
   renderCalendar();
+  renderExams();
   previewExport();
 };
 
@@ -659,7 +709,7 @@ $("#sa").onclick=()=>{
   const n=$("#sn").value.trim();if(!n)return;
   const item={id:String(Date.now()),name:n,color:"#4F7260"};
   S.subs.push(item);S.sub=item.id;$("#sn").value="";
-  save();subsUI();refreshDocSelect();drawNb();drawPlans2D();home();renderCalendar();previewExport();
+  save();subsUI();refreshDocSelect();drawNb();drawPlans2D();home();renderCalendar();renderExams();previewExport();
 };
 
 function refreshDocSelect(){
@@ -1022,10 +1072,10 @@ function initWb(){
   };
 }
 
-/* Simulador de Exámenes */
+/* Simulador de Exámenes con Debate */
 $("#exg").onclick=async()=>{
   const files=[...($("#exf").files||[])];
-  const diff=$("#ex-diff").value||"same";
+  const mode=$("#ex-mode").value||"full";
   const sb=S.subs.find(x=>String(x.id)===String(S.sub));
   const subDocs=S.docs.filter(d=>d.sub==S.sub);
   $("#exs").textContent="...";
@@ -1044,12 +1094,22 @@ $("#exg").onclick=async()=>{
     extractedTexts=subDocs.map(d=>d.content||"").filter(Boolean);
   }
   const label=files.length?files.map(f=>f.name).join(", "):(sb?.name||(L==="es"?"Simulacro":"Mock Exam"));
-  const mock=buildEquivalentMockExam(extractedTexts.join("\n"),label,diff);
-  S.exams.unshift({id:String(Date.now()),sub:S.sub,title:label,content:mock,answers:{}});
+  const item=buildMockExamItem(extractedTexts.join("\n"),label,mode);
+  S.exams.unshift({
+    id:String(Date.now()),
+    sub:S.sub,
+    title:label,
+    prompt:item.prompt,
+    solution:item.solution,
+    answers:{0:""},
+    debates:"",
+    revealed:false
+  });
   save();$("#exs").textContent="";renderExams();
 };
 
 function renderExams(){
+  const es=L==="es";
   const list=S.exams.filter(e=>!S.sub||String(e.sub)===String(S.sub));
   $("#eq").innerHTML=list.map(ex=>{
     const ansVal=ex.answers?.[0]||"";
@@ -1059,11 +1119,17 @@ function renderExams(){
           <b>${esc(ex.title)}</b>
           <button type="button" class="x" style="position:static" onclick="delExam('${ex.id}')">×</button>
         </div>
-        <div style="white-space:pre-wrap;margin-bottom:10px">${esc(ex.content)}</div>
+        <div style="white-space:pre-wrap;margin-bottom:10px">${esc(ex.prompt)}</div>
         <label class="fd">
-          <small>${esc(L==="es"?"Tu respuesta / planteo":"Your answer / solution")}</small>
-          <textarea rows="4" style="width:100%" oninput="onExamAnswer('${ex.id}',this.value)">${esc(ansVal)}</textarea>
+          <small>${esc(es?"Tu planteo / elección para debatir":"Your attempt / choice to debate")}</small>
+          <textarea rows="3" style="width:100%" oninput="onExamAnswer('${ex.id}',this.value)">${esc(ansVal)}</textarea>
         </label>
+        <div class="row" style="margin-top:8px">
+          <button type="button" class="p" onclick="debateExam('${ex.id}')">${esc(es?"Debatir planteo":"Debate attempt")}</button>
+          <button type="button" onclick="toggleExamSolution('${ex.id}')">${esc(ex.revealed?(es?"Ocultar resolución":"Hide solution"):(es?"Ver resolución":"Show solution"))}</button>
+        </div>
+        ${ex.debates?`<div class="mg">${esc(ex.debates)}</div>`:""}
+        ${ex.revealed?`<div class="mg">${esc(ex.solution)}</div>`:""}
       </div>`;
   }).join("");
 }
@@ -1071,6 +1137,18 @@ function renderExams(){
 window.onExamAnswer=(examId,val)=>{
   const ex=S.exams.find(e=>String(e.id)===String(examId));
   if(ex){ex.answers=ex.answers||{};ex.answers[0]=val;save()}
+};
+window.debateExam=examId=>{
+  const ex=S.exams.find(e=>String(e.id)===String(examId));
+  if(!ex)return;
+  ex.debates=debateExamAnswer(ex,ex.answers?.[0]||"");
+  save();renderExams();
+};
+window.toggleExamSolution=examId=>{
+  const ex=S.exams.find(e=>String(e.id)===String(examId));
+  if(!ex)return;
+  ex.revealed=!ex.revealed;
+  save();renderExams();
 };
 window.delExam=id=>{
   S.exams=S.exams.filter(e=>String(e.id)!==String(id));
@@ -1223,7 +1301,7 @@ window.delTask=id=>{
   save();renderCalendar();home();
 };
 
-/* Descargas organizadas (TXT + Word .doc + Audios y Esquemas) */
+/* Descargas estilo Cuaderno dividido por Hojas */
 function buildExportData(subId){
   const sb=S.subs.find(x=>String(x.id)===String(subId));
   if(!sb)return{text:"",html:"",voices:[],plans:[],subjectName:"WeBook"};
@@ -1238,18 +1316,18 @@ function buildExportData(subId){
 
   if($("#inc-docs")?.checked){
     const arr=[
-      "============================================================",
-      "1. TOPICS & NOTES / APUNTES Y TEMAS",
-      "============================================================"
+      "------------------------------------------------------------",
+      "HOJA / SHEET — APUNTES Y TEMAS",
+      "------------------------------------------------------------"
     ];
     if(!docs.length){
-      arr.push("No documents loaded in this subject.");
+      arr.push("Sin apuntes cargados en esta materia.");
     }else{
       docs.forEach((d,idx)=>{
-        arr.push(`\n[${idx+1}] ${d.name}`);
+        arr.push(`\n[Hoja ${idx+1}: ${d.name}]`);
         const body=(d.content||"").trim();
         if(body)arr.push(body);
-        if(d.lastAiOutput)arr.push("\nSummary / Notes:\n"+d.lastAiOutput);
+        if(d.lastAiOutput)arr.push("\nResumen / Notas:\n"+d.lastAiOutput);
       });
     }
     sections.topics=arr.join("\n");
@@ -1257,15 +1335,15 @@ function buildExportData(subId){
 
   if($("#inc-notes")?.checked){
     const arr=[
-      "============================================================",
-      "2. NOTES & POST-ITS / NOTAS Y POST-ITS",
-      "============================================================"
+      "------------------------------------------------------------",
+      "HOJA / SHEET — NOTAS Y POST-ITS",
+      "------------------------------------------------------------"
     ];
     if(!notes.length){
-      arr.push("No notes or Post-its recorded.");
+      arr.push("Sin notas ni Post-its registrados.");
     }else{
       notes.forEach(n=>{
-        const tag=n.kind==="postit"?"POST-IT":"NOTE";
+        const tag=n.kind==="postit"?"POST-IT":"NOTA";
         arr.push(`• [${tag}] ${n.text}`);
       });
     }
@@ -1274,15 +1352,15 @@ function buildExportData(subId){
 
   if($("#inc-voices")?.checked){
     const arr=[
-      "============================================================",
-      "3. VOICE RECORDINGS / GRABACIONES DE VOZ",
-      "============================================================"
+      "------------------------------------------------------------",
+      "HOJA / SHEET — GRABACIONES DE VOZ",
+      "------------------------------------------------------------"
     ];
     if(!voices.length){
-      arr.push("No voice recordings saved.");
+      arr.push("Sin grabaciones de voz guardadas.");
     }else{
       voices.forEach(v=>{
-        arr.push(`• ${v.title} — Duration: ${v.duration} (audio file downloadable below)`);
+        arr.push(`• ${v.title} — Duración: ${v.duration}`);
       });
     }
     sections.audio=arr.join("\n");
@@ -1290,17 +1368,17 @@ function buildExportData(subId){
 
   if($("#inc-media")?.checked){
     const arr=[
-      "============================================================",
-      "4. 2D/3D SCHEMES & VIDEOS / ESQUEMAS Y VIDEOS",
-      "============================================================"
+      "------------------------------------------------------------",
+      "HOJA / SHEET — ESQUEMAS 2D/3D Y VIDEOS",
+      "------------------------------------------------------------"
     ];
     if(!plans.length){
-      arr.push("No 2D/3D schemes or videos saved.");
+      arr.push("Sin esquemas ni videos guardados.");
     }else{
       plans.forEach(p=>{
-        const kind=p.isVideo?"Video":(p.isImg?"2D/3D Image":"File");
+        const kind=p.isVideo?"Video":(p.isImg?"Esquema/Imagen":"Archivo");
         const annos=(p.annos||[]).map(a=>`${a.measure||""} ${a.note||""}`.trim()).filter(Boolean).join(" | ");
-        arr.push(`• [${kind}] ${p.name}${annos?` — Annotations: ${annos}`:""}`);
+        arr.push(`• [${kind}] ${p.name}${annos?` — Medidas/Notas: ${annos}`:""}`);
       });
     }
     sections.media=arr.join("\n");
@@ -1312,17 +1390,20 @@ function buildExportData(subId){
     audio_notes_topics_media:["audio","notes","topics","media"]
   }[orderMode]||["topics","notes","audio","media"];
 
+  const orderedBlocks=orderMap.map(k=>sections[k]).filter(Boolean);
+  const numberedSheets=orderedBlocks.map((blk,i)=>`=== HOJA ${i+1} ===\n${blk}`).join("\n\n\f\n\n");
+
   const header=[
-    "************************************************************",
-    `WEBOOK — SUBJECT / MATERIA: ${sb.name.toUpperCase()}`,
-    `Date: ${new Date().toLocaleDateString()}`,
-    "************************************************************",
+    "============================================================",
+    `CUADERNO WEBOOK — ${sb.name.toUpperCase()}`,
+    `Fecha: ${new Date().toLocaleDateString()}`,
+    "============================================================",
     ""
   ].join("\n");
 
-  const bodyBlocks=orderMap.map(k=>sections[k]).filter(Boolean).join("\n\n");
-  const fullText=header+bodyBlocks;
-  const htmlDoc=`<!doctype html><html><head><meta charset="utf-8"><title>${esc(sb.name)}</title><style>body{font-family:Calibri,Arial,sans-serif;line-height:1.5;color:#222;padding:24px}pre{white-space:pre-wrap;font-family:inherit}</style></head><body><pre>${esc(fullText)}</pre></body></html>`;
+  const fullText=header+numberedSheets;
+  const htmlPages=orderedBlocks.map((blk,i)=>`<div class="sheet"><h2>Hoja ${i+1}</h2><pre>${esc(blk)}</pre></div>`).join("");
+  const htmlDoc=`<!doctype html><html><head><meta charset="utf-8"><title>${esc(sb.name)}</title><style>body{font-family:Calibri,Arial,sans-serif;line-height:1.5;color:#222;padding:24px}.sheet{page-break-after:always;margin-bottom:24px;border-bottom:1px dashed #999;padding-bottom:16px}.sheet:last-child{page-break-after:auto}pre{white-space:pre-wrap;font-family:inherit}</style></head><body><h1>Cuaderno WeBook — ${esc(sb.name)}</h1>${htmlPages}</body></html>`;
   return{text:fullText,html:htmlDoc,voices,plans,subjectName:sb.name};
 }
 
@@ -1355,13 +1436,13 @@ $("#xt").onclick=()=>{
   const res=buildExportData($("#xs").value);
   const content=$("#xv").textContent||res.text;
   if(!content)return;
-  triggerDownload(content,"text/plain;charset=utf-8",`webook-${(res.subjectName||"study").toLowerCase().replace(/\s+/g,"-")}.txt`);
+  triggerDownload(content,"text/plain;charset=utf-8",`webook-cuaderno-${(res.subjectName||"estudio").toLowerCase().replace(/\s+/g,"-")}.txt`);
 };
 
 $("#xdoc").onclick=()=>{
   const res=buildExportData($("#xs").value);
   if(!res.html)return;
-  triggerDownload(res.html,"application/msword;charset=utf-8",`webook-${(res.subjectName||"study").toLowerCase().replace(/\s+/g,"-")}.doc`);
+  triggerDownload(res.html,"application/msword;charset=utf-8",`webook-cuaderno-${(res.subjectName||"estudio").toLowerCase().replace(/\s+/g,"-")}.doc`);
 };
 
 /* Acceso */
