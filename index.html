@@ -9,6 +9,7 @@ try{document.documentElement.dataset.theme=localStorage.wbt||(matchMedia("(prefe
 </script>
 <title>WeBook</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
 :root{color-scheme:light;--bg:#F4F1EA;--s:#FBF9F3;--ink:#3b403c;--mut:#6f766f;--ac:#4F7260;--acf:#F8F6EC;--ln:#DDD8CB;--hl:#F1E2A6;--pi:#F5E59B;--in:#FFFDF8;--mgb:#EDEADF;--colb:#EFEBE0}
 [data-theme=dark]{color-scheme:dark;--bg:#171B1F;--s:#1F2428;--ink:#DDE2DC;--mut:#97A29A;--ac:#86B596;--acf:#13201A;--ln:#2F363C;--hl:#6b6633;--pi:#D8CC87;--in:#252B30;--mgb:#232A27;--colb:#1B2024}
@@ -44,7 +45,7 @@ main{padding:16px;max-width:1200px;margin:auto}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
 .btn-label{cursor:pointer;padding:7px 12px;border-radius:6px;background:var(--ac);color:var(--acf);display:inline-flex;align-items:center;min-height:38px;font-weight:500}
 
-#rd{font:300 15px/1.75 'Plus Jakarta Sans',system-ui,sans-serif;min-height:180px;max-height:360px;overflow:auto;white-space:pre-wrap;background:var(--in);padding:12px;border:1px solid var(--ln);border-radius:6px}
+#rd{font:300 15px/1.75 'Plus Jakarta Sans',system-ui,sans-serif;min-height:160px;max-height:340px;overflow:auto;white-space:pre-wrap;background:var(--in);padding:12px;border:1px solid var(--ln);border-radius:6px}
 .mg{position:relative;border-left:3px solid var(--ac);padding:8px 26px 8px 10px;margin:8px 0;background:var(--mgb);border-radius:4px;white-space:pre-wrap}
 .pi{position:relative;background:var(--pi);color:#2f2e22;padding:10px 26px 10px 12px;border-radius:4px;box-shadow:0 2px 6px #0002;margin:8px 0;white-space:pre-wrap}
 .voice-card{position:relative;border-left:3px solid #8a6d1d;padding:8px 26px 8px 10px;margin:8px 0;background:var(--mgb);border-radius:4px}
@@ -52,12 +53,16 @@ main{padding:16px;max-width:1200px;margin:auto}
 .x{position:absolute;right:6px;top:4px;border:0;background:none;padding:2px 6px;min-height:auto;color:inherit}
 
 #clk{font:300 44px 'Plus Jakarta Sans',system-ui,sans-serif}
-.kb{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;padding:8px 0}
-.col{background:var(--colb);border:1px solid var(--ln);border-radius:10px;padding:12px;min-height:160px}
-.col h5{margin:0 0 10px;font-size:14px;display:flex;justify-content:space-between;align-items:center}
-.tc{background:var(--s);border:1px solid var(--ln);border-left:4px solid var(--ac);border-radius:8px;padding:9px;margin-bottom:8px;font-size:13px;display:flex;gap:8px;align-items:flex-start}
+.week-grid{display:grid;grid-template-columns:repeat(7,minmax(150px,1fr));gap:10px;overflow-x:auto;padding-bottom:6px}
+.day-col{background:var(--colb);border:1px solid var(--ln);border-radius:10px;padding:10px;min-height:190px;display:flex;flex-direction:column;gap:8px}
+.day-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--ln);padding-bottom:6px;font-size:13px}
+.tc{background:var(--s);border:1px solid var(--ln);border-left:4px solid var(--ac);border-radius:8px;padding:8px;font-size:13px;display:grid;gap:6px}
 .tc.urgent{border-left-color:#b84a39}
-.tc.dn{opacity:.55;text-decoration:line-through}
+.tc.dn{opacity:.55}
+.tc.dn .t-title{text-decoration:line-through}
+.tc-top{display:flex;gap:6px;align-items:flex-start}
+.tc-actions{display:flex;gap:6px;flex-wrap:wrap}
+.tc-actions button{min-height:28px;padding:2px 8px;font-size:12px}
 
 @media(max-width:820px){
   .cols{grid-template-columns:1fr}
@@ -74,8 +79,8 @@ main{padding:16px;max-width:1200px;margin:auto}
    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%234F7260'/><text x='50' y='62' font-size='45' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>W</text></svg>" alt="WeBook">
    WeBook
  </div>
- <label class="fd"><small data-l="email"></small><input id="em" type="email" data-p="email_p" required></label>
- <label class="fd"><small data-l="pass"></small><input id="pw" type="password" data-p="pass_p" required></label>
+ <label class="fd"><small data-l="email"></small><input id="em" type="email" data-p="email_p" autocomplete="email"></label>
+ <label class="fd"><small data-l="pass"></small><input id="pw" type="password" data-p="pass_p" autocomplete="current-password"></label>
  <div class="row" style="margin-top:8px">
    <button type="submit" class="p" data-l="in"></button>
    <select class="lg" aria-label="Language"></select>
@@ -90,23 +95,23 @@ main{padding:16px;max-width:1200px;margin:auto}
    <span>WeBook</span>
  </div>
  <nav class="nav">
-   <button data-v="home" class="on"><span class="ic">⌂</span><span data-l="home"></span></button>
-   <button data-v="nb"><span class="ic">❏</span><span data-l="nb"></span></button>
-   <button data-v="plans2d"><span class="ic">◈</span><span data-l="plans2d"></span></button>
-   <button data-v="wb"><span class="ic">✎</span><span data-l="wb"></span></button>
-   <button data-v="ex"><span class="ic">✦</span><span data-l="ex"></span></button>
-   <button data-v="plan"><span class="ic">▦</span><span data-l="plan"></span></button>
-   <button data-v="dl"><span class="ic">⇩</span><span data-l="dl"></span></button>
+   <button type="button" data-v="home" class="on"><span class="ic">⌂</span><span data-l="home"></span></button>
+   <button type="button" data-v="nb"><span class="ic">❏</span><span data-l="nb"></span></button>
+   <button type="button" data-v="plans2d"><span class="ic">◈</span><span data-l="plans2d"></span></button>
+   <button type="button" data-v="wb"><span class="ic">✎</span><span data-l="wb"></span></button>
+   <button type="button" data-v="ex"><span class="ic">✦</span><span data-l="ex"></span></button>
+   <button type="button" data-v="plan"><span class="ic">▦</span><span data-l="plan"></span></button>
+   <button type="button" data-v="dl"><span class="ic">⇩</span><span data-l="dl"></span></button>
  </nav>
 </aside>
 
 <div id="wrap">
 <header>
  <span class="brand" data-l="app_title"></span>
- <span class="mut" style="font-size:12px" data-l="ai_status"></span>
+ <input id="api-key-in" type="password" size="22" autocomplete="off" placeholder="Gemini API Key...">
  <select class="lg" aria-label="Language"></select>
  <button type="button" class="th" aria-label="Theme">☾</button>
- <button id="out" data-l="out"></button>
+ <button id="out" type="button" data-l="out"></button>
 </header>
 
 <main>
@@ -115,7 +120,7 @@ main{padding:16px;max-width:1200px;margin:auto}
   <select id="sbs" aria-label="Subject"></select>
   <span style="flex:1"></span>
   <input id="sn" size="18" autocomplete="off" data-p="newsub_p">
-  <button id="sa" class="p" data-l="newsub"></button>
+  <button id="sa" type="button" class="p" data-l="newsub"></button>
 </div>
 
 <!-- INICIO -->
@@ -128,7 +133,7 @@ main{padding:16px;max-width:1200px;margin:auto}
        <div id="qc" style="max-height:260px;overflow:auto;margin:8px 0"></div>
        <div class="row">
          <input id="qi" style="flex:1" autocomplete="off" data-p="q_p">
-         <button id="qs" class="p" data-l="ask"></button>
+         <button id="qs" type="button" class="p" data-l="ask"></button>
        </div>
      </div>
    </div>
@@ -146,16 +151,16 @@ main{padding:16px;max-width:1200px;margin:auto}
      <div class="card">
        <div class="row">
          <label class="btn-label">
-           <span data-l="file"></span><input id="uf" type="file" hidden accept=".pdf,.txt,.md">
+           <span data-l="file"></span><input id="uf" type="file" hidden accept=".pdf,.txt,.md,.png,.jpg,.jpeg,.webp,image/*">
          </label>
          <select id="ds" aria-label="Document"></select>
-         <button id="sm" class="p" data-l="sum"></button>
+         <button id="sm" type="button" class="p" data-l="sum"></button>
          <button id="rec" type="button"><span data-l="rec"></span> <span id="rct">00:00</span></button>
          <small id="st" role="status"></small>
        </div>
        <div class="row">
          <input id="q" style="flex:1" autocomplete="off" data-p="qdoc_p">
-         <button id="qa" class="p" data-l="ask_doc"></button>
+         <button id="qa" type="button" class="p" data-l="ask_doc"></button>
        </div>
        <div id="ans" class="mg" hidden></div>
      </div>
@@ -177,16 +182,15 @@ main{padding:16px;max-width:1200px;margin:auto}
  </div>
 </section>
 
-<!-- ESQUEMAS 2D -->
+<!-- ESQUEMAS Y MULTIMEDIA 2D -->
 <section class="v" id="v-plans2d" hidden>
  <div class="card">
    <h3 style="margin-top:0" data-l="plans2d"></h3>
    <p class="mut" data-l="plans2d_desc"></p>
    <div class="row">
      <label class="btn-label">
-       <span data-l="upload_plan"></span><input id="mf" type="file" hidden accept="image/*,.pdf">
+       <span data-l="upload_plan"></span><input id="mf" type="file" hidden accept=".pdf,.png,.jpg,.jpeg,.webp,.mp4,.webm,image/*,video/*">
      </label>
-     <small id="plan-status" class="mut"></small>
    </div>
    <div id="plan-viewer" style="min-height:280px;border:1px solid var(--ln);border-radius:8px;display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center;background:var(--in);padding:14px">
      <span class="mut" data-l="no_plan"></span>
@@ -194,7 +198,7 @@ main{padding:16px;max-width:1200px;margin:auto}
  </div>
 </section>
 
-<!-- PIZARRA -->
+<!-- PIZARRA (INTACTA EN SU ESTRUCTURA DE HERRAMIENTAS) -->
 <section class="v" id="v-wb" hidden>
  <div class="card">
    <div class="row">
@@ -223,7 +227,7 @@ main{padding:16px;max-width:1200px;margin:auto}
    <h3 style="margin-top:0" data-l="ex"></h3>
    <p class="mut" data-l="ex_desc"></p>
    <div class="row">
-     <input id="exf" type="file" accept=".pdf,.txt,.md" multiple>
+     <input id="exf" type="file" accept=".pdf,.txt,.md,.png,.jpg,.jpeg,.webp,image/*" multiple>
      <button class="p" id="exg" type="button" data-l="gen"></button>
      <small id="exs" role="status"></small>
    </div>
@@ -231,13 +235,14 @@ main{padding:16px;max-width:1200px;margin:auto}
  <div id="eq"></div>
 </section>
 
-<!-- PLANIFICADOR, CALENDARIO POR FECHAS & POMODORO -->
+<!-- CALENDARIO SEMANAL & POMODORO -->
 <section class="v" id="v-plan" hidden>
  <div class="card">
   <b data-l="pom"></b>
   <div class="row" style="margin-top:8px">
     <span data-l="foc"></span><input id="fm" type="number" min="1" value="25" style="width:70px">
     <span data-l="brk"></span><input id="bm" type="number" min="1" value="5" style="width:70px">
+    <span id="pom-label" class="mut"></span>
   </div>
   <div class="row">
     <div id="clk">25:00</div>
@@ -256,8 +261,15 @@ main{padding:16px;max-width:1200px;margin:auto}
  </div>
 
  <div class="card">
-  <h3 style="margin-top:0" data-l="deadlines_title"></h3>
-  <div id="bo" class="kb"></div>
+  <div class="row" style="justify-content:space-between">
+    <h3 style="margin:0" data-l="deadlines_title"></h3>
+    <div class="row" style="margin:0">
+      <button id="wk-prev" type="button">&lsaquo;</button>
+      <b id="wk-range"></b>
+      <button id="wk-next" type="button">&rsaquo;</button>
+    </div>
+  </div>
+  <div id="bo" class="week-grid"></div>
  </div>
 </section>
 
@@ -267,15 +279,30 @@ main{padding:16px;max-width:1200px;margin:auto}
   <b data-l="dlc"></b>
   <div class="row" style="margin:10px 0">
     <select id="xs" style="flex:1"></select>
+    <select id="x-order" aria-label="Order">
+      <option value="topics_notes_audio_media">Orden: Temas → Notas → Audios → Esquemas/Videos</option>
+      <option value="audio_notes_topics_media">Orden: Audios → Notas → Temas → Esquemas/Videos</option>
+    </select>
     <button id="xt" type="button" class="p" data-l="txt"></button>
   </div>
-  <pre id="xv" style="white-space:pre-wrap;max-height:360px;overflow:auto;background:var(--in);padding:10px;border-radius:6px"></pre>
+  <div class="row" style="margin-bottom:12px">
+    <label><input type="checkbox" id="inc-docs" checked> Apuntes y temas</label>
+    <label><input type="checkbox" id="inc-notes" checked> Notas y Post-its</label>
+    <label><input type="checkbox" id="inc-voices" checked> Audios</label>
+    <label><input type="checkbox" id="inc-media" checked> Esquemas / Videos</label>
+  </div>
+  <div id="dl-media-links" class="row" style="margin-bottom:10px"></div>
+  <pre id="xv" style="white-space:pre-wrap;max-height:380px;overflow:auto;background:var(--in);padding:12px;border-radius:6px"></pre>
  </div>
 </section>
 
 </main></div></div>
 
 <script>
+if(window.pdfjsLib && pdfjsLib.GlobalWorkerOptions){
+  pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+}
+
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
@@ -283,93 +310,93 @@ const LG=["en","es","pt","fr"], LN={en:"English",es:"Español",pt:"Português",f
 const DICT={
   en:{
     email:"Email",email_p:"you@example.com",pass:"Password",pass_p:"********",in:"Continue",out:"Sign out",
-    app_title:"WeBook",ai_status:"Gemini AI Ready",home:"Dashboard",nb:"Notebook",plans2d:"2D Schemes",
-    wb:"Whiteboard",ex:"Exam Simulator",plan:"Planner & Pomodoro",dl:"Downloads",subj:"Subject:",
+    app_title:"WeBook",home:"Dashboard",nb:"Notebook",plans2d:"2D Schemes & Videos",
+    wb:"Whiteboard",ex:"Exam Simulator",plan:"Calendar & Pomodoro",dl:"Downloads",subj:"Subject:",
     newsub:"Create subject",newsub_p:"New subject name...",hint:"Create or select a subject above to start from scratch.",
-    quick:"AI Study Assistant",q_p:"Ask a concept or study question...",ask:"Ask",subs:"Subjects",next:"Deadlines",
-    file:"Upload file",sum:"Summarize",rec:"Record audio",qdoc_p:"Ask about the uploaded material...",
-    ask_doc:"Ask file",note_p:"Write a note or Post-it...",add_note:"Add note",add_postit:"Post-it",notes_feed:"Notes & Post-its",
-    plans2d_desc:"Upload a 2D image or diagram to inspect and keep saved in your session.",
-    upload_plan:"Upload 2D image",no_plan:"No 2D file loaded yet.",pen:"Pen",era:"Eraser",
+    quick:"AI Study Assistant",q_p:"Ask a study question or topic...",ask:"Ask",subs:"Subjects",next:"Upcoming deadlines",
+    file:"Upload PDF/file/photo",sum:"Summarize & Notes",rec:"Record audio",qdoc_p:"Ask strictly about the uploaded document...",
+    ask_doc:"Ask document",note_p:"Write a note or Post-it...",add_note:"Add note",add_postit:"Post-it",notes_feed:"Notes, Post-its & Audios",
+    plans2d_desc:"Upload 2D diagrams, images, or study videos for your subject.",
+    upload_plan:"Upload 2D/video",no_plan:"No 2D schemes or videos loaded yet.",pen:"Pen",era:"Eraser",
     board_postit:"+ Post-it",board_txt_p:"Text for board...",board_txt_btn:"Add text",
-    up_img:"Add image",clr:"Clear",ex_desc:"Upload past exams to generate practice questions with step-by-step explanations.",
-    gen:"Generate practice exam",pom:"Pomodoro Timer",foc:"Focus (min):",brk:"Break (min):",
+    up_img:"Add image",clr:"Clear",ex_desc:"Upload past exams (PDF or photos) to generate new practice questions with step-by-step solutions.",
+    gen:"Generate mock exam",pom:"Pomodoro Timer",foc:"Focus (min):",brk:"Break (min):",
     start:"Start / Pause",reset:"Reset",task_p:"Task or exam title...",add:"Add",
-    deadlines_title:"Calendar & Deadlines by Subject",dlc:"Export Notes",txt:"Download TXT",
-    no_sub:"No subject selected",no_subs_empty:"No subjects yet. Create one above.",no_tasks:"No pending deadlines.",
-    pdf_loaded:"PDF uploaded. Ask questions or generate a summary/exam from this topic."
+    deadlines_title:"Weekly Study Calendar",dlc:"Export Organized Material",txt:"Download TXT",
+    no_sub:"No subject selected",no_subs_empty:"No subjects yet. Create one above.",no_tasks:"No items"
   },
   es:{
     email:"Correo",email_p:"tu@correo.com",pass:"Contraseña",pass_p:"********",in:"Continuar",out:"Salir",
-    app_title:"WeBook",ai_status:"IA Gemini Lista",home:"Inicio",nb:"Cuaderno",plans2d:"Esquemas 2D",
-    wb:"Pizarra",ex:"Simulador de Exámenes",plan:"Planificador y Pomodoro",dl:"Descargas",subj:"Materia:",
+    app_title:"WeBook",home:"Inicio",nb:"Cuaderno",plans2d:"Esquemas 2D y Videos",
+    wb:"Pizarra",ex:"Simulador de Exámenes",plan:"Calendario y Pomodoro",dl:"Descargas",subj:"Materia:",
     newsub:"Crear materia",newsub_p:"Nombre de la materia...",hint:"Crea o selecciona una materia arriba para empezar desde cero.",
-    quick:"Asistente de Estudio con IA",q_p:"Pregunta un concepto o tema de estudio...",ask:"Preguntar",subs:"Materias",next:"Entregas",
-    file:"Subir archivo",sum:"Resumir",rec:"Grabar audio",qdoc_p:"Pregunta sobre el archivo o tema...",
-    ask_doc:"Consultar archivo",note_p:"Escribe una nota o Post-it...",add_note:"Agregar nota",add_postit:"Post-it",notes_feed:"Notas, Post-its y Audio",
-    plans2d_desc:"Sube una imagen o esquema 2D para revisarlo y guardarlo en tu espacio.",
-    upload_plan:"Subir imagen 2D",no_plan:"Aún no cargaste ningún esquema 2D.",pen:"Lápiz",era:"Borrador",
+    quick:"Asistente de Estudio con IA",q_p:"Pregunta un tema o duda de estudio...",ask:"Preguntar",subs:"Materias",next:"Próximas entregas",
+    file:"Subir PDF/archivo/foto",sum:"Resumir y Notas",rec:"Grabar audio",qdoc_p:"Pregunta estrictamente sobre el documento subido...",
+    ask_doc:"Consultar documento",note_p:"Escribe una nota o Post-it...",add_note:"Agregar nota",add_postit:"Post-it",notes_feed:"Notas, Post-its y Audios",
+    plans2d_desc:"Sube esquemas 2D, imágenes o videos de clase para tu materia.",
+    upload_plan:"Subir esquema/video",no_plan:"Aún no cargaste esquemas ni videos.",pen:"Lápiz",era:"Borrador",
     board_postit:"+ Post-it",board_txt_p:"Texto para pizarra...",board_txt_btn:"Agregar texto",
-    up_img:"Subir imagen",clr:"Limpiar",ex_desc:"Sube modelos de examen anteriores para generar preguntas nuevas con explicación paso a paso.",
+    up_img:"Subir imagen",clr:"Limpiar",ex_desc:"Sube parciales viejos (PDF o fotos) para generar preguntas nuevas con resolución paso a paso.",
     gen:"Generar simulacro",pom:"Temporizador Pomodoro",foc:"Estudio (min):",brk:"Descanso (min):",
     start:"Iniciar / Pausar",reset:"Reiniciar",task_p:"Tarea o fecha de examen...",add:"Agregar",
-    deadlines_title:"Calendario y Entregas por Materia",dlc:"Exportar Apuntes",txt:"Descargar TXT",
-    no_sub:"Sin materia seleccionada",no_subs_empty:"Aún no hay materias. Crea una arriba.",no_tasks:"No hay entregas pendientes.",
-    pdf_loaded:"PDF cargado. Haz preguntas sobre el tema o genera un resumen/simulacro."
+    deadlines_title:"Calendario Semanal de Estudio",dlc:"Exportar Material Ordenado",txt:"Descargar TXT",
+    no_sub:"Sin materia seleccionada",no_subs_empty:"Aún no hay materias. Crea una arriba.",no_tasks:"Sin entregas"
   },
   pt:{
     email:"E-mail",email_p:"voce@exemplo.com",pass:"Senha",pass_p:"********",in:"Continuar",out:"Sair",
-    app_title:"WeBook",ai_status:"IA Gemini Pronta",home:"Início",nb:"Caderno",plans2d:"Esquemas 2D",
-    wb:"Quadro",ex:"Simulador de Provas",plan:"Planejador e Pomodoro",dl:"Downloads",subj:"Matéria:",
+    app_title:"WeBook",home:"Início",nb:"Caderno",plans2d:"Esquemas 2D e Vídeos",
+    wb:"Quadro",ex:"Simulador de Provas",plan:"Calendário e Pomodoro",dl:"Downloads",subj:"Matéria:",
     newsub:"Criar matéria",newsub_p:"Nome da matéria...",hint:"Crie ou selecione uma matéria acima para começar do zero.",
-    quick:"Assistente de Estudo com IA",q_p:"Pergunte um conceito ou tema de estudo...",ask:"Perguntar",subs:"Matérias",next:"Prazos",
-    file:"Enviar arquivo",sum:"Resumir",rec:"Gravar áudio",qdoc_p:"Pergunte sobre o arquivo ou tema...",
-    ask_doc:"Consultar arquivo",note_p:"Escreva uma nota ou Post-it...",add_note:"Adicionar nota",add_postit:"Post-it",notes_feed:"Notas, Post-its e Áudio",
-    plans2d_desc:"Envie uma imagem ou esquema 2D para revisar e manter salvo.",
-    upload_plan:"Enviar imagem 2D",no_plan:"Nenhum esquema 2D carregado ainda.",pen:"Caneta",era:"Borracha",
+    quick:"Assistente de Estudo com IA",q_p:"Pergunte um tema ou dúvida de estudo...",ask:"Perguntar",subs:"Matérias",next:"Próximos prazos",
+    file:"Enviar PDF/arquivo/foto",sum:"Resumir e Notas",rec:"Gravar áudio",qdoc_p:"Pergunte estritamente sobre o documento enviado...",
+    ask_doc:"Consultar documento",note_p:"Escreva uma nota ou Post-it...",add_note:"Adicionar nota",add_postit:"Post-it",notes_feed:"Notas, Post-its e Áudios",
+    plans2d_desc:"Envie esquemas 2D, imagens ou vídeos de aula para sua matéria.",
+    upload_plan:"Enviar esquema/vídeo",no_plan:"Nenhum esquema ou vídeo carregado ainda.",pen:"Caneta",era:"Borracha",
     board_postit:"+ Post-it",board_txt_p:"Texto no quadro...",board_txt_btn:"Adicionar texto",
-    up_img:"Enviar imagem",clr:"Limpar",ex_desc:"Envie provas anteriores para gerar novas questões com explicação passo a passo.",
+    up_img:"Enviar imagem",clr:"Limpar",ex_desc:"Envie provas antigas (PDF ou fotos) para gerar novas questões com resolução passo a passo.",
     gen:"Gerar simulado",pom:"Temporizador Pomodoro",foc:"Foco (min):",brk:"Pausa (min):",
     start:"Iniciar / Pausar",reset:"Reiniciar",task_p:"Tarefa ou data de prova...",add:"Adicionar",
-    deadlines_title:"Calendário e Prazos por Matéria",dlc:"Exportar Anotações",txt:"Baixar TXT",
-    no_sub:"Nenhuma matéria selecionada",no_subs_empty:"Nenhuma matéria ainda. Crie uma acima.",no_tasks:"Nenhum prazo pendente.",
-    pdf_loaded:"PDF enviado. Faça perguntas sobre o tema ou gere um resumo/simulado."
+    deadlines_title:"Calendário Semanal de Estudos",dlc:"Exportar Material Organizado",txt:"Baixar TXT",
+    no_sub:"Nenhuma matéria selecionada",no_subs_empty:"Nenhuma matéria ainda. Crie uma acima.",no_tasks:"Sem prazos"
   },
   fr:{
     email:"E-mail",email_p:"vous@exemple.com",pass:"Mot de passe",pass_p:"********",in:"Continuer",out:"Quitter",
-    app_title:"WeBook",ai_status:"IA Gemini Prête",home:"Accueil",nb:"Cahier",plans2d:"Schémas 2D",
-    wb:"Tableau",ex:"Simulateur d'Examens",plan:"Planificateur et Pomodoro",dl:"Téléchargements",subj:"Matière :",
+    app_title:"WeBook",home:"Accueil",nb:"Cahier",plans2d:"Schémas 2D et Vidéos",
+    wb:"Tableau",ex:"Simulateur d'Examens",plan:"Calendrier et Pomodoro",dl:"Téléchargements",subj:"Matière :",
     newsub:"Créer matière",newsub_p:"Nom de la matière...",hint:"Créez ou sélectionnez une matière ci-dessus pour repartir de zéro.",
-    quick:"Assistant d'Étude IA",q_p:"Posez une question de cours...",ask:"Demander",subs:"Matières",next:"Échéances",
-    file:"Importer fichier",sum:"Résumer",rec:"Enregistrer audio",qdoc_p:"Question sur le fichier ou le sujet...",
-    ask_doc:"Interroger fichier",note_p:"Écrire une note ou un Post-it...",add_note:"Ajouter note",add_postit:"Post-it",notes_feed:"Notes, Post-its et Audio",
-    plans2d_desc:"Importez une image ou un schéma 2D pour l'inspecter et le garder.",
-    upload_plan:"Importer image 2D",no_plan:"Aucun schéma 2D chargé pour l'instant.",pen:"Stylo",era:"Gomme",
+    quick:"Assistant d'Étude IA",q_p:"Posez une question ou un thème d'étude...",ask:"Demander",subs:"Matières",next:"Échéances à venir",
+    file:"Importer PDF/fichier/photo",sum:"Résumer et Notes",rec:"Enregistrer audio",qdoc_p:"Question strictement sur le document importé...",
+    ask_doc:"Interroger document",note_p:"Écrire une note ou un Post-it...",add_note:"Ajouter note",add_postit:"Post-it",notes_feed:"Notes, Post-its et Audios",
+    plans2d_desc:"Importez des schémas 2D, images ou vidéos de cours pour votre matière.",
+    upload_plan:"Importer schéma/vidéo",no_plan:"Aucun schéma ni vidéo chargé pour l'instant.",pen:"Stylo",era:"Gomme",
     board_postit:"+ Post-it",board_txt_p:"Texte sur le tableau...",board_txt_btn:"Ajouter texte",
-    up_img:"Ajouter image",clr:"Effacer",ex_desc:"Importez d'anciens sujets pour générer des questions avec explication étape par étape.",
+    up_img:"Ajouter image",clr:"Effacer",ex_desc:"Importez d'anciens sujets (PDF ou photos) pour générer de nouvelles questions avec résolution étape par étape.",
     gen:"Générer un examen blanc",pom:"Minuteur Pomodoro",foc:"Focus (min) :",brk:"Pause (min) :",
     start:"Démarrer / Pause",reset:"Réinitialiser",task_p:"Tâche ou date d'examen...",add:"Ajouter",
-    deadlines_title:"Calendrier et Échéances par Matière",dlc:"Exporter les Notes",txt:"Télécharger TXT",
-    no_sub:"Aucune matière sélectionnée",no_subs_empty:"Aucune matière pour l'instant. Créez-en une ci-dessus.",no_tasks:"Aucune échéance en attente.",
-    pdf_loaded:"PDF importé. Posez des questions ou générez un résumé/examen."
+    deadlines_title:"Calendrier Hebdomadaire d'Étude",dlc:"Exporter le Matériel Classé",txt:"Télécharger TXT",
+    no_sub:"Aucune matière selecionnée",no_subs_empty:"Aucune matière pour l'instant. Créez-en une ci-dessus.",no_tasks:"Aucune échéance"
   }
 };
 
 let L=localStorage.wbl||"en";
 const t=k=>(DICT[L]&&DICT[L][k])||DICT.en[k]||k;
 
-function applyLang(){
+function applyStaticLabels(){
   document.documentElement.lang=L;
   $$("[data-l]").forEach(el=>{el.textContent=t(el.dataset.l)});
   $$("[data-p]").forEach(el=>{el.placeholder=t(el.dataset.p)});
   $$(".lg").forEach(s=>{s.value=L});
-  if(!$("#app").hidden)drawAll();
 }
 
 $$(".lg").forEach(s=>{
   s.innerHTML=LG.map(code=>`<option value="${code}">${LN[code]}</option>`).join("");
   s.value=L;
-  s.onchange=()=>{L=s.value;localStorage.wbl=L;applyLang()};
+  s.onchange=()=>{
+    L=s.value;
+    localStorage.wbl=L;
+    applyStaticLabels();
+    if(!$("#app").hidden){subsUI();home();renderCalendar();renderExams()}
+  };
 });
 
 $$(".th").forEach(b=>{
@@ -382,19 +409,141 @@ $$(".th").forEach(b=>{
   b.textContent=document.documentElement.dataset.theme=="dark"?"☀":"☾";
 });
 
-let S={docs:[],notes:[],tasks:[],subs:[],sub:null,plans:[]};
-const save=()=>{try{localStorage["webook-v3"]=JSON.stringify(S)}catch{}};
-try{const raw=localStorage["webook-v3"];if(raw)S={...S,...JSON.parse(raw)}}catch{}
+$("#api-key-in").value=localStorage.webook_gemini_key||"";
+$("#api-key-in").oninput=e=>{localStorage.webook_gemini_key=e.target.value.trim()};
 
+let S={docs:[],notes:[],voices:[],tasks:[],exams:[],subs:[],sub:null,plans:[]};
+function loadSavedState(){
+  try{
+    const raw=localStorage.webook_full_state_v2;
+    if(raw){
+      const parsed=JSON.parse(raw);
+      S={...S,...parsed,
+        docs:Array.isArray(parsed.docs)?parsed.docs:[],
+        notes:Array.isArray(parsed.notes)?parsed.notes:[],
+        voices:Array.isArray(parsed.voices)?parsed.voices:[],
+        tasks:Array.isArray(parsed.tasks)?parsed.tasks:[],
+        exams:Array.isArray(parsed.exams)?parsed.exams:[],
+        subs:Array.isArray(parsed.subs)?parsed.subs:[],
+        plans:Array.isArray(parsed.plans)?parsed.plans:[]
+      };
+    }
+  }catch{}
+}
+function save(){
+  try{localStorage.webook_full_state_v2=JSON.stringify(S)}catch{}
+}
+loadSavedState();
+
+function fileToBase64Part(file){
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=()=>{
+      const base64=String(reader.result||"").split(",")[1]||"";
+      resolve({inlineData:{mimeType:file.type||"application/octet-stream",data:base64}});
+    };
+    reader.onerror=reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function extractPdfText(file){
+  if(!window.pdfjsLib)return "";
+  const buf=await file.arrayBuffer();
+  const pdf=await pdfjsLib.getDocument({data:buf}).promise;
+  const pages=[];
+  for(let p=1;p<=pdf.numPages;p++){
+    const page=await pdf.getPage(p);
+    const tc=await page.getTextContent();
+    const pageText=tc.items.map(item=>item.str).join(" ").replace(/\s+/g," ").trim();
+    if(pageText)pages.push(`--- Página ${p} ---\n${pageText}`);
+  }
+  return pages.join("\n\n").trim();
+}
+
+function extractTopicsLocal(text,fallbackName){
+  const clean=(text||"").replace(/--- Página \d+ ---/g," ");
+  const lines=clean.split(/[\r\n.]+/).map(s=>s.trim()).filter(s=>s.length>=12&&s.length<=95);
+  const unique=[];
+  for(const ln of lines){
+    if(!unique.some(u=>u.toLowerCase()===ln.toLowerCase()))unique.push(ln);
+    if(unique.length>=5)break;
+  }
+  return unique.length?unique:[fallbackName.replace(/\.(pdf|txt|md)$/i,"")];
+}
+
+function answerFromTextLocal(query,doc){
+  const body=(doc?.content||"").trim();
+  if(!body){
+    return "Agrega una Gemini API Key arriba para analizar archivos escaneados o imágenes con inteligencia artificial.";
+  }
+  const sentences=body.split(/(?<=[.!?])\s+|\n+/).map(s=>s.trim()).filter(Boolean);
+  const terms=query.toLowerCase().split(/\W+/).filter(w=>w.length>3);
+  const scored=sentences.map(s=>{
+    const sl=s.toLowerCase();
+    const hits=terms.reduce((acc,w)=>acc+(sl.includes(w)?1:0),0);
+    return{s,hits};
+  }).filter(x=>x.hits>0).sort((a,b)=>b.hits-a.hits);
+
+  if(scored.length){
+    return scored.slice(0,5).map(x=>"• "+x.s).join("\n");
+  }
+  const topics=extractTopicsLocal(body,doc.name);
+  return "Temas encontrados en el documento:\n"+topics.map(tp=>"• "+tp).join("\n");
+}
+
+async function generateWithGemini(parts,systemText=""){
+  const apiKey=(localStorage.webook_gemini_key||"").trim();
+  if(!apiKey){
+    throw new Error("NO_API_KEY");
+  }
+  const payload={contents:[{role:"user",parts}]};
+  if(systemText)payload.systemInstruction={parts:[{text:systemText}]};
+  const resp=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(payload)
+  });
+  const data=await resp.json().catch(()=>({}));
+  if(!resp.ok){
+    throw new Error(data?.error?.message||`Error al consultar Gemini (${resp.status}).`);
+  }
+  const out=data?.candidates?.[0]?.content?.parts?.map(p=>p.text||"").join("\n").trim();
+  if(!out)throw new Error("Gemini no devolvió una respuesta.");
+  return out;
+}
+
+function addAutoNotesFromText(doc,summaryOrTopicsText){
+  const existing=new Set(S.notes.filter(n=>n.doc===doc.id).map(n=>n.text));
+  const lines=summaryOrTopicsText.split("\n")
+    .map(l=>l.replace(/^[-•*\d.)\s]+/,"").trim())
+    .filter(l=>l.length>=10&&l.length<=160);
+  let added=0;
+  for(const ln of lines){
+    if(!existing.has(ln)){
+      S.notes.push({id:String(Date.now()+Math.random()),doc:doc.id,sub:doc.sub,kind:"note",text:ln,auto:true});
+      existing.add(ln);
+      added++;
+    }
+    if(added>=3)break;
+  }
+  save();
+  renderNotesPanel(doc.id);
+}
+
+/* Navegación */
 $$("#side nav button").forEach(b=>b.onclick=()=>{
   $$(".v").forEach(v=>v.hidden=v.id!="v-"+b.dataset.v);
   $$("#side nav button").forEach(x=>x.classList.toggle("on",x==b));
   if(b.dataset.v=="wb")initWb();
   if(b.dataset.v=="plans2d")drawPlans2D();
-  if(b.dataset.v=="dl")preview();
+  if(b.dataset.v=="ex")renderExams();
+  if(b.dataset.v=="plan")renderCalendar();
+  if(b.dataset.v=="dl")previewExport();
   if(b.dataset.v=="home")home();
 });
 
+/* Materias */
 function subsUI(){
   const opts=`<option value="">${esc(t("no_sub"))}</option>`+S.subs.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join("");
   $("#sbs").innerHTML=opts;$("#sbs").value=S.sub||"";
@@ -402,20 +551,31 @@ function subsUI(){
   $("#xs").innerHTML=opts;$("#xs").value=S.sub||"";
 }
 
-$("#sbs").onchange=()=>{S.sub=$("#sbs").value||null;save();drawAll()};
+$("#sbs").onchange=()=>{
+  S.sub=$("#sbs").value||null;
+  save();
+  refreshDocSelect();
+  drawNb();
+  home();
+  renderCalendar();
+};
+
 $("#sa").onclick=()=>{
   const n=$("#sn").value.trim();if(!n)return;
   const item={id:String(Date.now()),name:n,color:"#4F7260"};
-  S.subs.push(item);S.sub=item.id;$("#sn").value="";save();drawAll();
+  S.subs.push(item);S.sub=item.id;$("#sn").value="";
+  save();subsUI();refreshDocSelect();drawNb();home();renderCalendar();
 };
 
-function drawAll(){
-  subsUI();
+function refreshDocSelect(){
   const ds=S.docs.filter(x=>x.sub==S.sub);
-  $("#ds").innerHTML=ds.map((x,i)=>`<option value="${i}">${esc(x.name)}</option>`).join("");
-  drawNb();cal();home();
+  $("#ds").innerHTML=ds.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join("");
+  if(ds.length&&!ds.some(x=>x.id==$("#ds").value)){
+    $("#ds").value=ds[ds.length-1].id;
+  }
 }
 
+/* Inicio */
 function home(){
   const sb=S.subs.find(x=>x.id==S.sub);
   $("#hi").textContent=sb?sb.name:"WeBook";
@@ -424,125 +584,219 @@ function home(){
     : `<small class="mut">${esc(t("no_subs_empty"))}</small>`;
   const pending=[...S.tasks].filter(x=>!x.done).sort((a,b)=>(a.due||"9999-99-99").localeCompare(b.due||"9999-99-99"));
   $("#hn").innerHTML=pending.length
-    ? pending.map(x=>`<div class="tc"><div><b>${esc(x.t)}</b><br><small>${esc(x.due||"—")}</small></div></div>`).join("")
+    ? pending.slice(0,6).map(x=>`<div class="tc"><div class="tc-top"><span class="t-title"><b>${esc(x.title)}</b><br><small>${esc(x.due||"—")}</small></span></div></div>`).join("")
     : `<small class="mut">${esc(t("no_tasks"))}</small>`;
 }
 
-function buildSmartReply(question, doc){
-  const q=question.trim();
-  const ql=q.toLowerCase();
-  const sb=S.subs.find(x=>x.id==S.sub);
-  const ctx=doc?`${doc.name}${sb?" ("+sb.name+")":""}`:(sb?sb.name:"WeBook");
-
-  if(ql.includes("vector")){
-    return `• Concepto (${ctx}): Un vector tiene módulo, dirección y sentido, y se expresa por componentes en el plano o el espacio.\n• Claves para estudiar: norma o módulo, suma y resta componente a componente, producto escalar y producto vectorial.`;
-  }
-  if(ql.includes("matriz")||ql.includes("matrices")||ql.includes("determinante")){
-    return `• Concepto (${ctx}): Una matriz ordena elementos en filas y columnas para representar sistemas o transformaciones.\n• Claves para estudiar: operaciones elementales, rango, inversa y determinante.`;
-  }
-  if(ql.includes("resum")||ql.includes("summar")){
-    return `• Resumen de estudio (${ctx}):\n1. Identifica las definiciones centrales y teoremas principales del material.\n2. Revisa las condiciones o hipótesis antes de aplicar una fórmula.\n3. Resuelve 2 o 3 ejercicios modelo explicando cada paso.`;
-  }
-  return `• Análisis sobre "${q}" en ${ctx}:\n1. Define el concepto central y sus variables o notación.\n2. Revisa las propiedades o fórmulas asociadas en tu material.\n3. Comprueba el resultado con un ejemplo práctico.`;
-}
-
-$("#qs").onclick=()=>{
+$("#qs").onclick=async()=>{
   const q=$("#qi").value.trim();if(!q)return;
   $("#qc").insertAdjacentHTML("beforeend",`<div class="mut"><b>&rsaquo;</b> ${esc(q)}</div>`);
   $("#qi").value="";
-  const reply=buildSmartReply(q,cur());
-  $("#qc").insertAdjacentHTML("beforeend",`<div class="mg">${esc(reply)}</div>`);
+  const sb=S.subs.find(x=>x.id==S.sub);
+  const subDocs=S.docs.filter(d=>d.sub==S.sub);
+  const parts=[];
+  subDocs.forEach(d=>{
+    if(d.inlinePart)parts.push(d.inlinePart);
+    if(d.content)parts.push(`Material (${d.name}):\n${d.content.slice(0,12000)}`);
+  });
+  parts.push(q);
+  try{
+    const ans=await generateWithGemini(parts,`Eres un asistente de estudio para ${sb?sb.name:"el estudiante"}. Responde en ${LN[L]} yendo directo a los temas y conceptos.`);
+    $("#qc").insertAdjacentHTML("beforeend",`<div class="mg">${esc(ans)}</div>`);
+  }catch(err){
+    if(err.message==="NO_API_KEY"){
+      const combined=subDocs.map(d=>d.content||"").join("\n");
+      const fallback=answerFromTextLocal(q,{name:sb?.name||"Apuntes",content:combined});
+      $("#qc").insertAdjacentHTML("beforeend",`<div class="mg">${esc(fallback)}</div>`);
+    }else{
+      $("#qc").insertAdjacentHTML("beforeend",`<div class="mg">${esc(err.message)}</div>`);
+    }
+  }
   $("#qc").scrollTop=$("#qc").scrollHeight;
   $("#qi").focus();
 };
 $("#qi").onkeydown=e=>e.key=="Enter"&&$("#qs").click();
 
-const cur=()=>S.docs[$("#ds").value];
+/* Cuaderno */
+const curDoc=()=>S.docs.find(d=>String(d.id)===String($("#ds").value))||null;
 
 $("#uf").onchange=async e=>{
   const f=e.target.files[0];if(!f)return;
-  const isPdf=f.name.toLowerCase().endsWith(".pdf")||f.type==="application/pdf";
-  const text=isPdf?`[${f.name}]\n${t("pdf_loaded")}`:await f.text().catch(()=>f.name);
-  S.docs.push({id:String(Date.now()),name:f.name,sub:S.sub,text});
-  save();drawAll();$("#ds").value=S.docs.filter(x=>x.sub==S.sub).length-1;drawNb();
+  $("#st").textContent="...";
+  let content="";
+  let inlinePart=null;
+  const isPdf=f.type==="application/pdf"||/\.pdf$/i.test(f.name);
+  const isText=f.type.startsWith("text/")||/\.(txt|md)$/i.test(f.name);
+  try{
+    if(isText){
+      content=await f.text();
+    }else if(isPdf){
+      content=await extractPdfText(f);
+      if(!content){
+        inlinePart=await fileToBase64Part(f);
+      }
+    }else{
+      inlinePart=await fileToBase64Part(f);
+    }
+    const topics=extractTopicsLocal(content,f.name);
+    const doc={id:String(Date.now()),name:f.name,sub:S.sub,content,inlinePart,topics,lastAiOutput:""};
+    S.docs.push(doc);
+    addAutoNotesFromText(doc,topics.map(tp=>"• "+tp).join("\n"));
+    save();
+    refreshDocSelect();
+    $("#ds").value=doc.id;
+    drawNb();
+    $("#st").textContent=f.name;
+  }catch(err){
+    $("#st").textContent=err.message||"Error";
+  }
 };
+
 $("#ds").onchange=drawNb;
 
 function drawNb(){
-  const d=cur();
-  $("#rd").textContent=d?d.text:"";
-  notes("#nl",d?d.id:null);
+  const d=curDoc();
+  if(!d){
+    $("#rd").textContent="";
+    renderNotesPanel(null);
+    return;
+  }
+  $("#rd").textContent=d.content||(d.inlinePart?`[${d.name}]`:"");
+  renderNotesPanel(d.id);
 }
 
-$("#sm").onclick=()=>{
-  const d=cur();if(!d)return;
+async function runDocAI(promptText,isSummary=false){
+  const d=curDoc();
+  if(!d){
+    $("#ans").hidden=false;
+    $("#ans").textContent="Sube o selecciona un archivo en el cuaderno primero.";
+    return;
+  }
   $("#ans").hidden=false;
-  $("#ans").textContent=buildSmartReply("resumen de "+d.name,d);
-};
+  $("#ans").textContent="...";
+  const parts=[];
+  if(d.inlinePart)parts.push(d.inlinePart);
+  if(d.content)parts.push(`Contenido del documento (${d.name}):\n${d.content.slice(0,15000)}`);
+  parts.push(
+    isSummary
+      ? "Lista los temas principales del documento, resume cada tema en puntos claros y extrae 3 notas clave cortas."
+      : `Responde estrictamente en base a este documento (${d.name}). Si el dato no figura en el documento, indícalo claramente. Pregunta: ${promptText}`
+  );
+  try{
+    const out=await generateWithGemini(parts,`Responde en ${LN[L]} con precisión y sin relleno.`);
+    d.lastAiOutput=out;
+    d.topics=extractTopicsLocal(out,d.name);
+    addAutoNotesFromText(d,out);
+    save();
+    $("#ans").textContent=out;
+  }catch(err){
+    if(err.message==="NO_API_KEY"){
+      const localOut=isSummary
+        ? "Temas y puntos del documento:\n"+extractTopicsLocal(d.content,d.name).map(tp=>"• "+tp).join("\n")
+        : answerFromTextLocal(promptText,d);
+      d.lastAiOutput=localOut;
+      addAutoNotesFromText(d,localOut);
+      save();
+      $("#ans").textContent=localOut;
+    }else{
+      $("#ans").textContent=err.message;
+    }
+  }
+}
 
+$("#sm").onclick=()=>runDocAI("Resumen de temas",true);
 $("#qa").onclick=()=>{
   const q=$("#q").value.trim();if(!q)return;
-  $("#ans").hidden=false;
-  $("#ans").textContent=buildSmartReply(q,cur());
+  runDocAI(q,false);
   $("#q").focus();
 };
 $("#q").onkeydown=e=>e.key=="Enter"&&$("#qa").click();
+
+function saveTextNote(kind){
+  const val=$("#nt").value.trim();if(!val)return;
+  const docId=curDoc()?.id||null;
+  S.notes.push({id:String(Date.now()),doc:docId,sub:S.sub,kind,text:val});
+  $("#nt").value="";
+  save();
+  renderNotesPanel(docId);
+  $("#nt").focus();
+}
+$("#mgn").onclick=()=>saveTextNote("note");
+$("#pit").onclick=()=>saveTextNote("postit");
+$("#nt").onkeydown=e=>e.key=="Enter"&&saveTextNote("note");
 
 function fmtDur(s){
   const n=Math.max(0,Math.floor(s));
   return String(Math.floor(n/60)).padStart(2,"0")+":"+String(n%60).padStart(2,"0");
 }
 
-function addNote(kind,txt){
-  const v=txt.trim();if(!v)return;
-  S.notes.push({id:String(Date.now()),doc:cur()?.id||null,kind,txt:v});
-  save();notes("#nl",cur()?.id||null);
-}
-$("#mgn").onclick=()=>{addNote("mg",$("#nt").value);$("#nt").value="";$("#nt").focus()};
-$("#pit").onclick=()=>{addNote("pi",$("#nt").value);$("#nt").value="";$("#nt").focus()};
-$("#nt").onkeydown=e=>e.key=="Enter"&&$("#mgn").click();
+function renderNotesPanel(docId){
+  const listNotes=S.notes.filter(n=>n.doc==docId);
+  const listVoices=S.voices.filter(v=>v.doc==docId||(!v.doc&&v.sub==S.sub));
+  let html="";
 
-function notes(el,doc){
-  const list=S.notes.filter(n=>n.doc==doc);
-  $(el).innerHTML=list.map(n=>{
-    if(n.kind==="voice"){
-      return `
-        <div class="voice-card">
-          <button type="button" class="x" onclick="delN('${n.id}')">×</button>
-          <input class="voice-title" value="${esc(n.title||"Audio")}" onchange="renameVoice('${n.id}',this.value)">
-          <small class="mut">(${esc(n.duration||"00:00")})</small>
-          ${n.audioUrl?`<audio controls src="${n.audioUrl}" style="width:100%;height:32px;margin-top:6px"></audio>`:`<div class="mut"><small>${esc(n.duration||"00:00")}</small></div>`}
-        </div>`;
-    }
-    return `<div class="${n.kind=="pi"?"pi":"mg"}"><button type="button" class="x" onclick="delN('${n.id}')">×</button>${esc(n.txt)}</div>`;
-  }).join("");
-}
-window.delN=id=>{S.notes=S.notes.filter(n=>n.id!=id);save();notes("#nl",cur()?.id||null)};
-window.renameVoice=(id,val)=>{const item=S.notes.find(n=>n.id==id);if(item){item.title=val.trim()||"Audio";save()}};
+  html+=listNotes.map(n=>`
+    <div class="${n.kind=="postit"?"pi":"mg"}">
+      <button type="button" class="x" onclick="delNote('${n.id}')">×</button>
+      ${esc(n.text)}
+    </div>`).join("");
 
+  html+=listVoices.map(v=>`
+    <div class="voice-card">
+      <button type="button" class="x" onclick="delVoice('${v.id}')">×</button>
+      <input class="voice-title" value="${esc(v.title)}" onchange="renameVoice('${v.id}',this.value)">
+      <small class="mut">(${esc(v.duration)})</small>
+      ${v.audioDataUrl?`<audio controls src="${v.audioDataUrl}" style="width:100%;height:32px;margin-top:6px"></audio>`:""}
+    </div>`).join("");
+
+  $("#nl").innerHTML=html;
+}
+
+window.delNote=id=>{
+  S.notes=S.notes.filter(n=>String(n.id)!==String(id));
+  save();renderNotesPanel(curDoc()?.id||null);
+};
+window.delVoice=id=>{
+  S.voices=S.voices.filter(v=>String(v.id)!==String(id));
+  save();renderNotesPanel(curDoc()?.id||null);
+};
+window.renameVoice=(id,val)=>{
+  const item=S.voices.find(v=>String(v.id)===String(id));
+  if(item){item.title=val.trim()||"Audio";save()}
+};
+
+/* Grabadora de voz */
 let mr,recT,sec=0,recStart=0;
 $("#rec").onclick=async()=>{
   if(mr&&mr.state=="recording"){mr.stop();return}
   try{
     const strm=await navigator.mediaDevices.getUserMedia({audio:true});
     mr=new MediaRecorder(strm);
-    let chunks=[];
+    const chunks=[];
     sec=0;recStart=Date.now();
     $("#st").textContent="";
     $("#rec").classList.add("on");
     $("#rct").textContent="00:00";
     recT=setInterval(()=>{sec++;$("#rct").textContent=fmtDur(sec)},1000);
     mr.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
-    mr.onstop=()=>{
+    mr.onstop=async()=>{
       clearInterval(recT);
       strm.getTracks().forEach(tr=>tr.stop());
       const elapsed=Math.max(1,Math.round((Date.now()-recStart)/1000));
       const durStr=fmtDur(Math.max(sec,elapsed));
       const blob=chunks.length?new Blob(chunks,{type:mr.mimeType||"audio/webm"}):null;
-      const audioUrl=blob?URL.createObjectURL(blob):"";
-      const idx=S.notes.filter(n=>n.kind==="voice").length+1;
-      S.notes.push({id:String(Date.now()),doc:cur()?.id||null,kind:"voice",title:`Audio ${idx}`,duration:durStr,audioUrl});
-      save();notes("#nl",cur()?.id||null);
+      const audioDataUrl=blob?await new Promise(res=>{const r=new FileReader();r.onload=()=>res(String(r.result||""));r.onerror=()=>res("");r.readAsDataURL(blob)}):"";
+      const idx=S.voices.length+1;
+      S.voices.push({
+        id:String(Date.now()),
+        doc:curDoc()?.id||null,
+        sub:S.sub,
+        title:`Audio ${idx}`,
+        duration:durStr,
+        audioDataUrl
+      });
+      save();
+      renderNotesPanel(curDoc()?.id||null);
       $("#rec").classList.remove("on");
       $("#rct").textContent="00:00";
     };
@@ -555,11 +809,19 @@ $("#rec").onclick=async()=>{
   }
 };
 
+/* Esquemas 2D y Videos */
 $("#mf").onchange=e=>{
   const f=e.target.files[0];if(!f)return;
   const reader=new FileReader();
   reader.onload=()=>{
-    S.plans.push({id:String(Date.now()),name:f.name,sub:S.sub,src:reader.result,isImg:f.type.startsWith("image/")});
+    S.plans.push({
+      id:String(Date.now()),
+      name:f.name,
+      sub:S.sub,
+      src:String(reader.result||""),
+      isImg:f.type.startsWith("image/"),
+      isVideo:f.type.startsWith("video/")
+    });
     save();drawPlans2D();
   };
   reader.readAsDataURL(f);
@@ -577,13 +839,16 @@ function drawPlans2D(){
         <b>${esc(p.name)}</b>
         <button type="button" class="x" style="position:static" onclick="delPlan('${p.id}')">×</button>
       </div>
-      ${p.isImg?`<img src="${p.src}" alt="${esc(p.name)}" style="max-width:100%;max-height:360px;border-radius:4px;display:block">`:`<small class="mut">${esc(p.name)}</small>`}
+      ${p.isImg?`<img src="${p.src}" alt="${esc(p.name)}" style="max-width:100%;max-height:360px;border-radius:4px;display:block">`:""}
+      ${p.isVideo?`<video controls src="${p.src}" style="max-width:100%;max-height:360px;border-radius:4px;display:block"></video>`:""}
+      ${(!p.isImg&&!p.isVideo)?`<small class="mut">${esc(p.name)}</small>`:""}
     </div>`).join("");
 }
-window.delPlan=id=>{S.plans=S.plans.filter(p=>p.id!=id);save();drawPlans2D()};
+window.delPlan=id=>{S.plans=S.plans.filter(p=>String(p.id)!==String(id));save();drawPlans2D()};
 
-function makeDraggable(el, container){
-  let active=false, ox=0, oy=0;
+/* Pizarra (sin tocar su estructura ni herramientas) */
+function makeDraggable(el,container){
+  let active=false,ox=0,oy=0;
   el.onpointerdown=e=>{
     if(e.target.closest(".x")||e.target.isContentEditable)return;
     active=true;
@@ -671,108 +936,334 @@ function initWb(){
   };
 }
 
-$("#exg").onclick=()=>{
+/* Simulador de Exámenes */
+$("#exg").onclick=async()=>{
   const files=[...($("#exf").files||[])];
-  const sb=S.subs.find(x=>x.id==S.sub);
-  const label=files.length?files.map(f=>f.name).join(", "):(sb?sb.name:"Tema");
-  $("#exs").textContent=label;
-  $("#eq").innerHTML=`
-    <div class="card">
-      <h4 style="margin-top:0">${esc(label)}</h4>
-      <p><b>1.</b> Explica el concepto principal y muestra cómo se aplica en un ejercicio típico del tema.</p>
-      <textarea rows="3" style="width:100%" placeholder="Escribe tu planteo y solución..."></textarea>
-      <div class="mg" style="margin-top:10px"><b>Guía de resolución:</b> Define primero los datos y condiciones iniciales, aplica la propiedad o fórmula correspondiente y verifica unidades o dimensiones al final.</div>
-    </div>`;
+  const sb=S.subs.find(x=>String(x.id)===String(S.sub));
+  const subDocs=S.docs.filter(d=>d.sub==S.sub);
+  if(!files.length&&!subDocs.length){
+    $("#exs").textContent="Sube un parcial o agrega apuntes en la materia.";
+    return;
+  }
+  $("#exs").textContent="...";
+  const parts=[];
+  let extractedTexts=[];
+  for(const f of files){
+    const isPdf=f.type==="application/pdf"||/\.pdf$/i.test(f.name);
+    const isText=f.type.startsWith("text/")||/\.(txt|md)$/i.test(f.name);
+    if(isText){
+      const txt=await f.text();
+      extractedTexts.push(txt);
+      parts.push(`Parcial (${f.name}):\n${txt.slice(0,12000)}`);
+    }else if(isPdf){
+      const txt=await extractPdfText(f);
+      if(txt){
+        extractedTexts.push(txt);
+        parts.push(`Parcial (${f.name}):\n${txt.slice(0,12000)}`);
+      }else{
+        parts.push(await fileToBase64Part(f));
+      }
+    }else{
+      parts.push(await fileToBase64Part(f));
+    }
+  }
+  if(!files.length){
+    subDocs.forEach(d=>{
+      if(d.content){extractedTexts.push(d.content);parts.push(`Material (${d.name}):\n${d.content.slice(0,10000)}`)}
+      if(d.inlinePart)parts.push(d.inlinePart);
+    });
+  }
+  parts.push("Genera 3 consignas de práctica nuevas basadas en los temas del material subido, con nivel similar y resolución paso a paso debajo de cada consigna.");
+  const label=files.length?files.map(f=>f.name).join(", "):(sb?.name||"Simulacro");
+
+  try{
+    const raw=await generateWithGemini(parts,`Eres un profesor universitario. Responde en ${LN[L]}.`);
+    S.exams.unshift({id:String(Date.now()),sub:S.sub,title:label,content:raw,answers:{}});
+    save();$("#exs").textContent="";renderExams();
+  }catch(err){
+    if(err.message==="NO_API_KEY"){
+      const topics=extractTopicsLocal(extractedTexts.join("\n"),label);
+      const mock=topics.slice(0,3).map((tp,i)=>
+        `${i+1}. Tema: ${tp}\nConsigna: Resuelve un problema aplicado sobre "${tp}" justificando cada paso.\nResolución paso a paso:\n- Paso 1: Identifica los datos y conceptos clave de ${tp}.\n- Paso 2: Aplica la regla o definición correspondiente.\n- Paso 3: Verifica el resultado final.`
+      ).join("\n\n");
+      S.exams.unshift({id:String(Date.now()),sub:S.sub,title:label,content:mock,answers:{}});
+      save();$("#exs").textContent="";renderExams();
+    }else{
+      $("#exs").textContent=err.message;
+    }
+  }
 };
 
-let pt=0,left=1500;
+function renderExams(){
+  const list=S.exams.filter(e=>!S.sub||e.sub==S.sub);
+  $("#eq").innerHTML=list.map(ex=>{
+    const ansVal=ex.answers?.[0]||"";
+    return `
+      <div class="card" data-exam-id="${ex.id}">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <b>${esc(ex.title)}</b>
+          <button type="button" class="x" style="position:static" onclick="delExam('${ex.id}')">×</button>
+        </div>
+        <div style="white-space:pre-wrap;margin-bottom:10px">${esc(ex.content)}</div>
+        <label class="fd">
+          <small>Planteo / Respuesta del estudiante</small>
+          <textarea rows="4" style="width:100%" oninput="onExamAnswer('${ex.id}',this.value)">${esc(ansVal)}</textarea>
+        </label>
+      </div>`;
+  }).join("");
+}
+
+window.onExamAnswer=(examId,val)=>{
+  const ex=S.exams.find(e=>String(e.id)===String(examId));
+  if(ex){ex.answers=ex.answers||{};ex.answers[0]=val;save()}
+};
+window.delExam=id=>{
+  S.exams=S.exams.filter(e=>String(e.id)!==String(id));
+  save();renderExams();
+};
+
+/* Calendario Semanal & Pomodoro */
+let pt=0,left=1500,weekOffset=0;
+const fmtClock=s=>String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
+
+function resetPomodoro(){
+  clearInterval(pt);pt=0;
+  left=Math.max(60,(+($("#fm").value||25))*60);
+  $("#clk").textContent=fmtClock(left);
+}
+
 $("#ps").onclick=()=>{
   if(pt){clearInterval(pt);pt=0;return}
-  pt=setInterval(()=>{if(--left<=0){clearInterval(pt);pt=0;left=(+($("#fm").value||25))*60}$("#clk").textContent=String(left/60|0).padStart(2,"0")+":"+String(left%60|0).padStart(2,"0")},1000);
+  if(!left)resetPomodoro();
+  pt=setInterval(()=>{
+    if(--left<=0){
+      clearInterval(pt);pt=0;
+      left=(+($("#bm").value||5))*60;
+      $("#pom-label").textContent="Break";
+    }
+    $("#clk").textContent=fmtClock(left);
+  },1000);
 };
-$("#pr").onclick=()=>{clearInterval(pt);pt=0;left=(+($("#fm").value||25))*60;$("#clk").textContent=String(left/60|0).padStart(2,"0")+":"+String(left%60|0).padStart(2,"0")};
+$("#pr").onclick=resetPomodoro;
+$("#fm").onchange=resetPomodoro;
+
+window.startTaskPomodoro=title=>{
+  $("#pom-label").textContent=title;
+  resetPomodoro();
+  $("#ps").click();
+};
 
 $("#ta").onclick=()=>{
   const title=$("#tk").value.trim();if(!title)return;
-  S.tasks.push({id:String(Date.now()),t:title,sub:$("#ts").value||S.sub,due:$("#td").value||"",done:false});
-  $("#tk").value="";save();cal();home();$("#tk").focus();
+  const due=$("#td").value||new Date().toISOString().slice(0,10);
+  S.tasks.push({id:String(Date.now()),title,sub:$("#ts").value||S.sub||null,due,done:false});
+  $("#tk").value="";
+  save();renderCalendar();home();$("#tk").focus();
 };
 $("#tk").onkeydown=e=>e.key=="Enter"&&$("#ta").click();
 
-function cal(){
+function getWeekDays(offset){
+  const now=new Date();
+  const monday=new Date(now.getFullYear(),now.getMonth(),now.getDate()-((now.getDay()+6)%7)+offset*7);
+  return Array.from({length:7},(_,i)=>{
+    const d=new Date(monday.getFullYear(),monday.getMonth(),monday.getDate()+i);
+    const iso=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+    const label=d.toLocaleDateString(L,{weekday:"short",day:"numeric",month:"short"});
+    return{iso,label};
+  });
+}
+
+$("#wk-prev").onclick=()=>{weekOffset--;renderCalendar()};
+$("#wk-next").onclick=()=>{weekOffset++;renderCalendar()};
+
+function renderCalendar(){
+  const days=getWeekDays(weekOffset);
+  $("#wk-range").textContent=`${days[0].label} — ${days[6].label}`;
   const today=new Date().toISOString().slice(0,10);
-  const cols=S.subs.length?S.subs:[{id:null,name:"General",color:"#4F7260"}];
-  $("#bo").innerHTML=cols.map(sb=>{
-    const items=S.tasks
-      .filter(x=>x.sub==sb.id)
-      .sort((a,b)=>(a.due||"9999-99-99").localeCompare(b.due||"9999-99-99"));
+
+  $("#bo").innerHTML=days.map(day=>{
+    const items=S.tasks.filter(x=>x.due===day.iso);
     return `
-      <div class="col" style="border-top:3px solid ${sb.color}">
-        <h5><b>${esc(sb.name)}</b><small>${items.length}</small></h5>
+      <div class="day-col">
+        <div class="day-head"><b>${esc(day.label)}</b><small>${items.length}</small></div>
         ${items.map(x=>{
-          const isUrgent=!x.done&&x.due&&x.due<=today;
+          const sb=S.subs.find(s=>String(s.id)===String(x.sub));
+          const urgent=!x.done&&x.due<=today;
           return `
-            <div class="tc ${x.done?"dn":""} ${isUrgent?"urgent":""}">
-              <input type="checkbox" ${x.done?"checked":""} onchange="toggleT('${x.id}')">
-              <div><b>${esc(x.t)}</b><br><small>${esc(x.due||"—")}</small></div>
+            <div class="tc ${x.done?"dn":""} ${urgent?"urgent":""}" style="border-left-color:${sb?sb.color:"var(--ac)"}">
+              <div class="tc-top">
+                <input type="checkbox" ${x.done?"checked":""} onchange="toggleTask('${x.id}')">
+                <div class="t-title">
+                  <b>${esc(x.title)}</b>
+                  ${sb?`<br><small class="mut">${esc(sb.name)}</small>`:""}
+                </div>
+              </div>
+              <div class="tc-actions">
+                <button type="button" onclick="startTaskPomodoro('${esc(x.title)}')">Pomodoro</button>
+                <button type="button" class="x" style="position:static" onclick="delTask('${x.id}')">×</button>
+              </div>
             </div>`;
         }).join("")||`<small class="mut">${esc(t("no_tasks"))}</small>`}
       </div>`;
   }).join("");
 }
-window.toggleT=id=>{
-  const item=S.tasks.find(x=>x.id==id);
-  if(item){item.done=!item.done;save();cal();home()}
+
+window.toggleTask=id=>{
+  const item=S.tasks.find(x=>String(x.id)===String(id));
+  if(item){item.done=!item.done;save();renderCalendar();home()}
+};
+window.delTask=id=>{
+  S.tasks=S.tasks.filter(x=>String(x.id)!==String(id));
+  save();renderCalendar();home();
 };
 
-function preview(){
-  const sb=S.subs.find(x=>x.id==$("#xs").value);
-  if(!sb){$("#xv").textContent="";return}
-  const docs=S.docs.filter(d=>d.sub==sb.id);
+/* Descargas organizadas y con acceso a audios y esquemas/videos */
+function buildExportData(subId){
+  const sb=S.subs.find(x=>String(x.id)===String(subId));
+  if(!sb)return{text:"",voices:[],plans:[]};
+
+  const docs=S.docs.filter(d=>String(d.sub)===String(sb.id));
   const docIds=new Set(docs.map(d=>String(d.id)));
-  const relNotes=S.notes.filter(n=>n.doc&&docIds.has(String(n.doc)));
+  const notes=S.notes.filter(n=>!n.doc||docIds.has(String(n.doc)));
+  const voices=S.voices.filter(v=>!v.doc||docIds.has(String(v.doc))||String(v.sub)===String(sb.id));
+  const plans=S.plans.filter(p=>!p.sub||String(p.sub)===String(sb.id));
 
-  const out=[
-    "========================================",
-    "WEBOOK - APUNTES Y NOTAS",
-    "========================================",
-    `Materia: ${sb.name}`,
-    ""
-  ];
+  const sections={};
 
-  out.push("APUNTES / UNIDADES");
-  if(!docs.length){
-    out.push("Sin apuntes en esta materia.");
-  }else{
-    docs.forEach((d,i)=>{
-      out.push(`\n${i+1}. ${d.name}`);
-      out.push((d.text||"").trim());
-    });
+  if($("#inc-docs")?.checked){
+    const arr=[
+      "============================================================",
+      "1. APUNTES Y TEMAS PRINCIPALES",
+      "============================================================"
+    ];
+    if(!docs.length){
+      arr.push("Sin apuntes cargados en esta materia.");
+    }else{
+      docs.forEach((d,idx)=>{
+        const topics=Array.isArray(d.topics)&&d.topics.length?d.topics:extractTopicsLocal(d.content,d.name);
+        arr.push(`\n[${idx+1}] ${d.name}`);
+        arr.push("Temas detectados: "+topics.join(" | "));
+        const body=(d.content||"").trim();
+        if(body)arr.push(body);
+        if(d.lastAiOutput)arr.push("\nResumen / Respuesta IA:\n"+d.lastAiOutput);
+      });
+    }
+    sections.topics=arr.join("\n");
   }
 
-  const nts=relNotes.filter(n=>n.kind!=="voice");
-  const vcs=relNotes.filter(n=>n.kind==="voice");
+  if($("#inc-notes")?.checked){
+    const arr=[
+      "============================================================",
+      "2. NOTAS Y POST-ITS",
+      "============================================================"
+    ];
+    if(!notes.length){
+      arr.push("Sin notas ni Post-its registrados.");
+    }else{
+      notes.forEach(n=>{
+        const tag=n.kind==="postit"?"POST-IT":"NOTA";
+        arr.push(`• [${tag}] ${n.text}`);
+      });
+    }
+    sections.notes=arr.join("\n");
+  }
 
-  out.push("\nNOTAS Y POST-ITS");
-  if(!nts.length) out.push("Sin notas ni post-its.");
-  else nts.forEach(n=>out.push(`• [${n.kind=="pi"?"Post-it":"Nota"}] ${n.txt}`));
+  if($("#inc-voices")?.checked){
+    const arr=[
+      "============================================================",
+      "3. GRABACIONES DE VOZ",
+      "============================================================"
+    ];
+    if(!voices.length){
+      arr.push("Sin grabaciones de voz guardadas.");
+    }else{
+      voices.forEach(v=>{
+        arr.push(`• ${v.title} — Duración: ${v.duration}`);
+      });
+    }
+    sections.audio=arr.join("\n");
+  }
 
-  out.push("\nAUDIOS");
-  if(!vcs.length) out.push("Sin grabaciones de voz.");
-  else vcs.forEach(v=>out.push(`• ${v.title||"Audio"} (${v.duration||"00:00"})`));
+  if($("#inc-media")?.checked){
+    const arr=[
+      "============================================================",
+      "4. ESQUEMAS 2D Y VIDEOS",
+      "============================================================"
+    ];
+    if(!plans.length){
+      arr.push("Sin esquemas ni videos guardados.");
+    }else{
+      plans.forEach(p=>{
+        const kind=p.isVideo?"Video":(p.isImg?"Esquema/Imagen":"Archivo");
+        arr.push(`• [${kind}] ${p.name}`);
+      });
+    }
+    sections.media=arr.join("\n");
+  }
 
-  $("#xv").textContent=out.join("\n");
+  const orderMode=$("#x-order")?.value||"topics_notes_audio_media";
+  const orderMap={
+    topics_notes_audio_media:["topics","notes","audio","media"],
+    audio_notes_topics_media:["audio","notes","topics","media"]
+  }[orderMode]||["topics","notes","audio","media"];
+
+  const header=[
+    "************************************************************",
+    `WEBOOK — MATERIA: ${sb.name.toUpperCase()}`,
+    `Fecha: ${new Date().toLocaleDateString()}`,
+    "************************************************************",
+    ""
+  ].join("\n");
+
+  const bodyBlocks=orderMap.map(k=>sections[k]).filter(Boolean).join("\n\n");
+  return{text:header+bodyBlocks,voices,plans};
 }
-$("#xs").onchange=preview;
+
+function previewExport(){
+  const res=buildExportData($("#xs").value);
+  $("#xv").textContent=res.text;
+  const mediaHtml=[
+    ...res.voices.filter(v=>v.audioDataUrl).map(v=>`<a download="${esc(v.title)}.webm" href="${v.audioDataUrl}" class="btn-label" style="text-decoration:none">⬇ ${esc(v.title)} (${esc(v.duration)})</a>`),
+    ...res.plans.filter(p=>p.src).map(p=>`<a download="${esc(p.name)}" href="${p.src}" class="btn-label" style="text-decoration:none">⬇ ${esc(p.name)}</a>`)
+  ].join("");
+  $("#dl-media-links").innerHTML=mediaHtml;
+}
+
+$("#xs").onchange=previewExport;
+$("#x-order").onchange=previewExport;
+["#inc-docs","#inc-notes","#inc-voices","#inc-media"].forEach(sel=>{
+  $(sel).onchange=previewExport;
+});
+
 $("#xt").onclick=()=>{
-  const blob=new Blob([$("#xv").textContent||""],{type:"text/plain;charset=utf-8"});
-  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="webook-apuntes.txt";a.click();
+  const content=$("#xv").textContent||buildExportData($("#xs").value).text;
+  if(!content)return;
+  const blob=new Blob([content],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="webook-material-ordenado.txt";
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1500);
 };
 
-$("#auth").onsubmit=e=>{e.preventDefault();$("#auth").hidden=true;$("#app").hidden=false;drawAll()};
-$("#out").onclick=()=>{$("#app").hidden=true;$("#auth").hidden=false};
+/* Acceso */
+$("#auth").onsubmit=e=>{
+  e.preventDefault();
+  $("#auth").hidden=true;
+  $("#app").hidden=false;
+  subsUI();
+  refreshDocSelect();
+  drawNb();
+  home();
+  renderCalendar();
+  renderExams();
+};
+$("#out").onclick=()=>{
+  $("#app").hidden=true;
+  $("#auth").hidden=false;
+};
 
-applyLang();
+applyStaticLabels();
 </script>
 </body>
 </html>
